@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head>
+        <title>新华社发布评论</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <script type="text/javascript">
+        	function copyId(id){
+        		alert(id);
+        	}
+        </script>
+    </head>
+    <body>
+        <form th:action="@{/sendPost}" method="post">
+        	
+        	<table border = "1" width="80%" align="center" style="border-collapse:collapse;">
+        		<tr align="center">
+        			<td colspan="2">
+        				<h1>新华社发布评论</h1>
+        			</td>
+        		</tr>
+        		<tr valign="top" align="center">
+        			<td width= "30%">
+        				<table border="0" cellspacing="10">
+			        		<tr>
+			        			<td>文章id</td>
+			        			<td>
+			        				<input type="text" name="id" th:value="*{id}"/>
+			        			</td>
+			        		</tr>
+			        		<tr>
+			        			<td>评论内容</td>
+			        			<td>
+			        				<textarea rows="7" cols="30" name="content"></textarea>
+			        			</td>
+			        		</tr>
+			        		<tr align="center">
+			        			<td colspan="2">
+			        				<input type="submit" value="提交"/>
+			        				<input type="reset" value="重置"/>
+			        			</td>
+			        		</tr>
+			        		
+			        		<tr>
+			        			<td colspan="2" th:text="${msg}">
+			        			</td>
+			        		</tr>
+			        	</table>
+        			</td>
+        			
+        			<td width= "80%">
+        				<table border="1" style="border-collapse:collapse;" width="70%">
+        						<tr align="center">
+        							<td>文章id</td>
+        							<td>文章title</td>
+        							<td>评论数</td>
+        						</tr>
+        						<tr th:each="sb : ${list}">
+									<td th:text="${sb.id}" width= "20%" ></td>
+									<td th:text="${sb.topic}" width= "70%"></td>
+									<td th:text="${sb.comment}" width= "10%"></td>
+								</tr>
+        				</table>
+        			</td>
+        		</tr>
+        	</table>
+            
+        </form>
+    </body>
+</html>
