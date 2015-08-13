@@ -1,6 +1,6 @@
 package net.shinc.utils;
 
-import net.shinc.controller.common.HttpController;
+import net.shinc.controller.common.NewsController;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
  */
 public class RandomUtils {
 
-	private static Logger logger = LoggerFactory.getLogger(HttpController.class);
+	private static Logger logger = LoggerFactory.getLogger(NewsController.class);
 	
 	/**
 	 * 取min和max之间的随机数

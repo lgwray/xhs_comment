@@ -1,6 +1,8 @@
 package net.shinc.utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.google.gson.Gson;
@@ -32,6 +34,23 @@ public class Helper {
 		Gson gson  = new Gson();
 		Map map = (Map)gson.fromJson(str, HashMap.class);
 		return map;
+	}
+	
+	public static List jsonToList(String str){
+		Gson gson  = new Gson();
+		List list = gson.fromJson(str, ArrayList.class);
+		return list;
+	}
+	
+	/**
+	 * 将对象转成json串
+	 * @param obj
+	 * @return
+	 */
+	public static String objToJson(Object obj){
+		Gson g = new Gson();
+		String str  = g.toJson(obj);
+		return str;
 	}
 	
 	
