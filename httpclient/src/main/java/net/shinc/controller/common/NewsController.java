@@ -1,5 +1,6 @@
 package net.shinc.controller.common;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -36,8 +37,8 @@ public class NewsController extends AbstractBaseController {
 	// 获取新闻列表_请求url
 	private static String listUrl = "http://xhpfm.mobile.zhongguowangshi.com:8091/v200/indexlist";
 	
-	private static String phpUrl = "http://spider.localhost/";
-//	private static String phpUrl = "http://192.168.1.222/";
+//	private static String phpUrl = "http://spider.localhost/";
+	private static String phpUrl = "http://192.168.1.222/";
 
 	// 用户id
 	private static String userId = "0";
@@ -45,18 +46,21 @@ public class NewsController extends AbstractBaseController {
 	@Autowired
 	private NewsService newsService;
 
-	// 目标评论数
+	// 目标评论数,例如1000条
 	private int minNum = 150;
 
-	// 每篇文章限制批量评论条数
-	private int limitNum = 5;
+	// 每篇文章限制批量评论条数,设置小于0代表不限制,以目标评论数为基准
+	private int limitNum = -1;
 	
-	//限制评论文章数目,设置小于0代表不限制
-	private int articleLimit = 20;
+	//限制评论文章数目,设置小于0代表不限制,例如只需刷前20篇文章
+	private int articleLimit = 7;
+	
+	private int randomMin = 0;
+	private int randomMax = 20;
+	
 
 	/**
 	 * 首页
-	 * 
 	 * @return
 	 */
 	@RequestMapping(value = "/index")
@@ -93,26 +97,32 @@ public class NewsController extends AbstractBaseController {
 
 	/**
 	 * 批量评论
-	 * 
 	 * @return
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "/sendCommentBatch")
 	@ResponseBody
 	public IRestMessage sendCommentBatch() {
 		IRestMessage msg = getRestMessage();
-		List list = newsService.getNewsList(userId, listUrl);
+		List list = Collections.synchronizedList(newsService.getNewsList(userId, listUrl));
 		logger.info("刷新出文章条数==>" + list.toString());
 
-		int num = calNum(list.size(), articleLimit);
-		for (int i = 0; i < num; i++) {
+		int needSendNum = calNum(list.size(), articleLimit);
+		for (int i = 0; i < needSendNum; i++) {
 			Object obj = list.get(i);
-			newsService.sendCommentBatch((Map) obj, sendCommentUrl, userId, minNum, limitNum, phpUrl);
+			newsService.sendCommentBatch((Map) obj, sendCommentUrl, userId, minNum, limitNum, phpUrl, randomMin, randomMax);
 		}
 		msg.setCode(ErrorMessage.SUCCESS.getCode());
-		msg.setResult(list);
+		msg.setResult(list); 
 		return msg;
 	}
 	
+	/**
+	 * 计算需要自动评论的文章数
+	 * @param all 拉取到的所有文章数目
+	 * @param limit	限制评论文章数目,设置小于0代表不限制,例如只需刷前20篇文章
+	 * @return
+	 */
 	public int calNum(int all, int limit) {
 		if (limit < 0) {
 			return all;

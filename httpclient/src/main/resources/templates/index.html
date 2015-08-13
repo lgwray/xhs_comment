@@ -62,12 +62,14 @@
         							<td>文章title</td>
         							<td>评论数</td>
         							<td>发布时间</td>
+        							<td>序号</td>
         						</tr>
-        						<tr th:each="sb : ${list}">
+        						<tr th:each="sb,rowStat : ${list}">
 									<td th:text="${sb.id}" width= "10%" align="center" ondblclick ="copyId(this);"></td>
-									<td th:text="${sb.topic}" width= "50%"></td>
+									<td th:text="${sb.topic}" width= "45%"></td>
 									<td th:text="${sb.comment}" width= "10%" align="center"></td>
 									<td th:text="${sb.releaseDate}" width= "30%" align="center"></td>
+									<td th:text="${rowStat.count}" width= "5%" align="center"></td>
 								</tr>
         				</table>
         			</td>
