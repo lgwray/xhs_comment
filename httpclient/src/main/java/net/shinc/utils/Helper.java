@@ -1,11 +1,19 @@
 package net.shinc.utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.shinc.controller.common.NewsController;
+
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 /**
  * @ClassName Helper 
@@ -15,6 +23,8 @@ import com.google.gson.Gson;
  */
 public class Helper {
 
+	private static Logger logger = LoggerFactory.getLogger(NewsController.class);
+	
 	/**
 	 * 获取当前时间戳
 	 * @return
@@ -30,16 +40,30 @@ public class Helper {
 	 * @param str
 	 * @return
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static Map jsonToMap(String str){
-		Gson gson  = new Gson();
-		Map map = (Map)gson.fromJson(str, HashMap.class);
-		return map;
+		try {
+			Gson gson  = new Gson();
+			Map map = Collections.synchronizedMap((Map)gson.fromJson(str, HashMap.class));
+			return map;
+		} catch (JsonSyntaxException e) {
+			logger.info(ExceptionUtils.getStackTrace(e));
+			logger.info("不是标准的json串");
+			return null;
+		}
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static List jsonToList(String str){
-		Gson gson  = new Gson();
-		List list = gson.fromJson(str, ArrayList.class);
-		return list;
+		try {
+			Gson gson  = new Gson();
+			List list = Collections.synchronizedList((List)gson.fromJson(str, ArrayList.class));
+			return list;
+		} catch (JsonSyntaxException e) {
+			logger.info(ExceptionUtils.getStackTrace(e));
+			logger.info("不是标准的json串");
+			return null;
+		}
 	}
 	
 	/**
@@ -48,9 +72,14 @@ public class Helper {
 	 * @return
 	 */
 	public static String objToJson(Object obj){
-		Gson g = new Gson();
-		String str  = g.toJson(obj);
-		return str;
+		try {
+			Gson g = new Gson();
+			String str  = g.toJson(obj);
+			return str;
+		} catch (Exception e) {
+			logger.info(ExceptionUtils.getStackTrace(e));
+			return null;
+		}
 	}
 	
 	
