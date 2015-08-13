@@ -125,6 +125,37 @@ public class NewsServiceImpl implements NewsService {
 		String res = HttpXmlClient.post(url, getDiscussParamMap(articleId, content, userId));
 		return res;
 	}
+	
+	@Override
+	public int sendCommentBatchByPeople(Map map, String sendCommentUrl, String userId, int minNum, int limitNum, String phpUrl) {
+		int discussNum = 0;
+		String articleId = (String) map.get("id");
+		String topic = (String) map.get("title"); // title
+		String newsType = (String) map.get("newsType"); // newsType
+		String newsCount = (String) map.get("newsCount"); // newsCount
+//		String comment = (String) map.get("comment"); // 评论数
+		logger.info(articleId + "	" + topic);
+		if (null != articleId && !"".equals(articleId)) {// 排除类似：推荐・体育
+//			if (null != comment && !"".equals(comment)) {
+					// 1.上送topic,发接口取评论 上送topic
+					List list = getCommentsByNewsType(phpUrl,newsType,newsCount);
+					// 2.遍历评论
+//						int discussNums = calculateNum(list.size(), limitNum);
+						for (int j = 0; j < list.size(); j++) {
+							Map m = (Map) list.get(j);
+							String content = (String) m.get("comment");
+							String res = sendComment(sendCommentUrl, userId, articleId, delHtmlTag(content));
+							logger.info("评论结果==>" + res);
+							Map jsonToMap = Helper.jsonToMap(res);
+							if ("success".equals(jsonToMap.get("state"))) {
+								discussNum++;
+							}
+						}
+//			}
+		}
+		logger.info("文章id:" + articleId + "   成功发布评论" + discussNum + "条");
+		return discussNum;
+	}
 
 	@Override
 	public void sendCommentBatch(Map map, String sendCommentUrl, String userId, int minNum, int limitNum, String phpUrl) {
@@ -180,7 +211,27 @@ public class NewsServiceImpl implements NewsService {
 			return now;
 		}
 	}
-
+	/**
+	 * 根据newsType抓取评论
+	 * 
+	 * @param title
+	 * @return
+	 */
+	public static List getCommentsByNewsType(String phpUrl, String newsType,String newsCount) {
+		String url = phpUrl + "category?catname=" + newsType;
+		if(newsCount != null && !"".equals(newsCount.trim())){
+			url = url + "&num=" + newsCount;
+		}
+		String uri = dealUrl(url).toString();
+		String comments = HttpXmlClient.get(uri);
+		logger.info("爬虫到的评论==>" + comments);
+		if (null != comments && !"".equals(comments)) {
+			List list = Helper.jsonToList(comments);
+			logger.info("爬虫到评论条数==>" + list.size());
+			return list;
+		}
+		return null;
+	}
 	/**
 	 * 根据title抓取评论
 	 * 

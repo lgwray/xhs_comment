@@ -64,8 +64,8 @@
         							<td>发布时间</td>
         						</tr>
         						<tr th:each="sb : ${list}">
-									<td th:text="${sb.id}" width= "10%" align="center" ondblclick ="copyId(this);"></td>
-									<td th:text="${sb.topic}" width= "50%"></td>
+									<td th:text="${sb.id}" width= "10%" align="center" ondblclick ="copyId(this);">${sb.id})</td>
+									<td width= "50%"><a th:href="@{newsDetail(id=${sb.id},title=${sb.topic})}"   th:text="${sb.topic}"></a></td>
 									<td th:text="${sb.comment}" width= "10%" align="center"></td>
 									<td th:text="${sb.releaseDate}" width= "30%" align="center"></td>
 								</tr>
