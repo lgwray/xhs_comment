@@ -11,7 +11,9 @@ import net.shinc.controller.common.NewsController;
 import net.shinc.orm.mybatis.bean.common.News;
 import net.shinc.service.NewsService;
 import net.shinc.utils.Helper;
+import net.shinc.utils.HttpClient;
 import net.shinc.utils.HttpXmlClient;
+import net.shinc.utils.ParamUtils;
 import net.shinc.utils.RandomUtils;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -117,7 +119,7 @@ public class NewsServiceImpl implements NewsService {
 	 */
 	@Override
 	public String sendComment(String url, String userId, News news) {
-		String res = HttpXmlClient.post(url, getDiscussParamMap(news, userId));
+		String res = HttpClient.post(url, ParamUtils.getDiscussParamList(news, userId));
 		return res;
 	}
 
@@ -126,7 +128,7 @@ public class NewsServiceImpl implements NewsService {
 	 */
 	@Override
 	public String sendComment(String url, String userId, String articleId, String content) {
-		String res = HttpXmlClient.post(url, getDiscussParamMap(articleId, content, userId));
+		String res = HttpClient.post(url, ParamUtils.getDiscussParamList(articleId, content, userId));
 		logger.info("评论结果==>" + res);
 		return res;
 	}
@@ -271,8 +273,8 @@ public class NewsServiceImpl implements NewsService {
 		if(newsCount != null && !"".equals(newsCount.trim())){
 			url = url + "&num=" + newsCount;
 		}
-		String uri = dealUrl(url).toString();
-		String comments = HttpXmlClient.get(uri);
+		String uri = Helper.dealUrl(url).toString();
+		String comments = HttpClient.get(uri);
 		logger.info("爬虫到的评论==>" + comments);
 		if (null != comments && !"".equals(comments)) {
 			List list = Helper.jsonToList(comments);
@@ -292,8 +294,8 @@ public class NewsServiceImpl implements NewsService {
 		if(newsCount != null && !"".equals(newsCount.trim())){
 			url = url + "&num=" + newsCount;
 		}
-		String uri = dealUrl(url).toString();
-		String comments = HttpXmlClient.get(uri);
+		String uri = Helper.dealUrl(url).toString();
+		String comments = HttpClient.get(uri);
 		logger.info("爬虫到的评论==>" + comments);
 		if (null != comments && !"".equals(comments)) {
 			List list = Helper.jsonToList(comments);
@@ -306,23 +308,7 @@ public class NewsServiceImpl implements NewsService {
 		}
 		return null;
 	}
-
-	/**
-	 * 处理URL,以防url中出现‘｜’‘&’等特殊字符
-	 * @param urlPre
-	 * @return
-	 */
-	public static URI dealUrl(String urlPre) {
-		URI uri = null;
-		try {
-			URL url = new URL(urlPre);
-			uri = new URI(url.getProtocol(), url.getHost(), url.getPath(), url.getQuery(), null);
-		} catch (Exception e) {
-			logger.error(ExceptionUtils.getStackTrace(e));
-		}
-		return uri;
-	}
-
+	
 	public static void main(String[] args) {
 		try {
 			String title = "滨海爆炸|预计失联人数超21人";

@@ -47,16 +47,16 @@ public class NewsController extends AbstractBaseController {
 	private NewsService newsService;
 
 	// 目标评论数,例如1000条
-	private int minNum = 1000;
+	private int minNum = 10;
 
 	// 每篇文章限制批量评论条数,设置小于0代表不限制,以目标评论数为基准
 	private int limitNum = -1;
 	
 	//限制评论文章数目,设置小于0代表不限制,例如只需刷前20篇文章
-	private int articleLimit = 10;
+	private int articleLimit = 3;
 	
 	private int randomMin = 0;
-	private int randomMax = 50;
+	private int randomMax = 5;
 	
 
 	/**

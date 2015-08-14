@@ -1,5 +1,7 @@
 package net.shinc.utils;
 
+import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -80,6 +82,22 @@ public class Helper {
 			logger.info(ExceptionUtils.getStackTrace(e));
 			return null;
 		}
+	}
+	
+	/**
+	 * 处理URL,以防url中出现‘｜’‘&’等特殊字符
+	 * @param urlPre
+	 * @return
+	 */
+	public static URI dealUrl(String urlPre) {
+		URI uri = null;
+		try {
+			URL url = new URL(urlPre);
+			uri = new URI(url.getProtocol(), url.getHost(), url.getPath(), url.getQuery(), null);
+		} catch (Exception e) {
+			logger.error(ExceptionUtils.getStackTrace(e));
+		}
+		return uri;
 	}
 	
 	
