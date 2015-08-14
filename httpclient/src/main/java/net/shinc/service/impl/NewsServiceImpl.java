@@ -253,9 +253,9 @@ public class NewsServiceImpl implements NewsService {
 		
 		return 0;
 	}
+	
 	/**
 	 * 根据newsType抓取评论
-	 * 
 	 * @param title
 	 * @return
 	 */
@@ -274,6 +274,7 @@ public class NewsServiceImpl implements NewsService {
 		}
 		return null;
 	}
+	
 	/**
 	 * 根据title抓取评论
 	 * @param title
@@ -318,6 +319,7 @@ public class NewsServiceImpl implements NewsService {
 			String title1 = "新华社无人机航拍爆炸现场";
 			String title2 = "爆炸";
 			String title3 = "直击|天津港爆炸事故核心现场";
+			String title4 = "动新闻|3D还原天津滨海新区爆炸细节";
 //			List list = getCommentsByTitle("http://spider.localhost/",title3,null);
 			List list = getCommentsByTitle("http://192.168.1.222/",title3,null);
 			
