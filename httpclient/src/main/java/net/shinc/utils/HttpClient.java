@@ -29,10 +29,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class HttpClient {
 	
-	private static Logger logger = Logger.getLogger(HttpXmlClient.class);
-	private static String baseUrl = "http://192.168.1.222/match";
+	private static Logger logger = Logger.getLogger(HttpClient.class);
 	private static String newsListUrl = "http://xhpfm.mobile.zhongguowangshi.com:8091/v200/indexlist";
-	private static String sendCommentUrl = "http://xhpfm.mobile.zhongguowangshi.com:8091/v200/user/comment";
 	private static String charset = "UTF-8";
 
 //	@Autowired
@@ -110,15 +108,5 @@ public class HttpClient {
 	public static void main(String[] args) {
 		//拉取新闻列表
 //		post(newsListUrl, ParamUtils.getNewsListParamMap("0"));
-		
-		//测试发布评论
-		News news = new News();
-		news.setId("215465");
-		news.setContent("好惨烈");
-		post(sendCommentUrl, ParamUtils.getDiscussParamList(news, "0", "jack"));
-		
-		//测试get请求
-//		String url = "http://192.168.1.222/match?str=天津爆炸&num=5";
-//		get(url);
 	}
 }
