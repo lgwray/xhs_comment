@@ -1,5 +1,7 @@
 package net.shinc.utils;
 
+import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -82,5 +84,37 @@ public class Helper {
 		}
 	}
 	
+	/**
+	 * 处理URL,以防url中出现‘｜’‘&’等特殊字符
+	 * @param urlPre
+	 * @return
+	 */
+	public static URI dealUrl(String urlPre) {
+		URI uri = null;
+		try {
+			URL url = new URL(urlPre);
+			uri = new URI(url.getProtocol(), url.getHost(), url.getPath(), url.getQuery(), null);
+		} catch (Exception e) {
+			logger.error(ExceptionUtils.getStackTrace(e));
+		}
+		return uri;
+	}
 	
+	/**	
+	 * 计算需要自动评论的文章数
+	 * @param all 拉取到的所有文章数目
+	 * @param limit	限制评论文章数目,设置小于0代表不限制,例如只需刷前20篇文章
+	 * @return
+	 */
+	public static int calNum(int all, int limit) {
+		if (limit < 0) {
+			return all;
+		}
+		if (all > limit) {
+			return limit;
+		} else if (all < limit) {
+			return all;
+		}
+		return all;
+	}
 }

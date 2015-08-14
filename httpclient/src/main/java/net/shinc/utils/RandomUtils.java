@@ -27,10 +27,29 @@ public class RandomUtils {
 		return num;
 	}
 	
+	public static String generateIp() {
+		String ip =  firstNum() +"."+ getRandom(0, 255).toString() + "." +getRandom(0, 255).toString() + "." + getRandom(0, 255).toString();
+		logger.info("生成的ip: "+ ip);
+		return ip;
+	}
+	
+	/**
+	 * 网络标识不能以数字127开头
+	 * 网络标识的第一个字节不能为255。数字255作为广播地址
+	 * 网络标识的第一个字节不能为“0”，“0”表示该地址是本地主机，不能传送
+	 * @return
+	 */
+	public static String firstNum() {
+		Integer random = getRandom(0, 5);
+		boolean b = (0 == random || 1 == random || 127 == random || 255 == random);
+		while (b) {
+			random = getRandom(0, 255);
+			b = (0 == random || 1 == random || 127 == random || 255 == random);
+		}
+		return random.toString();
+	}
+	
 	public static void main(String[] args) {
-		Integer min = new Integer(1);
-		Integer max = new Integer(10);
-		Integer random = getRandom(min, max);
-		logger.info("num:"+random.toString());
+		generateIp();
 	}
 }

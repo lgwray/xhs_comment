@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -22,6 +23,7 @@ import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
+@Deprecated
 public class HttpXmlClient {
 	private static Logger log = Logger.getLogger(HttpXmlClient.class);
 
@@ -73,9 +75,9 @@ public class HttpXmlClient {
 			body = EntityUtils.toString(entity);
 			log.info(body);
 		} catch (ParseException e) {
-			e.printStackTrace();
+			log.info(ExceptionUtils.getStackTrace(e));
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.info(ExceptionUtils.getStackTrace(e));
 		}
 
 		return body;
@@ -84,13 +86,13 @@ public class HttpXmlClient {
 	private static HttpResponse sendRequest(DefaultHttpClient httpclient, HttpUriRequest httpost) {
 		log.info("execute post...");
 		HttpResponse response = null;
-
+		httpost.setHeader("X-Forwarded-For", "1.1.1.1");
 		try {
 			response = httpclient.execute(httpost);
 		} catch (ClientProtocolException e) {
-			e.printStackTrace();
+			log.info(ExceptionUtils.getStackTrace(e));
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.info(ExceptionUtils.getStackTrace(e));
 		}
 		return response;
 	}
@@ -109,7 +111,7 @@ public class HttpXmlClient {
 			log.info("set utf-8 form entity to httppost");
 			httpost.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			log.info(ExceptionUtils.getStackTrace(e));
 		}
 
 		return httpost;

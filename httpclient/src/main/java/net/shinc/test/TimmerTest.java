@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
  * @author guoshijie 
  * @date 2015年8月13日 上午10:32:14
  */
-public class timmer {
+public class TimmerTest {
 
 	public static void main(String[] args) {
 		Runnable runnable = new Runnable() {
