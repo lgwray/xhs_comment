@@ -100,5 +100,21 @@ public class Helper {
 		return uri;
 	}
 	
-	
+	/**	
+	 * 计算需要自动评论的文章数
+	 * @param all 拉取到的所有文章数目
+	 * @param limit	限制评论文章数目,设置小于0代表不限制,例如只需刷前20篇文章
+	 * @return
+	 */
+	public static int calNum(int all, int limit) {
+		if (limit < 0) {
+			return all;
+		}
+		if (all > limit) {
+			return limit;
+		} else if (all < limit) {
+			return all;
+		}
+		return all;
+	}
 }
