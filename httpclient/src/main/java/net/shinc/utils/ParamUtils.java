@@ -44,7 +44,7 @@ public class ParamUtils {
 		list.add(new BasicNameValuePair("content", news.getContent()));
 		list.add(new BasicNameValuePair("username", username));
 		list.add(new BasicNameValuePair("channel", "shihe"));
-		list.add(new BasicNameValuePair("ip", "182.92.189.177"));
+		list.add(new BasicNameValuePair("ip", "182.92.189.173"));
 		List<NameValuePair> commonParamList = getCommonParamList(userId);
 		list.addAll(commonParamList);
 		return list;
@@ -64,7 +64,7 @@ public class ParamUtils {
 		list.add(new BasicNameValuePair("content", content));
 		list.add(new BasicNameValuePair("username", username));
 		list.add(new BasicNameValuePair("channel", "shihe"));
-		list.add(new BasicNameValuePair("ip", "182.92.189.177"));
+		list.add(new BasicNameValuePair("ip", "182.92.189.173"));
 		List<NameValuePair> commonParamList = getCommonParamList(userId);
 		list.addAll(commonParamList);
 		return list;

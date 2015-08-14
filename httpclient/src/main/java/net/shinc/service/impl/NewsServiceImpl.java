@@ -244,7 +244,8 @@ public class NewsServiceImpl implements NewsService {
 			String title3 = "直击|天津港爆炸事故核心现场";
 			String title4 = "动新闻|3D还原天津滨海新区爆炸细节";
 //			List list = getCommentsByTitle("http://spider.localhost/",title3,null,"5");
-			List list = getCommentsByTitle("http://192.168.1.222/",title3,null,null);
+//			List list = getCommentsByTitle("http://182.92.189.177:8007",title3,null,null);
+			List list = getCommentsByTitle("http://192.168.1.222",title3,null,null);
 			
 			if (null != list && list.size() > 0) {
 				int num = list.size() >= 5 ? 5 : list.size();
