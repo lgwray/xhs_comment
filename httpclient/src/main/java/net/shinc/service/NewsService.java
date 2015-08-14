@@ -27,9 +27,9 @@ public interface NewsService {
 	 * @param news
 	 * @return
 	 */
-	public String sendComment(String url, String userId, News news);
+	public String sendComment(String url, String userId, News news, String username);
 	
-	public String sendComment(String url, String userId, String articleId, String content);
+	public String sendComment(String url, String userId, String articleId, String content, String username);
 	
 	/**
 	 * 给某一文章批量发布评论

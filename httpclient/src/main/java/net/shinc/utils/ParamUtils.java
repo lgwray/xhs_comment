@@ -38,10 +38,13 @@ public class ParamUtils {
 	 * @param userId 用户id
 	 * @return
 	 */
-	public static List<NameValuePair> getDiscussParamList(News news, String userId) {
+	public static List<NameValuePair> getDiscussParamList(News news, String userId, String username) {
 		List<NameValuePair> list = new ArrayList<NameValuePair>();
 		list.add(new BasicNameValuePair("id", news.getId()));
 		list.add(new BasicNameValuePair("content", news.getContent()));
+		list.add(new BasicNameValuePair("username", username));
+		list.add(new BasicNameValuePair("channel", "shihe"));
+		list.add(new BasicNameValuePair("ip", "182.92.189.177"));
 		List<NameValuePair> commonParamList = getCommonParamList(userId);
 		list.addAll(commonParamList);
 		return list;
@@ -52,12 +55,16 @@ public class ParamUtils {
 	 * @param articleId 文章id
 	 * @param content 评论内容
 	 * @param userId 用户id
+	 * @param username 用户昵称
 	 * @return
 	 */
-	public static List<NameValuePair> getDiscussParamList(String articleId, String content, String userId) {
+	public static List<NameValuePair> getDiscussParamList(String articleId, String content, String userId, String username) {
 		List<NameValuePair> list = new ArrayList<NameValuePair>();
 		list.add(new BasicNameValuePair("id",articleId));
 		list.add(new BasicNameValuePair("content", content));
+		list.add(new BasicNameValuePair("username", username));
+		list.add(new BasicNameValuePair("channel", "shihe"));
+		list.add(new BasicNameValuePair("ip", "182.92.189.177"));
 		List<NameValuePair> commonParamList = getCommonParamList(userId);
 		list.addAll(commonParamList);
 		return list;

@@ -10,11 +10,13 @@ import net.shinc.common.IRestMessage;
 import net.shinc.orm.mybatis.bean.common.News;
 import net.shinc.service.NewsService;
 import net.shinc.utils.Helper;
+import net.shinc.utils.UnicodeUtils;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,16 +34,17 @@ public class NewsController extends AbstractBaseController {
 	private static Logger logger = LoggerFactory.getLogger(NewsController.class);
 
 	// 发布评论_请求url
-	private static String sendCommentUrl = "http://xhpfm.mobile.zhongguowangshi.com:8091/v200/user/comment";
+//	private static String sendCommentUrl = "http://xhpfm.mobile.zhongguowangshi.com:8091/v200/user/comment";
 	
 	//发评论测试接口（邮件指定）
-//	private static String sendCommentUrl = "http://xhpfm.news.zhongguowangshi.com:8091/v200/open/newscomment";
+	@Value("${sendCommentUrl}")
+	private static String sendCommentUrl = "http://xhpfm.news.zhongguowangshi.com:8091/v200/open/newscomment";
 
 	// 获取新闻列表_请求url
 	private static String listUrl = "http://xhpfm.mobile.zhongguowangshi.com:8091/v200/indexlist";
 	
-//	private static String phpUrl = "http://spider.localhost/";
-	private static String phpUrl = "http://192.168.1.222/";
+	@Value("${phpUrl}")
+	private static String phpUrl = "http://192.168.1.222";
 
 	// 用户id
 	private static String userId = "0";
@@ -85,11 +88,11 @@ public class NewsController extends AbstractBaseController {
 		ModelAndView modelAndView = new ModelAndView("index");
 		try {
 			logger.info(news.toString());
-			String res = newsService.sendComment(sendCommentUrl, userId, news);
-			logger.info("result:\t" + res);
+			String res = newsService.sendComment(sendCommentUrl, userId, news,"我就是我");
+			logger.info("result:\t" + UnicodeUtils.decodeUnicode(res));
 
 			Map map = Helper.jsonToMap(res);
-			modelAndView.addObject("msg", map.get("data"));
+			modelAndView.addObject("msg", map.get("message"));
 			modelAndView.addObject("id", news.getId());
 			modelAndView.addObject("list", newsService.getNewsList(userId, listUrl));
 		} catch (Exception e) {

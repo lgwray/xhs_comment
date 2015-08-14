@@ -1,11 +1,15 @@
 package net.shinc.test;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import org.apache.http.NameValuePair;
+
 import net.shinc.orm.mybatis.bean.common.News;
-import net.shinc.service.impl.NewsServiceImpl;
+import net.shinc.utils.HttpClient;
 import net.shinc.utils.HttpXmlClient;
+import net.shinc.utils.ParamUtils;
 
 public class CrontabTest {
 	public static void main(String[] args) {
@@ -26,8 +30,8 @@ public class CrontabTest {
 			} catch (InterruptedException e) {
 				e.printStackTrace(); 
 			}
-			Map params = NewsServiceImpl.getDiscussParamMap(news, "0");
-			HttpXmlClient.post("http://xhpfm.mobile.zhongguowangshi.com:8091/v200/user/comment", params);
+			List<NameValuePair> list = ParamUtils.getDiscussParamList(news, "0","jack");
+			HttpClient.post("http://xhpfm.mobile.zhongguowangshi.com:8091/v200/user/comment", list);
 			System.out.println(count);
 		}
 	}

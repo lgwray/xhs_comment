@@ -18,6 +18,7 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
@@ -34,7 +35,10 @@ public class CommentServiceImpl {
 	@Autowired
 	private CloseableHttpClient httpClient;
 	
+	@Value("${phpUrl}")
 	private String remoteApiUrl = "http://192.168.1.222";
+	
+	@Value("${sendCommentUrl}")
 	private String sendCommentUrl = "http://xhpfm.mobile.zhongguowangshi.com:8091/v200/user/comment";
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -138,12 +142,12 @@ public class CommentServiceImpl {
 	 * @param page 第page页
 	 * @return
 	 */
-	public String sendComment(String userId, String articleId, String content) {
+	public String sendComment(String userId, String articleId, String content,String username) {
 		HttpPost post = new HttpPost(getSendCommentUrl());
 		post.setHeader("X-Forwarded-For", "1.1.1.1");
 		CloseableHttpResponse response = null;
 		try {
-			post.setEntity(new UrlEncodedFormEntity(ParamUtils.getDiscussParamList(articleId, content, userId),HTTP.UTF_8));
+			post.setEntity(new UrlEncodedFormEntity(ParamUtils.getDiscussParamList(articleId, content, userId,username),HTTP.UTF_8));
 			response = httpClient.execute(post);
 			HttpEntity entity = response.getEntity();
 			String result =  EntityUtils.toString(entity);

@@ -1,7 +1,6 @@
 package net.shinc.service.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,83 +39,12 @@ public class NewsServiceImpl implements NewsService {
 	}
 
 	/**
-	 * 准备获取新闻列表_请求参数map
-	 * @param currentTime
-	 * @return
-	 */
-	public static Map<String, String> getNewsListParamMap(String userId) {
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("cid", "470");
-		map.put("pn", "1");
-		map.put("ctype", "4001");
-		map.put("selids", "461,462,463,464,502");
-		Map<String, String> commonParamMap = getCommonParamMap(userId);
-		map.putAll(commonParamMap);
-		return map;
-	}
-
-	/**
-	 * 准备发布评论_请求参数map
-	 * @param news 文章对象
-	 * @param userId 用户id
-	 * @return
-	 */
-	public static Map<String, String> getDiscussParamMap(News news, String userId) {
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("id", news.getId());
-		map.put("content", news.getContent());
-		Map<String, String> commonParamMap = getCommonParamMap(userId);
-		map.putAll(commonParamMap);
-		return map;
-	}
-
-	public static Map<String, String> getDiscussParamMap(String articleId, String content, String userId) {
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("id", articleId);
-		map.put("content", content);
-		Map<String, String> commonParamMap = getCommonParamMap(userId);
-		map.putAll(commonParamMap);
-		return map;
-	}
-
-	/**
-	 * 通用基础请求参数
-	 * @param userId 用户id
-	 * @return
-	 */
-	public static Map<String, String> getCommonParamMap(String userId) {
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("userID", userId);
-		map.put("udid", "0");
-		map.put("clientApp", "104");
-		map.put("clientBundleID", "net.xinhuamm.mainclient");
-		map.put("clientType", "2");
-		map.put("clientVer", "2.0.2");
-		map.put("clientMarket", "337");
-		map.put("clientOS", "4.4.4");
-		map.put("clientModel", "HM NOTE 1LTE");
-		map.put("clientNet", "wifi");
-		map.put("clientToken", "1b1c92d10ac72c611ab9b5de96febb13");
-		map.put("clientId", "1b1c92d10ac72c611ab9b5de96febb13");
-		map.put("clientLable", "866401023331302");
-		map.put("clientDev", "0");
-		map.put("clientPrison", "0");
-		map.put("clientWidth", "720");
-		map.put("clientHeight", "1280");
-		map.put("clientLongitude", "116.482487");
-		map.put("clientLatitude", "39.997927");
-		map.put("clientDate", Helper.getCurrentTimeMillis());
-		map.put("province", "北京市");
-		map.put("address", "北京市 朝阳区 阜通西大街 靠近保利院线电影(卜蜂莲花望京宝星店)");
-		return map;
-	}
-
-	/**
 	 * 发布评论
 	 */
 	@Override
-	public String sendComment(String url, String userId, News news) {
-		String res = HttpClient.post(url, ParamUtils.getDiscussParamList(news, userId));
+	public String sendComment(String url, String userId, News news, String username) {
+		String res = HttpClient.post(url, ParamUtils.getDiscussParamList(news, userId, username));
+		logger.info("评论结果==>" + res);
 		return res;
 	}
 
@@ -124,8 +52,8 @@ public class NewsServiceImpl implements NewsService {
 	 * 发布评论
 	 */
 	@Override
-	public String sendComment(String url, String userId, String articleId, String content) {
-		String res = HttpClient.post(url, ParamUtils.getDiscussParamList(articleId, content, userId));
+	public String sendComment(String url, String userId, String articleId, String content, String username) {
+		String res = HttpClient.post(url, ParamUtils.getDiscussParamList(articleId, content, userId, username));
 		logger.info("评论结果==>" + res);
 		return res;
 	}
@@ -154,7 +82,8 @@ public class NewsServiceImpl implements NewsService {
 						for (int j = 0; j < list.size(); j++) {
 							Map m = (Map) list.get(j);
 							String content = (String) m.get("comment");
-							String res = sendComment(sendCommentUrl, userId, articleId, delHtmlTag(content));
+							String nickname = (String)m.get("nick");
+							String res = sendComment(sendCommentUrl, userId, articleId, delHtmlTag(content), nickname);
 							logger.info("评论结果==>" + res);
 							Map jsonToMap = Helper.jsonToMap(res);
 							if ("success".equals(jsonToMap.get("state"))) {
@@ -198,7 +127,8 @@ public class NewsServiceImpl implements NewsService {
 						for (int j = 0; j < discussNums; j++) {
 							Map m = (Map) list.get(j);
 							String content = (String) m.get("comment");
-							String res = sendComment(sendCommentUrl, userId, articleId, delHtmlTag(content));
+							String nickname = (String)m.get("nick");
+							String res = sendComment(sendCommentUrl, userId, articleId, delHtmlTag(content),nickname);
 							Map jsonToMap = Helper.jsonToMap(res);
 							if ("success".equals(jsonToMap.get("state"))) {
 								discussNum++;
@@ -287,7 +217,7 @@ public class NewsServiceImpl implements NewsService {
 	 * @return
 	 */
 	public static List getCommentsByTitle(String phpUrl, String title,String articleId,String newsCount) {
-		String url = phpUrl + "match?str=" + title;
+		String url = phpUrl + "/match?str=" + title;
 		if(newsCount != null && !"".equals(newsCount.trim())){
 			url = url + "&num=" + newsCount;
 		}

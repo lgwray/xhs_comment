@@ -77,7 +77,7 @@ public class CommentController extends AbstractBaseController {
 			List list = form.getCommentList();
 			for(Iterator<String> it = list.iterator(); it.hasNext();) {
 				String content = it.next();
-				String re = commentService.sendComment("0", id, content);
+				String re = commentService.sendComment("0", id, content,"我就是我");
 				logger.info("评论id:" + id + "  comment:" + content + "  result:" + re);
 			}
 			return "success";

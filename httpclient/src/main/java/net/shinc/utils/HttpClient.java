@@ -115,7 +115,7 @@ public class HttpClient {
 		News news = new News();
 		news.setId("215465");
 		news.setContent("好惨烈");
-		post(sendCommentUrl, ParamUtils.getDiscussParamList(news, "0"));
+		post(sendCommentUrl, ParamUtils.getDiscussParamList(news, "0", "jack"));
 		
 		//测试get请求
 //		String url = "http://192.168.1.222/match?str=天津爆炸&num=5";
