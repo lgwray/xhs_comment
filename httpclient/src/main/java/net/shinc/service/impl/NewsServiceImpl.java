@@ -2,6 +2,7 @@ package net.shinc.service.impl;
 
 import java.net.URI;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -131,14 +132,20 @@ public class NewsServiceImpl implements NewsService {
 		int discussNum = 0;
 		String articleId = (String) map.get("id");
 		String topic = (String) map.get("title"); // title
-		String newsType = (String) map.get("newsType"); // newsType
-		String newsCount = (String) map.get("newsCount"); // newsCount
+		String newsType = (String) map.get("newsType"); // 查询内容
+		String newsCount = (String) map.get("newsCount"); // 查询笔数
+		String condition = (String) map.get("condition"); // 分类or关键字
 //		String comment = (String) map.get("comment"); // 评论数
 		logger.info(articleId + "	" + topic);
 		if (null != articleId && !"".equals(articleId)) {// 排除类似：推荐・体育
 //			if (null != comment && !"".equals(comment)) {
 					// 1.上送topic,发接口取评论 上送topic
-					List list = getCommentsByNewsType(phpUrl,newsType,newsCount);
+					List list = new ArrayList();
+					if("1".equals(condition)){
+						list = getCommentsByNewsType(phpUrl,newsType,newsCount);
+					}else if("2".equals(condition)){
+						list = getCommentsByTitle(phpUrl, newsType,newsCount);
+					}
 					// 2.遍历评论
 //						int discussNums = calculateNum(list.size(), limitNum);
 						for (int j = 0; j < list.size(); j++) {
@@ -169,7 +176,7 @@ public class NewsServiceImpl implements NewsService {
 				int num = Integer.parseInt(comment);// 评论数
 				if (num < minNum) {
 					// 1.上送topic,发接口取评论 上送topic
-					List list = getCommentsByTitle(phpUrl,topic);
+					List list = getCommentsByTitle(phpUrl,topic,null);
 					// 2.遍历评论
 					if (null != list && list.size() > 0) {
 						int discussNums = calculateNum(list.size(), limitNum);
@@ -192,7 +199,7 @@ public class NewsServiceImpl implements NewsService {
 	}
 
 	public static String delHtmlTag(String content){
-		return content.replace("<br>", "");
+		return content.replace("<br>", "").replace("网易", "**");
 	}
 	
 	/**
@@ -238,8 +245,11 @@ public class NewsServiceImpl implements NewsService {
 	 * @param title
 	 * @return
 	 */
-	public static List getCommentsByTitle(String phpUrl, String title) {
+	public static List getCommentsByTitle(String phpUrl, String title,String newsCount) {
 		String url = phpUrl + "match?str=" + title;
+		if(newsCount != null && !"".equals(newsCount.trim())){
+			url = url + "&num=" + newsCount;
+		}
 		String uri = dealUrl(url).toString();
 		String comments = HttpXmlClient.get(uri);
 		logger.info("爬虫到的评论==>" + comments);
@@ -274,7 +284,7 @@ public class NewsServiceImpl implements NewsService {
 			String title1 = "新华社无人机航拍爆炸现场";
 			String title2 = "爆炸";
 			String title3 = "直击|滨海爆炸事故核心现场";
-			List list = getCommentsByTitle("http://spider.localhost/",title);
+			List list = getCommentsByTitle("http://spider.localhost/",title,"1");
 
 			for (int j = 0; j < 5; j++) {
 				Map m = (Map) list.get(j);

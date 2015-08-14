@@ -72,8 +72,9 @@ public class NewsDetailController extends AbstractBaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/sendCommentBatchByPeople")
-	public ModelAndView sendCommentBatchByPeople(String newsType,String newsCount,String id,String title) {
+	public ModelAndView sendCommentBatchByPeople(String condition,String newsType,String newsCount,String id,String title) {
 		Map map = new HashMap();
+		map.put("condition", condition);
 		map.put("newsType",newsType);
 		map.put("newsCount",newsCount);
 		map.put("id",id);
