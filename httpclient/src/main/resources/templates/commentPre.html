@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="img/favicon.png" />
+    <title>Blank</title>
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/bootstrap-reset.css" rel="stylesheet" />
+    <!--external css-->
+    <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <!-- Custom styles for this template -->
+    <link href="css/style.css" rel="stylesheet" />
+    <link href="css/style-responsive.css" rel="stylesheet" />
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 tooltipss and media queries -->
+    <!--[if lt IE 9]>
+  <script src="js/html5shiv.js"></script>
+  <script src="js/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+    <form id="commentForm">
+        <input type="hidden" name="id" id="id" th:value="*{id}" />
+        <input type="hidden" name="title" id="title" th:value="*{title}" />
+    </form>
+    <section id="container" class="">
+        <!--main content start-->
+        <section id="main-content">
+            <section class="panel">
+                <form th:action="@{/sendCommentBatchByPeople}" method="post" id="queryForm">
+                    <table class="table">
+                        <tr align="center">
+                            <td>文章id</td>
+                            <td>文章title</td>
+                        </tr>
+                        <tr>
+                            <td th:text="${id}" width="10%" align="center"></td>
+                            <td th:text="${title}" width="10%" align="center"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" th:text="${count}"></td>
+                        </tr>
+                    </table>
+                    <!--  <label>
+          <input name="newsType" type="radio" value="财经" />
+          财经
+        </label>
+        <label>
+          <input name="newsType" type="radio" value="体育" />
+          体育
+        </label>
+        <label>
+          <input name="newsType" type="radio" value="国际" />
+          国际
+        </label>
+        <label>
+          <input name="newsType" type="radio" value="军事" />
+          军事
+        </label>
+        <label>
+          <input name="newsType" type="radio" value="科技" />
+          科技
+        </label>
+        <label>
+          <input name="newsType" type="radio" value="娱乐" />
+          娱乐
+        </label>
+        -->
+                    <br/>
+                    <br/> 筛选条件：
+                    <label>
+                        <input name="condition" type="radio" value="1" checked="checked" /> 分类
+                    </label>
+                    <label>
+                        <input name="condition" type="radio" value="2" /> 关键词
+                    </label>
+                    <br/>
+                    <br/> 查询内容：
+                    <input type="text" name="newsType" id="newsType" value="" />
+                    <label>
+                        <font color="red">分类如：财经、体育、国内、国际、军事、科技、娱乐、探索、社会。</font>
+                    </label>
+                    <br/>
+                    
+                    
+                    <input type="button" value="查询" id="btnQuery" /> &nbsp;&nbsp;
+                    <input type="reset" value="重置" /> &nbsp;&nbsp;
+                    <input type="button" value="刷新" onclick="refresh();" /> &nbsp;&nbsp;
+                    <br/>
+                    <br/>
+                    <a href="index">返回</a>
+                </form>
+            </section>
+            <div class="row">
+            <section class="panel">
+                <header class="panel-heading">Basic Table</header>
+                <div class="col-xs-12">
+                  <table class="table">
+                      <thead>
+                          <tr>
+                              <th class="col-xs-1">选择</th>
+                              <th class="col-xs-1">评论ID</th>
+                              <th class="col-xs-10">评论内容</th>
+                              
+                          </tr>
+                      </thead>
+                      <tbody id="tableBody">
+                          
+                      </tbody>
+                  </table>
+                  </div>
+            </section>
+            </div>
+            <div class="row">
+                    <button class="btn btn-success" id="commentIt">评论</button>
+                    <button class="btn btn-info" id="nextPage">下一页</button>
+            </div>
+        </section>
+        <!--main content end-->
+        <div aria-hidden="false" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="__alertSuccess" class="modal fade in" style="top:30%;">
+          <div class="modal-dialog modal-sm">
+
+            <div class="alert alert-success alert-dismissible text-center" role="alert" id="alert"> <strong>Warning!</strong>
+            </div>
+
+          </div>
+        </div>
+    </section>
+    <!-- js placed at the end of the document so the pages load faster -->
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script class="include" type="text/javascript" src="js/jquery.dcjqaccordion.2.7.js"></script>
+    <script src="js/jquery.scrollTo.min.js"></script>
+    <script src="js/jquery.nicescroll.js" type="text/javascript"></script>
+    <script src="js/respond.min.js"></script>
+    <!--common script for all pages-->
+    <script src="js/common-scripts.js"></script>
+
+    <script type="text/javascript">
+/*<![CDATA[*/ 
+    $(function() {
+        //查询条件表单
+        var queryForm = $( '#queryForm' )
+        var tableBody = $('#tableBody')
+        $(document).data('page',1)
+
+       //请求查询按钮
+        var btnQuery = $( '#btnQuery' )
+        btnQuery.bind('click', function(event) {
+            queryTable()
+        });
+
+        var nextPage = $('#nextPage') 
+        nextPage.bind('click', function(event) {
+            var page = $(document).data('page')
+            page++
+            $(document).data('page',page)
+            console.log('nextPage',page);
+            queryTable(page)
+        });
+        //向服务端请求数据并处理
+        var queryTable = function(page) {
+
+            var param = queryForm.serializeArray()
+            page = page ? page : 1
+            var pageObject = {}
+            pageObject.name='page'
+            pageObject.value=page
+
+            var pageSize = {};
+            pageSize.name='pageSize'
+            pageSize.value=100
+
+            param.push(pageObject)
+            param.push(pageSize)
+           
+            console.log(param);
+
+            $.ajax({
+                url: '/commentResult',
+                type: 'POST',
+                dataType: 'JSON',
+                data: param
+            })
+            .done(function(data) {
+                console.log("btnQuery ajaxsuccess");
+                console.log(data);
+
+                renderTable(data)
+            })
+            .fail(function(err) {
+                console.log("btnQuery ajax error");
+                console.log(err);
+                
+            });
+        }
+
+        //查询数据返回后，渲染数据表
+        var renderTable = function(data) {
+            
+
+            var data = data;
+            tableBody.empty()
+            $(data).each(function(index, el) {
+                
+                var checkbox = addCheckbox()
+
+                checkbox.data('rowdata',el)
+                var label =  $('<label>').append(checkbox).append('选中')
+                tableBody.append(addTr(label,el.id,el.comment))
+
+            });
+        }
+
+        
+        //得到一个数据列
+        //addTr(1,2,3[4,5])
+        //返回<tr><td>1</td><td>2</td><td>3</td><td>44</td></tr>
+        var addTr = function() {
+            var tr = $('<tr>')
+            for(var i=0;i<arguments.length;i++){  
+                var td = $('<td>')
+                var tmp = arguments[i];
+
+                tr.append(td.append(tmp))
+                
+            }   
+            return tr
+
+        }
+        //得到BUTTON对象
+        //例如：
+        //addButton('btn btn-info','编辑',[{name:'action',value:'modify'}])
+        //得到：
+        //<button class="btn btn-info" type="button" style="margin: 3px;" action="modify">编辑</button>
+        var addButton = function(css,showText,attrs) {
+            var button = $('<button>')
+            button.attr('class',css).attr('type','button').append(showText).css('margin', '3px');
+            $(attrs).each(function(index, el) {
+                button.attr(el.name,el.value)   
+            });
+            return button
+        }
+
+        var addCheckbox = function() {
+            var input = $('<input>')
+            input.attr('type','checkbox').attr('name','comment').text('aa')
+
+            return input
+        }
+        //为返回的每条数据内的编辑按钮，绑定事件
+        tableBody.on('click', 'button[action]', function(event) {
+            var btn = $(this)
+            var action = btn.attr('action')
+            if('modify' == action) {
+                console.log('modify');
+            } else if('download' == action) {
+                console.log('download');
+            }
+            
+        });
+
+        var commentIt = $('#commentIt')
+
+        commentIt.on('click', function(event) {
+          console.log('commentIt');
+          comment()
+
+        });
+
+        var comment = function() {
+            var commentForm = $('#commentForm')
+            var param = commentForm.serializeArray();
+            var checkList = $(':checkbox:checked')
+            var commentList = []
+            $(checkList).each(function(index, el) {
+                var rd = $(el).data('rowdata')
+                commentList.push(rd.comment)
+            });
+            var c = {}
+            c.name = 'commentList'
+            c.value = commentList;
+            param.push(c)
+            console.log(param);
+            alertIt('正在评论');
+            $.ajax({
+                url: '/commentIt',
+                type: 'POST',
+                
+                data: param
+            })
+            .done(function(data) {
+                console.log("commentIt ajaxsuccess");
+                console.log(data);
+                if(data == 'success') {
+                  $('#__alertSuccess').find('strong').text('评论已成功，请勿重复提交')  
+                } else {
+                  $('#__alertSuccess').find('strong').text('评论状态不明，请谨慎操作')  
+                }
+                
+                
+            })
+            .fail(function(err) {
+                console.log("commentIt ajax error");
+                console.log(err);
+                
+            });
+        }
+
+        var alertIt = function(msg) {
+          $('#__alertSuccess').find('strong').text(msg)
+          $('#__alertSuccess').modal()
+        }
+       
+    });
+/*]]>*/ 
+    </script>
+</body>
+
+</html>
