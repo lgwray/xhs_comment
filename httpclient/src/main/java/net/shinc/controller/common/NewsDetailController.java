@@ -11,6 +11,7 @@ import net.shinc.service.NewsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,12 +29,13 @@ public class NewsDetailController extends AbstractBaseController {
 	private static Logger logger = LoggerFactory.getLogger(NewsDetailController.class);
 
 	// 发布评论_请求url
+	@Value("${sendCommentUrl}")
 	private static String sendCommentUrl = "http://xhpfm.mobile.zhongguowangshi.com:8091/v200/user/comment";
 
 	// 获取新闻列表_请求url
 	private static String listUrl = "http://xhpfm.mobile.zhongguowangshi.com:8091/v200/indexlist";
 	
-//	private static String phpUrl = "http://spider.localhost/";
+	@Value("${phpUrl}")
 	private static String phpUrl = "http://192.168.1.222/";
 
 	// 用户id
