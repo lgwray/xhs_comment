@@ -180,7 +180,7 @@
             console.log(param);
 
             $.ajax({
-                url: '/commentResult',
+                url: '/httpclient/commentResult',
                 type: 'POST',
                 dataType: 'JSON',
                 data: param
@@ -287,7 +287,7 @@
             console.log(param);
             alertIt('正在评论');
             $.ajax({
-                url: '/commentIt',
+                url: '/httpclient/commentIt',
                 type: 'POST',
                 
                 data: param

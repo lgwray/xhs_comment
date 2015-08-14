@@ -19,6 +19,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @ClassName HttpClient 
@@ -29,12 +30,14 @@ import org.apache.log4j.Logger;
 public class HttpClient {
 	
 	private static Logger logger = Logger.getLogger(HttpXmlClient.class);
-//	private static String baseUrl = "http://192.168.1.222/match";
-	private static String baseUrl = "http://localhost:8080/edumgmt";
+	private static String baseUrl = "http://192.168.1.222/match";
 	private static String newsListUrl = "http://xhpfm.mobile.zhongguowangshi.com:8091/v200/indexlist";
 	private static String sendCommentUrl = "http://xhpfm.mobile.zhongguowangshi.com:8091/v200/user/comment";
 	private static String charset = "UTF-8";
 
+//	@Autowired
+//	private static CloseableHttpClient httpClient;
+	
 	/**
 	 * 发送post请求
 	 * @param postUrl

@@ -1,20 +1,18 @@
 package net.shinc.service.impl;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
 import net.shinc.utils.Helper;
+import net.shinc.utils.ParamUtils;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.http.HttpEntity;
-import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
@@ -145,7 +143,7 @@ public class CommentServiceImpl {
 		post.setHeader("X-Forwarded-For", "1.1.1.1");
 		CloseableHttpResponse response = null;
 		try {
-			post.setEntity(new UrlEncodedFormEntity(getDiscussParamMap(articleId, content, userId),HTTP.UTF_8));
+			post.setEntity(new UrlEncodedFormEntity(ParamUtils.getDiscussParamList(articleId, content, userId),HTTP.UTF_8));
 			response = httpClient.execute(post);
 			HttpEntity entity = response.getEntity();
 			String result =  EntityUtils.toString(entity);
@@ -154,44 +152,8 @@ public class CommentServiceImpl {
 			logger.error(ExceptionUtils.getStackTrace(e));
 			return null;
 		}
-		
 	}
 	
-	public List<NameValuePair> getDiscussParamMap(String articleId, String content, String userId) {
-		List<NameValuePair> list = new ArrayList();
-		list.add(new BasicNameValuePair("id", articleId));
-		list.add(new BasicNameValuePair("content", content));
-		List<NameValuePair> commonList = getCommonParamMap(userId);
-		list.addAll(commonList);
-		return list;
-	}
-	
-	public List<NameValuePair> getCommonParamMap(String userId) {
-		List<NameValuePair> list = new ArrayList();
-		list.add(new BasicNameValuePair("userID", userId));
-		list.add(new BasicNameValuePair("udid", "0"));
-		list.add(new BasicNameValuePair("clientApp", "104"));
-		list.add(new BasicNameValuePair("clientBundleID", "net.xinhuamm.mainclient"));
-		list.add(new BasicNameValuePair("clientType", "2"));
-		list.add(new BasicNameValuePair("clientVer", "2.0.2"));
-		list.add(new BasicNameValuePair("clientMarket", "337"));
-		list.add(new BasicNameValuePair("clientOS", "4.4.4"));
-		list.add(new BasicNameValuePair("clientModel", "HM NOTE 1LTE"));
-		list.add(new BasicNameValuePair("clientNet", "wifi"));
-		list.add(new BasicNameValuePair("clientToken", "1b1c92d10ac72c611ab9b5de96febb13"));
-		list.add(new BasicNameValuePair("clientId", "1b1c92d10ac72c611ab9b5de96febb13"));
-		list.add(new BasicNameValuePair("clientLable", "866401023331302"));
-		list.add(new BasicNameValuePair("clientDev", "0"));
-		list.add(new BasicNameValuePair("clientPrison", "0"));
-		list.add(new BasicNameValuePair("clientWidth", "720"));
-		list.add(new BasicNameValuePair("clientHeight", "1280"));
-		list.add(new BasicNameValuePair("clientLongitude", "116.482487"));
-		list.add(new BasicNameValuePair("clientLatitude", "39.997927"));
-		list.add(new BasicNameValuePair("clientDate", Helper.getCurrentTimeMillis()));
-		list.add(new BasicNameValuePair("province", "北京市"));
-		list.add(new BasicNameValuePair("address", "北京市 朝阳区 阜通西大街 靠近保利院线电影(卜蜂莲花望京宝星店)"));
-		return list;
-	}
 	public String getRemoteApiUrl() {
 		return remoteApiUrl;
 	}

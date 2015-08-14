@@ -1,7 +1,5 @@
 package net.shinc.service.impl;
 
-import java.net.URI;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +10,6 @@ import net.shinc.orm.mybatis.bean.common.News;
 import net.shinc.service.NewsService;
 import net.shinc.utils.Helper;
 import net.shinc.utils.HttpClient;
-import net.shinc.utils.HttpXmlClient;
 import net.shinc.utils.ParamUtils;
 import net.shinc.utils.RandomUtils;
 
@@ -33,7 +30,7 @@ public class NewsServiceImpl implements NewsService {
 	private static Logger logger = LoggerFactory.getLogger(NewsController.class);
 
 	public List getNewsList(String userId, String listUrl) {
-		String res = HttpXmlClient.post(listUrl, getNewsListParamMap(userId));
+		String res = HttpClient.post(listUrl, ParamUtils.getNewsListParamMap(userId));
 		logger.info(res);
 		Map map = Helper.jsonToMap(res);
 		List list = (List) map.get("data_scroll");
