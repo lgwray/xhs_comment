@@ -110,6 +110,7 @@ public class NewsController extends AbstractBaseController {
 		int needSendNum = calNum(list.size(), articleLimit);
 		for (int i = 0; i < needSendNum; i++) {
 			Object obj = list.get(i);
+			Map map = (Map) obj;
 			newsService.sendCommentBatch((Map) obj, sendCommentUrl, userId, minNum, limitNum, phpUrl, randomMin, randomMax);
 		}
 		msg.setCode(ErrorMessage.SUCCESS.getCode());

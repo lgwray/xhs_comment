@@ -185,14 +185,13 @@ public class NewsServiceImpl implements NewsService {
 		String articleId = (String) map.get("id");
 		String topic = (String) map.get("topic"); // title
 		String comment = (String) map.get("comment"); // 评论数
-		String newsCount = (String) map.get("newsCount"); // 评论数
 		logger.info(articleId + "	" + topic);
 		if (null != articleId && !"".equals(articleId)) {// 排除类似：推荐・体育
 			if (null != comment && !"".equals(comment)) {
 				int curNum = Integer.parseInt(comment);// 评论数
 				if (curNum < minNum) {
 					// 1.上送topic,发接口取评论 上送topic
-					List list = getCommentsByTitle(phpUrl,topic,articleId,newsCount);
+					List list = getCommentsByTitle(phpUrl,topic,articleId,null);
 					// 2.遍历评论
 					if (null != list && list.size() > 0) {
 						int discussNums = calculateNum(list.size(), limitNum, minNum, curNum, randomMin, randomMax);
@@ -331,8 +330,8 @@ public class NewsServiceImpl implements NewsService {
 			String title2 = "爆炸";
 			String title3 = "直击|天津港爆炸事故核心现场";
 			String title4 = "动新闻|3D还原天津滨海新区爆炸细节";
-//			List list = getCommentsByTitle("http://spider.localhost/",title3,null);
-			List list = getCommentsByTitle("http://192.168.1.222/",title3,null);
+//			List list = getCommentsByTitle("http://spider.localhost/",title3,null,"5");
+			List list = getCommentsByTitle("http://192.168.1.222/",title3,null,null);
 			
 			if (null != list && list.size() > 0) {
 				int num = list.size() >= 5 ? 5 : list.size();
