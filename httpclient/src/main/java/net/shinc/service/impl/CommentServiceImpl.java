@@ -73,7 +73,7 @@ public class CommentServiceImpl {
 		pageSize = pageSize < 1 ? 200 :pageSize;
 		page = page < 1 ? 1 : page;
 		String url = getRemoteApiUrl() + "/match?str=" + title + "&num=" + pageSize + "&page=" + page;
-		url = NewsServiceImpl.dealUrl(url).toString();
+		url = Helper.dealUrl(url).toString();
 		
 		
 		HttpGet get = new HttpGet(url);
@@ -109,7 +109,7 @@ public class CommentServiceImpl {
 		page = page < 1 ? 1 : page;
 		
 		String url = getRemoteApiUrl() + "/category?catname=" + title + "&num=" + pageSize + "&page=" + page;
-		url = NewsServiceImpl.dealUrl(url).toString();
+		url = Helper.dealUrl(url).toString();
 		
 		
 		HttpGet get = new HttpGet(url);
