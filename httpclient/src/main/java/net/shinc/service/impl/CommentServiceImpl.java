@@ -1,5 +1,7 @@
 package net.shinc.service.impl;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +14,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
@@ -69,16 +72,27 @@ public class CommentServiceImpl {
 	 * @param pageSize 每页条数
 	 * @param page 第page页
 	 * @return
+	 * @throws URISyntaxException 
 	 */
-	public List getCommentsByTitle(String title,int pageSize, int page ) {
+	public List getCommentsByTitle(String title,int pageSize, int page ) throws URISyntaxException {
 		
 		pageSize = pageSize < 1 ? 200 :pageSize;
 		page = page < 1 ? 1 : page;
-		String url = getRemoteApiUrl() + "/match?str=" + title + "&num=" + pageSize + "&page=" + page;
-		url = Helper.dealUrl(url).toString();
+//		U url = getRemoteApiUrl();// + "/match?str=" + title + "&num=" + pageSize + "&page=" + page;
+		URI url = URI.create(getRemoteApiUrl() + "/match");
+		
+		URI u = new URIBuilder()
+	        .setScheme(url.getScheme())
+	        .setHost(url.getHost())
+	        .setPath(url.getPath())
+	        .setPort(url.getPort())
+	        .setParameter("str", title)
+	        .setParameter("num", String.valueOf(pageSize))
+	        .setParameter("page", String.valueOf(page))
+	        .build();
 		
 		
-		HttpGet get = new HttpGet(url);
+		HttpGet get = new HttpGet(u);
 		
 		CloseableHttpResponse response = null;
 		try {
@@ -99,22 +113,52 @@ public class CommentServiceImpl {
 		return null;
 	}
 	
+	public static void main(String [] args) {
+		URI uri = URI.create("http://192.168.1.22:8080");
+		System.out.println(uri);
+		try {
+			URI u = new URIBuilder()
+			.setScheme(uri.getScheme())
+			.setHost(uri.getHost())
+			.setPath(uri.getPath())
+			.setParameter("q", "httpclient")
+			.setParameter("btnG", "Google Search")
+			.setParameter("aq", "f")
+			.setParameter("oq", "|dafs|")
+			.build();
+			System.out.println(u);
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	/**根据title抓取评论
 	 * @param title
 	 * @param pageSize 每页条数
 	 * @param page 第page页
 	 * @return
+	 * @throws URISyntaxException 
 	 */
-	public List getCommentsByCategory(String title,int pageSize, int page ) {
+	public List getCommentsByCategory(String title,int pageSize, int page ) throws URISyntaxException {
 		
 		pageSize = pageSize < 1 ? 1000 :pageSize;
 		page = page < 1 ? 1 : page;
 		
-		String url = getRemoteApiUrl() + "/category?catname=" + title + "&num=" + pageSize + "&page=" + page;
-		url = Helper.dealUrl(url).toString();
+		URI url = URI.create(getRemoteApiUrl() + "/category");
+		
+		URI u = new URIBuilder()
+	        .setScheme(url.getScheme())
+	        .setHost(url.getHost())
+	        .setPort(url.getPort())
+	        .setPath(url.getPath())
+	        .setParameter("catname", title)
+	        .setParameter("num", String.valueOf(pageSize))
+	        .setParameter("page", String.valueOf(page))
+	        .build();
 		
 		
-		HttpGet get = new HttpGet(url);
+		HttpGet get = new HttpGet(u);
 		
 		CloseableHttpResponse response = null;
 		try {

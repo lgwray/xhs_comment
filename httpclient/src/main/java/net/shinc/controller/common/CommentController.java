@@ -53,8 +53,12 @@ public class CommentController extends AbstractBaseController {
 		String con = form.getCondition();
 		List list = new ArrayList();
 		if("1".equals(con)) {
-			List re = commentService.getCommentsByCategory(form.getNewsType(), form.getPageSize(), form.getPage());
-			list.addAll(re);
+			try {
+				List re = commentService.getCommentsByCategory(form.getNewsType(), form.getPageSize(), form.getPage());
+				list.addAll(re);
+			} catch(Exception e) {
+				logger.error(ExceptionUtils.getStackTrace(e));
+			}
 			
 		} else if("2".equals(con)) {
 			try {
