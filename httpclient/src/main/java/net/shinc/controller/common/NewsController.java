@@ -33,6 +33,9 @@ public class NewsController extends AbstractBaseController {
 
 	// 发布评论_请求url
 	private static String sendCommentUrl = "http://xhpfm.mobile.zhongguowangshi.com:8091/v200/user/comment";
+	
+	//发评论测试接口（邮件指定）
+//	private static String sendCommentUrl = "http://xhpfm.news.zhongguowangshi.com:8091/v200/open/newscomment";
 
 	// 获取新闻列表_请求url
 	private static String listUrl = "http://xhpfm.mobile.zhongguowangshi.com:8091/v200/indexlist";
@@ -107,7 +110,7 @@ public class NewsController extends AbstractBaseController {
 		List list = Collections.synchronizedList(newsService.getNewsList(userId, listUrl));
 		logger.info("刷新出文章条数==>" + list.toString());
 
-		int needSendNum = calNum(list.size(), articleLimit);
+		int needSendNum = Helper.calNum(list.size(), articleLimit);
 		for (int i = 0; i < needSendNum; i++) {
 			Object obj = list.get(i);
 			Map map = (Map) obj;
@@ -116,24 +119,6 @@ public class NewsController extends AbstractBaseController {
 		msg.setCode(ErrorMessage.SUCCESS.getCode());
 		msg.setResult(list); 
 		return msg;
-	}
-	
-	/**
-	 * 计算需要自动评论的文章数
-	 * @param all 拉取到的所有文章数目
-	 * @param limit	限制评论文章数目,设置小于0代表不限制,例如只需刷前20篇文章
-	 * @return
-	 */
-	public int calNum(int all, int limit) {
-		if (limit < 0) {
-			return all;
-		}
-		if (all > limit) {
-			return limit;
-		} else if (all < limit) {
-			return all;
-		}
-		return all;
 	}
 
 }
