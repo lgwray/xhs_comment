@@ -12,6 +12,7 @@ public class QueryCommentForm {
 	private String newsType;
 	private Integer page;
 	private Integer pageSize;
+	private List<Map> list;
 	public String getCondition() {
 		return condition;
 	}
@@ -58,13 +59,22 @@ public class QueryCommentForm {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+	
+	
+	public List<Map> getList() {
+		return list;
+	}
+	public void setList(List<Map> list) {
+		this.list = list;
+	}
 	@Override
 	public String toString() {
 		return "QueryCommentForm [id=" + id + ", title=" + title
 				+ ", condition=" + condition + ", commentList=" + commentList
 				+ ", newsType=" + newsType + ", page=" + page + ", pageSize="
-				+ pageSize + "]";
+				+ pageSize + ", list=" + list + "]";
 	}
+	
 	
 	
 	

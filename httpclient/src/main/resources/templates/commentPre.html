@@ -273,17 +273,22 @@
 
         var comment = function() {
             var commentForm = $('#commentForm')
-            var param = commentForm.serializeArray();
+            var param = {};
+
+            var id = $('#commentForm :input[name="id"]').val()
+            var title = $('#commentForm :input[name="title"]').val()
+
+            param['id'] = id
+            param['title'] = title
+
             var checkList = $(':checkbox:checked')
             var commentList = []
+            var list = []
             $(checkList).each(function(index, el) {
                 var rd = $(el).data('rowdata')
-                commentList.push(rd.comment)
+                commentList.push(rd)
             });
-            var c = {}
-            c.name = 'commentList'
-            c.value = commentList;
-            param.push(c)
+            param['list'] = commentList
             console.log(param);
             alertIt('正在评论');
             $.ajax({

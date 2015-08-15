@@ -7,6 +7,7 @@ import java.util.List;
 
 import net.shinc.utils.Helper;
 import net.shinc.utils.ParamUtils;
+import net.shinc.utils.RandomUtils;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.http.HttpEntity;
@@ -188,7 +189,7 @@ public class CommentServiceImpl {
 	 */
 	public String sendComment(String userId, String articleId, String content,String username) {
 		HttpPost post = new HttpPost(getSendCommentUrl());
-		post.setHeader("X-Forwarded-For", "1.1.1.1");
+		post.setHeader("X-Forwarded-For", RandomUtils.generateIp());
 		CloseableHttpResponse response = null;
 		try {
 			post.setEntity(new UrlEncodedFormEntity(ParamUtils.getDiscussParamList(articleId, content, userId,username),HTTP.UTF_8));
