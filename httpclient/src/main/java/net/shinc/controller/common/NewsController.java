@@ -88,7 +88,7 @@ public class NewsController extends AbstractBaseController {
 		ModelAndView modelAndView = new ModelAndView("index");
 		try {
 			logger.info(news.toString());
-			String res = newsService.sendComment(sendCommentUrl, userId, news,"我就是我");
+			String res = newsService.sendComment(sendCommentUrl, userId, news,"");
 			logger.info("result:\t" + UnicodeUtils.decodeUnicode(res));
 
 			Map map = Helper.jsonToMap(res);
