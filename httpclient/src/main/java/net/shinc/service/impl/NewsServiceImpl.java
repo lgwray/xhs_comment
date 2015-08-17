@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.shinc.controller.common.NewsController;
+import net.shinc.mybatis.mappers.comment.CommentMapper;
 import net.shinc.orm.mybatis.bean.common.News;
 import net.shinc.service.NewsService;
 import net.shinc.utils.Helper;
@@ -18,6 +19,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.http.client.utils.URIBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -30,6 +32,9 @@ import org.springframework.stereotype.Service;
 public class NewsServiceImpl implements NewsService {
 
 	private static Logger logger = LoggerFactory.getLogger(NewsController.class);
+	
+	@Autowired
+	private CommentMapper commentMapper;
 
 	public List getNewsList(String userId, String listUrl) {
 		String res = HttpClient.post(listUrl, ParamUtils.getNewsListParamMap(userId));
@@ -122,15 +127,17 @@ public class NewsServiceImpl implements NewsService {
 				int curNum = Integer.parseInt(comment);// 评论数
 				if (curNum < minNum) {
 					// 1.上送topic,发接口取评论 上送topic
-					List list = getCommentsByTitle(phpUrl,topic,articleId,null);
-					// 2.遍历评论
+//					List list = getCommentsByTitle(phpUrl,topic,articleId,null);
+					
+					List<News> list = commentMapper.selectNeuterComment(100);//从数据库随机取100条评论
+//					 2.遍历评论
 					if (null != list && list.size() > 0) {
 						int discussNums = calculateNum(list.size(), limitNum, minNum, curNum, randomMin, randomMax);
 						logger.info("will discuss num ==>" + discussNums);
 						for (int j = 0; j < discussNums; j++) {
-							Map m = (Map) list.get(j);
-							String content = (String) m.get("comment");
-							String nickname = (String)m.get("nick");
+							News news = (News) list.get(j);
+							String content = (String) news.getContent();
+							String nickname = "";
 							String res = sendComment(sendCommentUrl, userId, articleId, delHtmlTag(content),nickname);
 							Map jsonToMap = Helper.jsonToMap(res);
 							if ("success".equals(jsonToMap.get("state"))) {

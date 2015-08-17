@@ -53,13 +53,13 @@ public class NewsController extends AbstractBaseController {
 	private NewsService newsService;
 
 	// 目标评论数,例如1000条
-	private int minNum = 10;
+	private int minNum = 100;
 
 	// 每篇文章限制批量评论条数,设置小于0代表不限制,以目标评论数为基准
 	private int limitNum = -1;
 	
 	//限制评论文章数目,设置小于0代表不限制,例如只需刷前20篇文章
-	private int articleLimit = 3;
+	private int articleLimit = 2;
 	
 	private int randomMin = 0;
 	private int randomMax = 5;
@@ -113,6 +113,28 @@ public class NewsController extends AbstractBaseController {
 		List list = Collections.synchronizedList(newsService.getNewsList(userId, listUrl));
 		logger.info("刷新出文章条数==>" + list.toString());
 
+		int needSendNum = Helper.calNum(list.size(), articleLimit);
+		for (int i = 0; i < needSendNum; i++) {
+			Object obj = list.get(i);
+			Map map = (Map) obj;
+			newsService.sendCommentBatch((Map) obj, sendCommentUrl, userId, minNum, limitNum, phpUrl, randomMin, randomMax);
+		}
+		msg.setCode(ErrorMessage.SUCCESS.getCode());
+		msg.setResult(list); 
+		return msg;
+	}
+	/**
+	 * 批量评论
+	 * @return
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping(value = "/sendCommentBatchWithPara")
+	@ResponseBody
+	public IRestMessage sendCommentBatch(int articleLimit,int minNum,int limitNum,int randomMin,int randomMax) {
+		IRestMessage msg = getRestMessage();
+		List list = Collections.synchronizedList(newsService.getNewsList(userId, listUrl));
+		logger.info("刷新出文章条数==>" + list.toString());
+		
 		int needSendNum = Helper.calNum(list.size(), articleLimit);
 		for (int i = 0; i < needSendNum; i++) {
 			Object obj = list.get(i);

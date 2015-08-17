@@ -24,7 +24,7 @@ import org.springframework.core.io.ClassPathResource;
  */
 @Configuration
 @PropertySource("classpath:config/properties/config_${spring.profiles.active}.properties")
-@MapperScan(basePackages={"net.shinc.orm.mybatis.mappers"})
+@MapperScan(basePackages={"net.shinc.mybatis.mappers"})
 public class DBConfig {
     
 	@Autowired
@@ -33,47 +33,47 @@ public class DBConfig {
 	@Autowired
 	private ApplicationContext context;
 	
-//	/**
-//	 * @return 测试环境数据源
-//	 */
-//	@Bean(name="dataSource",destroyMethod="close")
-//	@Profile("develop")
-//	public DataSource developDataSource() {
-//		BasicDataSource ds = new BasicDataSource();
-//		ds.setDriverClassName(env.getProperty("jdbc.driver"));
-//		ds.setUsername(env.getProperty("develop.jdbc.username"));
-//		ds.setPassword(env.getProperty("develop.jdbc.password"));
-//		ds.setUrl(env.getProperty("develop.jdbc.url"));
-//		return ds;
-//	}
-//	
-//	/**
-//	 * @return 生产环境数据源
-//	 */
-//	@Bean(name="dataSource",destroyMethod="close")
-//	@Profile("product")
-//	public DataSource productDataSource() {
-//		BasicDataSource ds = new BasicDataSource();
-//		ds.setDriverClassName(env.getProperty("jdbc.driver"));
-//		ds.setUsername(env.getProperty("product.jdbc.username"));
-//		ds.setPassword(env.getProperty("product.jdbc.password"));
-//		ds.setUrl(env.getProperty("product.jdbc.url"));
-//		return ds;
-//	}
-//	
-//	@Bean
-//	public SqlSessionFactoryBean sqlSessionFactory(DataSource dataSource) throws IOException {
-//		SqlSessionFactoryBean fb = new SqlSessionFactoryBean();
-//		fb.setDataSource(dataSource);
-//		fb.setConfigLocation(new ClassPathResource("config/mybatisConfig.xml"));
-//		fb.setTypeAliasesPackage("net.shinc.orm.mybatis.bean");
-//		fb.setMapperLocations(context.getResources("classpath:config/mappers/*.xml"));
-//		return fb;
-//	}
-//	
-//	@Bean
-//	public SqlSessionTemplate sqlSession(SqlSessionFactory ssf) {
-//		SqlSessionTemplate sqlSession = new SqlSessionTemplate(ssf);
-//		return sqlSession;
-//	}
+	/**
+	 * @return 测试环境数据源
+	 */
+	@Bean(name="dataSource",destroyMethod="close")
+	@Profile("develop")
+	public DataSource developDataSource() {
+		BasicDataSource ds = new BasicDataSource();
+		ds.setDriverClassName(env.getProperty("jdbc.driver"));
+		ds.setUsername(env.getProperty("develop.jdbc.username"));
+		ds.setPassword(env.getProperty("develop.jdbc.password"));
+		ds.setUrl(env.getProperty("develop.jdbc.url"));
+		return ds;
+	}
+	
+	/**
+	 * @return 生产环境数据源
+	 */
+	@Bean(name="dataSource",destroyMethod="close")
+	@Profile("product")
+	public DataSource productDataSource() {
+		BasicDataSource ds = new BasicDataSource();
+		ds.setDriverClassName(env.getProperty("jdbc.driver"));
+		ds.setUsername(env.getProperty("product.jdbc.username"));
+		ds.setPassword(env.getProperty("product.jdbc.password"));
+		ds.setUrl(env.getProperty("product.jdbc.url"));
+		return ds;
+	}
+	
+	@Bean
+	public SqlSessionFactoryBean sqlSessionFactory(DataSource dataSource) throws IOException {
+		SqlSessionFactoryBean fb = new SqlSessionFactoryBean();
+		fb.setDataSource(dataSource);
+		fb.setConfigLocation(new ClassPathResource("config/mybatisConfig.xml"));
+		fb.setTypeAliasesPackage("net.shinc.orm.mybatis.bean");
+		fb.setMapperLocations(context.getResources("classpath:config/mappers/*.xml"));
+		return fb;
+	}
+	
+	@Bean
+	public SqlSessionTemplate sqlSession(SqlSessionFactory ssf) {
+		SqlSessionTemplate sqlSession = new SqlSessionTemplate(ssf);
+		return sqlSession;
+	}
 }
