@@ -52,7 +52,7 @@ public class CommentServiceImpl {
 //	 * @return
 //	 */
 //	public static List getCommentsByNewsType(String phpUrl, String newsType,String newsCount) {
-//		String url = phpUrl + "category?catname=" + newsType;
+//		String url = phpUrl + "category.php?catname=" + newsType;
 //		if(newsCount != null && !"".equals(newsCount.trim())){
 //			url = url + "&num=" + newsCount;
 //		}
@@ -79,8 +79,8 @@ public class CommentServiceImpl {
 		
 		pageSize = pageSize < 1 ? 200 :pageSize;
 		page = page < 1 ? 1 : page;
-//		U url = getRemoteApiUrl();// + "/match?str=" + title + "&num=" + pageSize + "&page=" + page;
-		URI url = URI.create(getRemoteApiUrl() + "/match");
+//		U url = getRemoteApiUrl();// + "/match.php?str=" + title + "&num=" + pageSize + "&page=" + page;
+		URI url = URI.create(getRemoteApiUrl() + "/match.php");
 		
 		URI u = new URIBuilder()
 	        .setScheme(url.getScheme())
@@ -146,7 +146,7 @@ public class CommentServiceImpl {
 		pageSize = pageSize < 1 ? 1000 :pageSize;
 		page = page < 1 ? 1 : page;
 		
-		URI url = URI.create(getRemoteApiUrl() + "/category");
+		URI url = URI.create(getRemoteApiUrl() + "/category.php");
 		
 		URI u = new URIBuilder()
 	        .setScheme(url.getScheme())

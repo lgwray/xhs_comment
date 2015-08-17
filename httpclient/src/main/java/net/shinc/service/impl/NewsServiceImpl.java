@@ -206,7 +206,7 @@ public class NewsServiceImpl implements NewsService {
 	 * @return
 	 */
 	public static List getCommentsByNewsType(String phpUrl, String newsType,String newsCount) {
-		String url = phpUrl + "category?catname=" + newsType;
+		String url = phpUrl + "category.php?catname=" + newsType;
 		if(newsCount != null && !"".equals(newsCount.trim())){
 			url = url + "&num=" + newsCount;
 		}
@@ -227,7 +227,7 @@ public class NewsServiceImpl implements NewsService {
 	 * @return
 	 */
 	public static List getCommentsByTitle(String phpUrl, String title,String articleId,String newsCount) {
-		String urlstr = phpUrl + "/match";
+		String urlstr = phpUrl + "/match.php";
 		
 		URI url = URI.create(urlstr);
 		
