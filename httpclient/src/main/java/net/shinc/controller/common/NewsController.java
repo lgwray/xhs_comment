@@ -44,7 +44,7 @@ public class NewsController extends AbstractBaseController {
 	private static String listUrl = "http://xhpfm.mobile.zhongguowangshi.com:8091/v200/indexlist";
 	
 	@Value("${phpUrl}")
-	private static String phpUrl = "http://192.168.1.222";
+	private static String phpUrl = "http://123.56.157.137:8002";
 
 	// 用户id
 	private static String userId = "0";
