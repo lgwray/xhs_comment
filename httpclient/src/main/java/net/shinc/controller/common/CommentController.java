@@ -3,20 +3,25 @@ package net.shinc.controller.common;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import net.shinc.common.AbstractBaseController;
 import net.shinc.formbean.common.QueryCommentForm;
 import net.shinc.service.impl.CommentServiceImpl;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.hsqldb.lib.HashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.google.gson.Gson;
 
 
 /**
@@ -53,8 +58,12 @@ public class CommentController extends AbstractBaseController {
 		String con = form.getCondition();
 		List list = new ArrayList();
 		if("1".equals(con)) {
-			List re = commentService.getCommentsByCategory(form.getNewsType(), form.getPageSize(), form.getPage());
-			list.addAll(re);
+			try {
+				List re = commentService.getCommentsByCategory(form.getNewsType(), form.getPageSize(), form.getPage());
+				list.addAll(re);
+			} catch(Exception e) {
+				logger.error(ExceptionUtils.getStackTrace(e));
+			}
 			
 		} else if("2".equals(con)) {
 			try {
@@ -74,11 +83,17 @@ public class CommentController extends AbstractBaseController {
 	public String commentIt(QueryCommentForm form) {
 		try {
 			String id = form.getId();
-			List list = form.getCommentList();
-			for(Iterator<String> it = list.iterator(); it.hasNext();) {
-				String content = it.next();
-				String re = commentService.sendComment("0", id, content,"新华社客户端网友");
-				logger.info("评论id:" + id + "  comment:" + content + "  result:" + re);
+			List list = form.getList();
+			for(Iterator<Map> it = list.iterator(); it.hasNext();) {
+				Map map = it.next();
+				 
+				String comment = (String)map.get("comment");
+				String nick = (String)map.get("nick");
+				if(StringUtils.isEmpty(nick)) {
+					nick = "新华社客户端网友";
+				}
+				String re = commentService.sendComment("0", id, comment,nick);
+				logger.info("评论id:" + id + "  map:" + map + "  result:" + re);
 			}
 			return "success";
 		} catch(Exception e) {

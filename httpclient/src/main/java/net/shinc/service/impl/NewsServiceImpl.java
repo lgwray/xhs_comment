@@ -1,5 +1,7 @@
 package net.shinc.service.impl;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +15,7 @@ import net.shinc.utils.ParamUtils;
 import net.shinc.utils.RandomUtils;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.http.client.utils.URIBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -217,12 +220,25 @@ public class NewsServiceImpl implements NewsService {
 	 * @return
 	 */
 	public static List getCommentsByTitle(String phpUrl, String title,String articleId,String newsCount) {
-		String url = phpUrl + "/match?str=" + title;
-		if(newsCount != null && !"".equals(newsCount.trim())){
-			url = url + "&num=" + newsCount;
+		String urlstr = phpUrl + "/match";
+		
+		URI url = URI.create(urlstr);
+		
+		URI u = null;
+		try {
+			u = new URIBuilder()
+			    .setScheme(url.getScheme())
+			    .setHost(url.getHost())
+			    .setPort(url.getPort())
+			    .setPath(url.getPath())
+			    .setParameter("str", title)
+			    .setParameter("num", String.valueOf(newsCount))
+			    .build();
+		} catch (URISyntaxException e) {
+			logger.error(ExceptionUtils.getStackTrace(e));
 		}
-		String uri = Helper.dealUrl(url).toString();
-		String comments = HttpClient.get(uri);
+		
+		String comments = HttpClient.get(u.toString());
 		logger.info("爬虫到的评论==>" + comments);
 		if (null != comments && !"".equals(comments)) {
 			List list = Helper.jsonToList(comments);
