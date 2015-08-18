@@ -1,5 +1,10 @@
 package net.shinc.common;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import net.shinc.orm.mybatis.bean.common.AdminUser;
+
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -25,6 +30,13 @@ public abstract class AbstractBaseController implements ApplicationContextAware 
 
 	public IRestMessage getRestMessage() {
 		IRestMessage msg = (IRestMessage)applicationContext.getBean("restMessage");
+		AdminUser currentUser = AdminUser.getCurrentUser();
+		if(null != currentUser){
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.put("userName", currentUser.getUsername());
+			map.put("menuMap", currentUser.getMenuMap());
+			msg.setUserInfo(map);
+		}
 		return msg;
 	}
 

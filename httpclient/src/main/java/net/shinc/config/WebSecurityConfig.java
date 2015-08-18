@@ -23,16 +23,46 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http.authorizeRequests().anyRequest().permitAll().and().formLogin().withObjectPostProcessor(new ObjectPostProcessor<LoginUrlAuthenticationEntryPoint>() {
+//		http.authorizeRequests().anyRequest().permitAll().and().formLogin().withObjectPostProcessor(new ObjectPostProcessor<LoginUrlAuthenticationEntryPoint>() {
+//
+//			@Override
+//			public <O extends LoginUrlAuthenticationEntryPoint> O postProcess(O laep) {
+//				laep.setUseForward(true);
+//				return laep;
+//			}
+//		}).loginPage("/login").permitAll().and().logout().logoutUrl("/logout").permitAll().and().csrf().disable();
 
-			@Override
-			public <O extends LoginUrlAuthenticationEntryPoint> O postProcess(O laep) {
-				laep.setUseForward(true);
-				return laep;
-			}
-		}).loginPage("/login").permitAll().and().logout().logoutUrl("/logout").permitAll().and().csrf().disable();
-
-
+		http
+		.authorizeRequests()
+//				.antMatchers("/adminUser/**").hasAnyAuthority("adminUserManage")
+//				.antMatchers("/adminUser/getAdminUserList").hasAnyAuthority("adminUserList")
+				.antMatchers("/loginFail").permitAll()
+				.antMatchers("/logoutSuccess").permitAll()
+				
+				.antMatchers("/manage/**").permitAll()
+				.antMatchers("/videoPastpaper/**").permitAll()
+				.anyRequest().authenticated()
+				.and()
+			.formLogin()
+				.withObjectPostProcessor(new ObjectPostProcessor<LoginUrlAuthenticationEntryPoint>(){
+					@Override
+					public <O extends LoginUrlAuthenticationEntryPoint> O postProcess(O laep) {
+						 laep.setUseForward(true);
+						 return laep;
+					}
+				})
+				.loginPage("/login")
+				.successHandler(successHandler())
+				.failureHandler(failureHandler())
+				.permitAll()
+				.and()
+			.logout()
+				.logoutUrl("/logout")
+				.logoutSuccessHandler(logoutHandler())
+				.permitAll()
+				.and()
+			.csrf()
+				.disable();
 	}
 
 	@Autowired

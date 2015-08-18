@@ -1,4 +1,4 @@
-package net.shinc.mybatis.mappers.comment;
+package net.shinc.orm.mybatis.mappers.comment;
 
 import java.util.List;
 
