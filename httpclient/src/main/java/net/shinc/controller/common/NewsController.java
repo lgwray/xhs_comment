@@ -142,7 +142,7 @@ public class NewsController extends AbstractBaseController {
 			newsService.sendCommentBatch((Map) obj, sendCommentUrl, userId, minNum, limitNum, phpUrl, randomMin, randomMax);
 		}
 		msg.setCode(ErrorMessage.SUCCESS.getCode());
-		msg.setResult(list); 
+//		msg.setResult(list); 
 		return msg;
 	}
 
