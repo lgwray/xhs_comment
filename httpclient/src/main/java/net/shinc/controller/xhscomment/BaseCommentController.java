@@ -74,12 +74,12 @@ public class BaseCommentController extends AbstractBaseController {
 				map.putAll(dealTreeNode(it.next()));
 			}
 			
-//			if(list != null) {
-//				msg.setCode(ErrorMessage.SUCCESS.getCode());
-//				msg.setResult(list);
-//			}
-			msg.setResult(map);
-			msg.setCode(ErrorMessage.SUCCESS.getCode());
+			if(list != null) {
+				msg.setCode(ErrorMessage.SUCCESS.getCode());
+				msg.setResult(list);
+			}
+//			msg.setResult(map);
+//			msg.setCode(ErrorMessage.SUCCESS.getCode());
 		} catch(Exception e) {
 			logger.error(ExceptionUtils.getStackTrace(e));
 		}
