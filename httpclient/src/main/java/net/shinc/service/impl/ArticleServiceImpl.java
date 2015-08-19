@@ -3,6 +3,7 @@ package net.shinc.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import net.shinc.orm.mybatis.bean.common.Article;
 import net.shinc.orm.mybatis.mappers.comment.CommentMapper;
 
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -43,5 +44,10 @@ public class ArticleServiceImpl {
 				}
 			}
 		}
+	}
+	
+	public List<Article> getArticleListByDate(String publishDate){
+		List<Article> list = commentMapper.selectArticleListByDate(publishDate);
+		return list;
 	}
 }

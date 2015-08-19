@@ -6,6 +6,7 @@ import net.shinc.common.AbstractBaseController;
 import net.shinc.common.ErrorMessage;
 import net.shinc.common.IRestMessage;
 import net.shinc.service.NewsService;
+import net.shinc.service.common.impl.JnlServiceImpl;
 import net.shinc.service.impl.ArticleServiceImpl;
 import net.shinc.utils.Helper;
 
@@ -53,7 +54,7 @@ public class ArticleController extends AbstractBaseController {
 			list = newsService.getNewsList(userId, listUrl,cid,ctype);
 			if(null != list) {
 				msg.setCode(ErrorMessage.SUCCESS.getCode());
-				msg.setResult(Helper.objToJson(list));
+				msg.setResult(list);
 			} else {
 				msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());
 			}
@@ -64,4 +65,24 @@ public class ArticleController extends AbstractBaseController {
 		logger.info(">>>"+Helper.objToJson(list));
 		return msg;
 	}
+	
+	
+	@RequestMapping(value = "/getArticleListByDate")
+	@ResponseBody
+	public IRestMessage getArticleListByDate(String publisDate){
+		IRestMessage msg = getRestMessage();
+		try {
+			List list = articleService.getArticleListByDate(publisDate);
+			if(null != list) {
+				msg.setCode(ErrorMessage.SUCCESS.getCode());
+				msg.setResult(list);
+			} else {
+				msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());
+			}
+		}catch (Exception e) {
+			logger.error("查询失败==>" + ExceptionUtils.getStackTrace(e));
+		}
+		return msg;
+	}
+	
 }

@@ -16,20 +16,21 @@
 	</select>
 
 	<resultMap id="selectArticleListByDateMap" type="Article">
-		<result column="article_id" property="articleId" jdbcType="VARCHAR" />
+		<result column="id" property="id" jdbcType="VARCHAR" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="publish_date" property="publishDate" jdbcType="VARCHAR" />
 	</resultMap>
 	<select id="selectArticleListByDate" resultMap="selectArticleListByDateMap" >
 		SELECT 
 			id,
-			article_show_date,
-			article_id,
-			article_title,
-			article_type,
-			article_publish_date
+			title,
+			publish_date
 		FROM 
-			sh_jnl_article_list 
+			sh_article 
 		WHERE
-			DATE_FORMAT(article_show_date , '%Y-%m-%d ') = DATE_FORMAT(now(), '%Y-%m-%d ')
+			date_format(publish_date,'%Y-%c-%d') = str_to_date(#{publishDate},'%Y-%c-%d')
+		ORDER BY 
+			publish_date desc
 	</select>
 	
 	<insert id="insertArticle" parameterType="java.util.Map" >

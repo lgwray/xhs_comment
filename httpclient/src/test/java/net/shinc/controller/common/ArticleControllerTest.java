@@ -44,4 +44,14 @@ public class ArticleControllerTest {
 			e.printStackTrace();
 		}
     }
+    @WithMockUser(username="admin",password="admin",authorities={"adminUserList"})
+    @Test
+    public void getArticleListByDate() {
+    	RequestBuilder reqbuild = MockMvcRequestBuilders.post("/article/getArticleListByDate").param("publisDate", "2015-08-18");
+    	try {
+    		mockMvc.perform(reqbuild).andDo(MockMvcResultHandlers.print());
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    }
 }

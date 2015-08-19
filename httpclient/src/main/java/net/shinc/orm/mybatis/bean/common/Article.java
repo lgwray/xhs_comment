@@ -27,6 +27,6 @@ public class Article {
 	
 	@Override
 	public String toString() {
-		return MessageFormat.format("id:{0}\tshowDate:{1}", this.id,this.title);
+		return MessageFormat.format("id:{0}\ttitle{1}\tpublishDate:{2}", this.id,this.title,this.publishDate);
 	}
 }

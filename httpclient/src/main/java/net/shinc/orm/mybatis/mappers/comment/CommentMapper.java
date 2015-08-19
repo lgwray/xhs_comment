@@ -9,7 +9,7 @@ import net.shinc.orm.mybatis.bean.common.News;
 public interface CommentMapper {
 	public List<News> selectNeuterComment(Integer count);
 	
-	public List<Article> selectArticleListByDate();
+	public List<Article> selectArticleListByDate(String publishDate);
 	
 	public void insertArticleListBatch(List articleList);
 	
