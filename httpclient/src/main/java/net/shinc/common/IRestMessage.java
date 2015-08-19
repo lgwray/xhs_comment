@@ -29,5 +29,7 @@ public interface IRestMessage {
 	public Object getResult();
 	
 	public void setResult(Object o);
+	public void setPageInfo(Object o);
+	public Object getPageInfo();
 
 }

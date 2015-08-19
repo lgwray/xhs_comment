@@ -93,6 +93,18 @@ public class BaseCommentControllerTest {
     		e.printStackTrace();
     	}
     }
-    
+    @Test
+    @WithMockUser(username="admin",password="admin")
+    public void queryBaseComment(){
+    	try {
+    		List list = new ArrayList();
+    		list.add("aa");
+    		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/basecomment/queryBaseComment")
+    				.param("categoryId","1").param("num", "1");
+    		mockMvc.perform(reqbuild).andDo(handler);
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    }
     
 }

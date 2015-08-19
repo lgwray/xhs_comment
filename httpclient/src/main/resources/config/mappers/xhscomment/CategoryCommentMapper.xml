@@ -4,8 +4,9 @@
 	<resultMap id="CategoryCommentResultMap" type="CategoryComment">
 		<id column="id" property="id" jdbcType="INTEGER" />
 		<result column="content" property="content" />
-		<result column="addTime" property="add_time" />
-		<result column="categoryId" property="sh_comment_catetory_id"/>
+		<result column="add_time" property="addTime" />
+		<result column="sh_comment_catetory_id" property="categoryId"/>
+		<result column="nickname" property="nickName"/>
 		<association property="category" javaType="CommentCategory">  
 	        <result column="cid" property="id"/>  
 	        <result column="cname" property="name"/>  
@@ -19,13 +20,14 @@
 		    a.content,
 		    a.add_time,
 		    b.id cid,
-		    b.name cname
+		    b.name cname,
+		     (select nickname from nick order by rand() limit 1) nickname
 		FROM
 		    sh_category_comment a
 		    left join sh_comment_catetory b on b.id = a.sh_comment_catetory_id
 		where 1=1
 		<if test="categoryId != null" >
-       		 and a.id = #{categoryId}
+       		 and a.sh_comment_catetory_id = #{categoryId}
      	 </if>
 	</select>
 

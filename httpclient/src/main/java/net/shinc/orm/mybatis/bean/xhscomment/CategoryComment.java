@@ -20,6 +20,8 @@ public class CategoryComment implements ResultBean {
 	
 	private Date addTime;
 	
+	private String nickName;
+	
 	private Integer categoryId;
 	
 	private CommentCategory category;
@@ -62,6 +64,14 @@ public class CategoryComment implements ResultBean {
 
 	public void setCategoryId(Integer categoryId) {
 		this.categoryId = categoryId;
+	}
+
+	public String getNickName() {
+		return nickName;
+	}
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
 	}
 	
 	
