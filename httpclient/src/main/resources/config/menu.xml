@@ -7,7 +7,7 @@
 			<level>1</level>
 			<parent>ArticleManage</parent>
 			<value>ArticleManage</value>                <!--    一级菜单  题目视频管理 -->
-			<url>/aritcle/articlePre</url>
+			<url>/article/articlePre</url>
 		</menu>
 		
 		<menu>
