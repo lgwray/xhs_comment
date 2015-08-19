@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="net.shinc.mybatis.mappers.comment.CommentMapper">
-<resultMap id="selectNeuterCommentMap" type="News">
+<mapper namespace="net.shinc.orm.mybatis.mappers.comment.CommentMapper">
+	<resultMap id="selectNeuterCommentMap" type="News">
 		<result column="id" property="id" jdbcType="VARCHAR" />
 		<result column="content" property="content" jdbcType="VARCHAR" />
-</resultMap>
-<select id="selectNeuterComment" resultMap="selectNeuterCommentMap" parameterType="java.lang.Integer">
+	</resultMap>
+	<select id="selectNeuterComment" resultMap="selectNeuterCommentMap" parameterType="java.lang.Integer">
 		SELECT 
 			ID,
 			CONTENT 
@@ -14,4 +14,30 @@
 			ORDER BY RAND() 
 			LIMIT #{count,jdbcType=INTEGER}		
 	</select>
+
+	<resultMap id="selectArticleListByDateMap" type="Article">
+		<result column="article_id" property="articleId" jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="selectArticleListByDate" resultMap="selectArticleListByDateMap" >
+		SELECT 
+			id,
+			article_show_date,
+			article_id,
+			article_title,
+			article_type,
+			article_publish_date
+		FROM 
+			sh_jnl_article_list 
+		WHERE
+			DATE_FORMAT(article_show_date , '%Y-%m-%d ') = DATE_FORMAT(now(), '%Y-%m-%d ')
+	</select>
+	
+	<insert id="insertArticleListBatch" parameterType="java.util.List" >
+	    insert into 
+	    	sh_jnl_article_list(article_show_date, article_id,article_title,article_type,article_publish_date)
+	    values 
+	    	<foreach collection="list" item="item" index="index" separator="," >
+				(#{item.article_show_date}, #{item.article_id}, #{item.article_title}, #{item.article_type}, #{item.article_publish_date})
+			</foreach>
+  </insert>
 </mapper>

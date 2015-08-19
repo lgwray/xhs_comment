@@ -14,10 +14,16 @@ import net.shinc.orm.mybatis.bean.common.News;
 public interface NewsService {
 	
 	/**
-	 * 获取文章列表
+	 * 获取要闻文章列表
 	 * @return
 	 */
 	public List getNewsList(String userId,String listUrl);
+	
+	/**
+	 * 按分类获取文章列表
+	 * @return
+	 */
+	public List getNewsList(String userId,String listUrl,String cid,String ctype);
 	
 	
 	/**

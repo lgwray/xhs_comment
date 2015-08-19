@@ -33,6 +33,22 @@ public class ParamUtils {
 	}
 	
 	/**
+	 * 准备获取新闻列表_请求参数map
+	 * @param currentTime
+	 * @return
+	 */
+	public static List<NameValuePair> getNewsListParamMap(String userId,String cid,String ctype) {
+		List<NameValuePair> list = new ArrayList<NameValuePair>();
+		list.add(new BasicNameValuePair("cid", cid));
+		list.add(new BasicNameValuePair("pn", "1"));
+		list.add(new BasicNameValuePair("ctype", ctype));
+		list.add(new BasicNameValuePair("selids", "461,462,463,464,502"));
+		List<NameValuePair> commonParamList = getCommonParamList(userId);
+		list.addAll(commonParamList);
+		return list;
+	}
+	
+	/**
 	 * 准备发布评论_请求参数map
 	 * @param news 文章对象
 	 * @param userId 用户id

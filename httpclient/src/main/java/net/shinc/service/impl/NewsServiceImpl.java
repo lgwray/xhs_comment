@@ -45,6 +45,16 @@ public class NewsServiceImpl implements NewsService {
 		list.addAll(list2);
 		return list;
 	}
+	
+	public List getNewsList(String userId, String listUrl,String cid,String ctype) {
+		String res = HttpClient.post(listUrl, ParamUtils.getNewsListParamMap(userId,cid,ctype));
+		logger.info(res);
+		Map map = Helper.jsonToMap(res);
+		List list = (List) map.get("data_scroll");
+		List list2 = (List) map.get("data");
+		list.addAll(list2);
+		return list;
+	}
 
 	/**
 	 * 发布评论
