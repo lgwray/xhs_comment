@@ -4,10 +4,17 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
+import javax.validation.Valid;
 
 import net.shinc.common.AbstractBaseController;
 import net.shinc.common.ErrorMessage;
 import net.shinc.common.IRestMessage;
+import net.shinc.formbean.common.CommentItForm;
+import net.shinc.formbean.common.QueryCommentForm;
+import net.shinc.orm.mybatis.bean.common.AdminUser;
+import net.shinc.service.common.impl.JnlServiceImpl;
 import net.shinc.service.impl.CommentServiceImpl;
 import net.shinc.service.xhscomment.BaseCommentService;
 
@@ -39,6 +46,9 @@ public class BaseCommentController extends AbstractBaseController {
 	
 	@Autowired
 	private CommentServiceImpl commentService;
+	
+	@Autowired
+	private JnlServiceImpl jnlService;
 	
 	@Autowired
 	private BaseCommentService baseCommentService;
@@ -222,7 +232,7 @@ public class BaseCommentController extends AbstractBaseController {
 		List list = new ArrayList();
 		if("1".equals(queryType)) {
 			try {
-				List re = commentService.getCommentsByCategory(content,Integer.parseInt(page),Integer.parseInt(num));
+				List re = commentService.getCommentsByCategory(content,Integer.parseInt(num),Integer.parseInt(page));
 				if(re != null){
 					list.addAll(re);
 					msg.setCode(ErrorMessage.SUCCESS.getCode());
@@ -235,7 +245,7 @@ public class BaseCommentController extends AbstractBaseController {
 			
 		} else if("2".equals(queryType)) {
 			try {
-				List re = commentService.getCommentsByTitle(content,Integer.parseInt(page),Integer.parseInt(num));
+				List re = commentService.getCommentsByTitle(content,Integer.parseInt(num),Integer.parseInt(page));
 				if(re != null){
 					list.addAll(re);
 					msg.setCode(ErrorMessage.SUCCESS.getCode());
@@ -253,6 +263,55 @@ public class BaseCommentController extends AbstractBaseController {
 		
 	}
 
+	/**
+	 * <p>
+	 * articleId=1&commentList[0][comment]=commentcontent&commentList[0][nick]=nickName
+	 * commentList结构为:
+	 * [
+	 * 	{comment:...,nick:...},
+	 * 	{comment:...,nick:...}
+	 * ]
+	 * </p>
+	 * @param form
+	 * @return
+	 */
+	@RequestMapping(value = "/commentIt")
+	@ResponseBody
+		public IRestMessage commentIt(@Valid CommentItForm form) {
+		IRestMessage msg = getRestMessage();
+		String articleId = form.getArticleId();
+		
+		List<Map> commentList = form.getCommentList();
+		
+		try {
+			for(Iterator<Map> it = commentList.iterator(); it.hasNext();) {
+				Map map = it.next();
+				 
+				String comment = (String)map.get("comment");
+				String nick = (String)map.get("nick");
+				if(StringUtils.isEmpty(nick)) {
+					nick = "新华社客户端网友";
+				}
+				String re = commentService.sendComment("0", articleId, comment,nick);
+				String userId = "-1";
+				try {
+					userId = String.valueOf(AdminUser.getCurrentUser().getId());
+				} catch(Exception e) {
+					
+				}
+				jnlService.insertJnlArticleComment(articleId, comment, null, userId, "1");
+				
+				
+				logger.info("评论id:" + articleId + "  map:" + map + "  result:" + re);
+			}
+			msg.setCode(ErrorMessage.SUCCESS.getCode());
+			return msg;
+		} catch(Exception e) {
+			ExceptionUtils.getStackTrace(e);
+			return msg;
+		}
+		
+	}
 	
 
 }

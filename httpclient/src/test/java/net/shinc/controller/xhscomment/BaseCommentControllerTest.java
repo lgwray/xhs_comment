@@ -107,4 +107,18 @@ public class BaseCommentControllerTest {
     	}
     }
     
+    @Test
+    @WithMockUser(username="admin",password="admin")
+    public void commentIt(){
+    	try {
+    		List list = new ArrayList();
+    		list.add("aa");
+    		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/basecomment/commentIt")
+    				.param("articleId","1").param("commentList[0].comment", "comment1").param("commentList[1].comment", "comment1");
+    		mockMvc.perform(reqbuild).andDo(handler);
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    }
+    
 }

@@ -10,7 +10,6 @@ import net.shinc.formbean.common.QueryCommentForm;
 import net.shinc.service.impl.CommentServiceImpl;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.hsqldb.lib.HashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +19,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.google.gson.Gson;
 
 
 /**
