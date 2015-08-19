@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.shinc.orm.mybatis.mappers.common.JnlMapper">
+	
+	<insert id="insertJnlArticleComment" parameterType="java.util.Map" >
+	    insert into 
+	    	sh_jnl_article_comment(article_id,adddate,content,content_type,user_id,comment_way)
+	    values 
+			(#{articleId},now(),#{content},#{contentType},#{userId},#{commentWay})
+  	</insert>
+</mapper>
