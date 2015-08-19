@@ -85,19 +85,23 @@ public class LoggingAspect {
 	 */
 	@Around("execution(* net.shinc..controller..*.*(..))")
 	public Object doAround(ProceedingJoinPoint pjp) throws Throwable {
-		/**
-		 * 1.获取request信息 2.根据request获取session 3.从session中取出登录用户信息
-		 */
-		RequestAttributes ra = RequestContextHolder.getRequestAttributes();
-		ServletRequestAttributes sra = (ServletRequestAttributes) ra;
-		HttpServletRequest request = sra.getRequest();
-		StringBuilder sb = new StringBuilder();
-		sb.append(printHeading("HttpServletRequest"));
-		sb.append(printValue("HTTP Method", request.getMethod()));
-		sb.append(printValue("Request URI", request.getRequestURI()));
-		sb.append(printValue("Parameters", getParamsMultiValueMap(request)));
-		sb.append(printValue("Headers", getRequestHeaders(request)));
-		logger.debug(sb.toString());
+		
+		try {
+			/**
+			 * 1.获取request信息 2.根据request获取session 3.从session中取出登录用户信息
+			 */
+			RequestAttributes ra = RequestContextHolder.getRequestAttributes();
+			ServletRequestAttributes sra = (ServletRequestAttributes) ra;
+			HttpServletRequest request = sra.getRequest();
+			StringBuilder sb = new StringBuilder();
+			sb.append(printHeading("HttpServletRequest"));
+			sb.append(printValue("HTTP Method", request.getMethod()));
+			sb.append(printValue("Request URI", request.getRequestURI()));
+			sb.append(printValue("Parameters", getParamsMultiValueMap(request)));
+			sb.append(printValue("Headers", getRequestHeaders(request)));
+			logger.debug(sb.toString());
+		} catch(Exception e) {}
+		
 
 		// 执行完方法的返回值：调用proceed()方法，就会触发切入点方法执行
 		result = pjp.proceed();// result的值就是被拦截方法的返回值

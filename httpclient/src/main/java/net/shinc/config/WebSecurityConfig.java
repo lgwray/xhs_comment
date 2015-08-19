@@ -41,7 +41,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				
 				.antMatchers("/manage/**").permitAll()
 				.antMatchers("/videoPastpaper/**").permitAll()
-				.anyRequest().authenticated()
+//				.anyRequest().authenticated()
+				.anyRequest().permitAll()
 				.and()
 			.formLogin()
 				.withObjectPostProcessor(new ObjectPostProcessor<LoginUrlAuthenticationEntryPoint>(){
