@@ -46,27 +46,6 @@ public class CommentServiceImpl {
 	private String sendCommentUrl = "http://xhpfm.mobile.zhongguowangshi.com:8091/v200/user/comment";
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
-//	/**
-//	 * 根据newsType抓取评论
-//	 * @param title
-//	 * @return
-//	 */
-//	public static List getCommentsByNewsType(String phpUrl, String newsType,String newsCount) {
-//		String url = phpUrl + "category.php?catname=" + newsType;
-//		if(newsCount != null && !"".equals(newsCount.trim())){
-//			url = url + "&num=" + newsCount;
-//		}
-//		String uri = dealUrl(url).toString();
-//		String comments = HttpXmlClient.get(uri);
-//		logger.info("爬虫到的评论==>" + comments);
-//		if (null != comments && !"".equals(comments)) {
-//			List list = Helper.jsonToList(comments);
-//			logger.info("爬虫到评论条数==>" + list.size());
-//			return list;
-//		}
-//		return null;
-//	}
-	
 	
 	/**根据title抓取评论
 	 * @param title
@@ -79,7 +58,6 @@ public class CommentServiceImpl {
 		
 		pageSize = pageSize < 1 ? 200 :pageSize;
 		page = page < 1 ? 1 : page;
-//		U url = getRemoteApiUrl();// + "/match.php?str=" + title + "&num=" + pageSize + "&page=" + page;
 		URI url = URI.create(getRemoteApiUrl() + "/match.php");
 		
 		URI u = new URIBuilder()
@@ -114,27 +92,7 @@ public class CommentServiceImpl {
 		return null;
 	}
 	
-	public static void main(String [] args) {
-		URI uri = URI.create("http://192.168.1.22:8080");
-		System.out.println(uri);
-		try {
-			URI u = new URIBuilder()
-			.setScheme(uri.getScheme())
-			.setHost(uri.getHost())
-			.setPath(uri.getPath())
-			.setParameter("q", "httpclient")
-			.setParameter("btnG", "Google Search")
-			.setParameter("aq", "f")
-			.setParameter("oq", "|dafs|")
-			.build();
-			System.out.println(u);
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
-	/**根据title抓取评论
+	/**根据分类抓取评论
 	 * @param title
 	 * @param pageSize 每页条数
 	 * @param page 第page页

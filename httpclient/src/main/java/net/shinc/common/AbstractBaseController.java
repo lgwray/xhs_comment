@@ -40,6 +40,11 @@ public abstract class AbstractBaseController implements ApplicationContextAware 
 		return msg;
 	}
 
+	public IRestMessage getRestMessageWithoutUser() {
+		IRestMessage msg = (IRestMessage)applicationContext.getBean("restMessage");
+		return msg;
+	}
+	
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 		this.applicationContext = applicationContext;
 	}

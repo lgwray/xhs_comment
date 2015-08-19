@@ -67,7 +67,7 @@ public class DBConfig {
 		fb.setDataSource(dataSource);
 		fb.setConfigLocation(new ClassPathResource("config/mybatisConfig.xml"));
 		fb.setTypeAliasesPackage("net.shinc.orm.mybatis.bean");
-		fb.setMapperLocations(context.getResources("classpath:config/mappers/*.xml"));
+		fb.setMapperLocations(context.getResources("classpath:config/mappers/**/*.xml"));
 		return fb;
 	}
 	
