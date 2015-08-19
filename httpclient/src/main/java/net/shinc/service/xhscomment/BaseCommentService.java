@@ -6,7 +6,9 @@ import java.util.List;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.dao.DuplicateKeyException;
 
+import net.shinc.common.TreeNode;
 import net.shinc.orm.mybatis.bean.common.ResultBean;
+import net.shinc.orm.mybatis.bean.xhscomment.CommentCategory;
 
 /**
  * 基础评论服务层
@@ -19,6 +21,8 @@ public interface BaseCommentService {
 	 * @return 基础评论 分类信息
 	 */
 	public List getCategory();
+	
+	public List getCategoryTree();
 	
 	/**
 	 * 新增一个分类

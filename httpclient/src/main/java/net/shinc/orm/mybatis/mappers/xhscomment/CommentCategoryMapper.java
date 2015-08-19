@@ -2,6 +2,7 @@ package net.shinc.orm.mybatis.mappers.xhscomment;
 
 import java.util.List;
 
+import net.shinc.common.TreeNode;
 import net.shinc.orm.mybatis.bean.xhscomment.CommentCategory;
 
 /**
@@ -11,7 +12,7 @@ import net.shinc.orm.mybatis.bean.xhscomment.CommentCategory;
  */
 public interface CommentCategoryMapper {
 
-	public List<CommentCategory> getCategoryList();
+	public List<TreeNode<CommentCategory>> getCategoryList();
 	
 	public void addCategory(CommentCategory category);
 	

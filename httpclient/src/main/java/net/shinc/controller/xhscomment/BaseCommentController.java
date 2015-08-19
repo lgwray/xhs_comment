@@ -2,6 +2,7 @@ package net.shinc.controller.xhscomment;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -11,9 +12,10 @@ import javax.validation.Valid;
 import net.shinc.common.AbstractBaseController;
 import net.shinc.common.ErrorMessage;
 import net.shinc.common.IRestMessage;
+import net.shinc.common.TreeNode;
 import net.shinc.formbean.common.CommentItForm;
-import net.shinc.formbean.common.QueryCommentForm;
 import net.shinc.orm.mybatis.bean.common.AdminUser;
+import net.shinc.orm.mybatis.bean.xhscomment.CommentCategory;
 import net.shinc.service.common.impl.JnlServiceImpl;
 import net.shinc.service.impl.CommentServiceImpl;
 import net.shinc.service.xhscomment.BaseCommentService;
@@ -66,17 +68,55 @@ public class BaseCommentController extends AbstractBaseController {
 	public IRestMessage getCategory() {
 		IRestMessage msg = getRestMessage();
 		try {
-			List list = baseCommentService.getCategory();
-			if(list != null) {
-				msg.setCode(ErrorMessage.SUCCESS.getCode());
-				msg.setResult(list);
+			List list = baseCommentService.getCategoryTree();
+			Map map = new HashMap();
+			for(Iterator<TreeNode<CommentCategory>> it = list.iterator(); it.hasNext();){
+				map.putAll(dealTreeNode(it.next()));
 			}
+			
+//			if(list != null) {
+//				msg.setCode(ErrorMessage.SUCCESS.getCode());
+//				msg.setResult(list);
+//			}
+			msg.setResult(map);
+			msg.setCode(ErrorMessage.SUCCESS.getCode());
 		} catch(Exception e) {
 			logger.error(ExceptionUtils.getStackTrace(e));
 		}
 		return msg ;
 	}
 
+	public Map dealTreeNode(TreeNode<CommentCategory> node) {
+		Map map = new HashMap();
+		if(node.isLeaf()) {
+			Map tmp = new HashMap();
+			tmp.put("name", node.getId());
+			tmp.put("type", "item");
+			
+			map.put(node.getItem().getName(), tmp);
+			return map;
+		} else {
+			Map tmp = new HashMap();
+			tmp.put("name", node.getId());
+			tmp.put("type", "folder");
+			
+			Map childrenMap = new HashMap();
+			
+			Map childMap = new HashMap();
+			
+			List<TreeNode<CommentCategory>> childList = node.getChild();
+			for(Iterator<TreeNode<CommentCategory>> it = childList.iterator(); it.hasNext();) {
+				TreeNode<CommentCategory> tmpNode = it.next();
+				childMap.putAll(dealTreeNode(tmpNode));
+			}
+			childrenMap.put("children", childMap);
+			tmp.put("additionalParameters", childrenMap);
+			map.put(node.getItem().getName(), tmp);
+			return map;
+		}
+		
+	}
+	
 	
 	/**
 	 * @param name

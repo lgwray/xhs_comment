@@ -1,8 +1,13 @@
 package net.shinc.service.xhscomment.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import net.shinc.common.TreeNode;
 import net.shinc.orm.mybatis.bean.xhscomment.CategoryComment;
 import net.shinc.orm.mybatis.bean.xhscomment.CommentCategory;
 import net.shinc.orm.mybatis.mappers.xhscomment.CategoryCommentMapper;
@@ -18,14 +23,12 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import com.github.miemiedev.mybatis.paginator.domain.PageList;
-
 @Service
 public class BaseCommentServiceImpl implements BaseCommentService {
 	
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	
-	private List<CommentCategory> categoryList;
+	private List<TreeNode<CommentCategory>> categoryList;
 	
 	@Autowired
 	private CategoryCommentMapper commentMapper;
@@ -34,17 +37,49 @@ public class BaseCommentServiceImpl implements BaseCommentService {
 	private CommentCategoryMapper categoryMapper;
 
 	@Override
-	public List<CommentCategory> getCategory() {
+	public List<TreeNode<CommentCategory>> getCategory() {
 		try {
-			if(categoryList == null) {
-				categoryList = categoryMapper.getCategoryList();
-			}
+			categoryList = categoryMapper.getCategoryList();
 			return categoryList;
 		} catch(Exception e) {
 			logger.error(ExceptionUtils.getStackTrace(e));
 			return null;
 		}
 		
+	}
+	
+	public List<TreeNode<CommentCategory>> getCategoryTree() {
+		try {
+			List<TreeNode<CommentCategory>> list = categoryMapper.getCategoryList();
+			
+			List<TreeNode<CommentCategory>> root = new ArrayList<TreeNode<CommentCategory>>();
+			Map<Integer,TreeNode<CommentCategory>> map = new HashMap();
+			for(Iterator<TreeNode<CommentCategory>> it = list.iterator(); it.hasNext();) {
+				TreeNode<CommentCategory> node = it.next();
+				map.put(node.getId(), node);
+			}
+			
+			for(Iterator<TreeNode<CommentCategory>> it = list.iterator(); it.hasNext();) {
+				TreeNode<CommentCategory> node = it.next();
+				Integer parentId = node.getParent();
+				if(parentId == 0) {
+					root.add(node);
+				} else {
+					TreeNode<CommentCategory> parent = map.get(parentId);
+					if(parent == null) {
+						logger.warn("can not find its parent for :" + node);
+					} else {
+						parent.addChild(node);
+					}
+				}
+			}
+			return root;
+			
+			
+		} catch(Exception e) {
+			logger.error(ExceptionUtils.getStackTrace(e));
+			return null;
+		}
 	}
 
 	@Override
