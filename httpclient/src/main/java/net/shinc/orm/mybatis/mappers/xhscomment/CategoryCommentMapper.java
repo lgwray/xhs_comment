@@ -19,7 +19,7 @@ public interface CategoryCommentMapper {
 	 * @param category 分类信息
 	 * @return
 	 */
-	public List<CategoryComment> getCommentList(CommentCategory category,RowBounds rb);
+	public List<CategoryComment> getCommentList(CategoryComment cmt,RowBounds rb);
 	
 	/**
 	 * 添加一条基础评论信息

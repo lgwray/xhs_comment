@@ -23,6 +23,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+
 
 /**
  * 
@@ -97,6 +100,44 @@ public class BaseCommentController extends AbstractBaseController {
 		return msg ;
 	}
 
+	/**
+	 * @param categoryId 分类id
+	 * @param page 
+	 * @param num
+	 * @return
+	 * <p>
+	 * {"code":"SUCCESS","message":"交易成功","detail":null,"result":[{"id":145,"content":"a","addTime":1439972680000,"nickName":"黄易侦查营营长","categoryId":1,"category":{"id":1,"name":"??"}}],"userInfo":null,"pageInfo":{"limit":1,"page":1,"totalCount":3,"offset":0,"firstPage":true,"lastPage":false,"prePage":1,"nextPage":2,"hasPrePage":false,"hasNextPage":true,"startRow":1,"endRow":1,"totalPages":3,"slider":[1,2,3]}}
+	 * </>
+	 * <p>
+	 * {"code":"RESULT_EMPTY","message":"暂无数据","detail":null,"result":null,"userInfo":null,"pageInfo":null}
+	 * </p>
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/queryBaseComment")
+	public IRestMessage queryBaseComment(@RequestParam(value="categoryId",required=true) Integer categoryId,
+			@RequestParam(value="page",defaultValue="1") Integer page,
+			@RequestParam(value = "num",defaultValue="10") Integer num) {
+		
+		IRestMessage msg = getRestMessage();
+		try {
+			PageBounds pb = new PageBounds(page,num);
+			
+			List list = baseCommentService.getCommentList(categoryId, pb);
+			if(CollectionUtils.isEmpty(list)) {
+				msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());
+			} else {
+				msg.setResult(list);
+				msg.setPageInfo(((PageList)list).getPaginator());
+				msg.setCode(ErrorMessage.SUCCESS.getCode());
+			}
+			return msg;
+		} catch (Exception e) {
+			logger.error(ExceptionUtils.getStackTrace(e));
+			return msg ;
+		}
+		
+		
+	}
 	
 	/**
 	 * @param categoryId 分类ID
@@ -213,5 +254,5 @@ public class BaseCommentController extends AbstractBaseController {
 	}
 
 	
-	
+
 }

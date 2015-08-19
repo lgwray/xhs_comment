@@ -3,7 +3,6 @@ package net.shinc.service.xhscomment.impl;
 import java.util.Date;
 import java.util.List;
 
-import net.shinc.orm.mybatis.bean.common.ResultBean;
 import net.shinc.orm.mybatis.bean.xhscomment.CategoryComment;
 import net.shinc.orm.mybatis.bean.xhscomment.CommentCategory;
 import net.shinc.orm.mybatis.mappers.xhscomment.CategoryCommentMapper;
@@ -18,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
 
 @Service
 public class BaseCommentServiceImpl implements BaseCommentService {
@@ -78,10 +79,9 @@ public class BaseCommentServiceImpl implements BaseCommentService {
 		if(categoryId == null || rb == null) {
 			throw new IllegalArgumentException("check your params");
 		}
-		CommentCategory category = new CommentCategory();
-		category.setId(categoryId);
-		commentMapper.getCommentList(category, rb);
-		return null;
+		CategoryComment cmt = new CategoryComment();
+		cmt.setCategoryId(categoryId);
+		return commentMapper.getCommentList(cmt, rb);
 	}
 
 }
