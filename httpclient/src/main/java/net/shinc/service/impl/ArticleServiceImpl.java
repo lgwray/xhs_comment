@@ -1,9 +1,8 @@
 package net.shinc.service.impl;
 
-import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
-import net.shinc.orm.mybatis.bean.common.Article;
 import net.shinc.orm.mybatis.mappers.comment.CommentMapper;
 
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -29,9 +28,20 @@ public class ArticleServiceImpl {
 	@Autowired
 	private CommentMapper commentMapper;
 	
-	public void refreshArticleList(List list){
-		Date date = new Date();
-		commentMapper.insertArticleListBatch(list);
-		
+	public void refreshArticleList(List<Map> list){
+		if(list != null){
+			String id = "";
+			for(int i=0;i<list.size();i++){
+				Map map = list.get(i);
+				id = (String)map.get("id");
+				if(id != null && !"".equals(id)){
+					try{
+						commentMapper.insertArticle(list.get(i));
+					}catch(Exception e){
+						logger.error("SQLException => "+e);
+					}
+				}
+			}
+		}
 	}
 }

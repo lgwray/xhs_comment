@@ -7,6 +7,7 @@ import net.shinc.common.ErrorMessage;
 import net.shinc.common.IRestMessage;
 import net.shinc.service.NewsService;
 import net.shinc.service.impl.ArticleServiceImpl;
+import net.shinc.utils.Helper;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
@@ -47,11 +48,12 @@ public class ArticleController extends AbstractBaseController {
 	@ResponseBody
 	public IRestMessage refreshArticleList(String cid,String ctype){
 		IRestMessage msg = getRestMessage();
+		List list = null;
 		try {
-			List list = newsService.getNewsList(userId, listUrl,cid,ctype);
+			list = newsService.getNewsList(userId, listUrl,cid,ctype);
 			if(null != list) {
 				msg.setCode(ErrorMessage.SUCCESS.getCode());
-				msg.setResult(list);
+				msg.setResult(Helper.objToJson(list));
 			} else {
 				msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());
 			}
@@ -59,6 +61,7 @@ public class ArticleController extends AbstractBaseController {
 		} catch (Exception e) {
 			logger.error("查询失败==>" + ExceptionUtils.getStackTrace(e));
 		}
+		logger.info(">>>"+Helper.objToJson(list));
 		return msg;
 	}
 }

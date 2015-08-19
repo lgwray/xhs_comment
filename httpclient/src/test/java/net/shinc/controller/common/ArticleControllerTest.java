@@ -37,7 +37,7 @@ public class ArticleControllerTest {
     @WithMockUser(username="admin",password="admin",authorities={"adminUserList"})
     @Test
     public void refreshArticleList() {
-    	RequestBuilder reqbuild = MockMvcRequestBuilders.post("/article/refreshArticleList").param("cid", "462").param("ctype", "4002");
+    	RequestBuilder reqbuild = MockMvcRequestBuilders.post("/article/refreshArticleList").param("cid", "470").param("ctype", "4001");
 		try {
 			mockMvc.perform(reqbuild).andDo(MockMvcResultHandlers.print());
 		} catch (Exception e) {

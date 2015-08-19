@@ -32,12 +32,10 @@
 			DATE_FORMAT(article_show_date , '%Y-%m-%d ') = DATE_FORMAT(now(), '%Y-%m-%d ')
 	</select>
 	
-	<insert id="insertArticleListBatch" parameterType="java.util.List" >
+	<insert id="insertArticle" parameterType="java.util.Map" >
 	    insert into 
-	    	sh_jnl_article_list(article_show_date, article_id,article_title,article_type,article_publish_date)
+	    	sh_article(id, title,publish_date)
 	    values 
-	    	<foreach collection="list" item="item" index="index" separator="," >
-				(#{item.article_show_date}, #{item.article_id}, #{item.article_title}, #{item.article_type}, #{item.article_publish_date})
-			</foreach>
-  </insert>
+			(#{id}, #{topic},#{releaseDate,jdbcType=TIMESTAMP})
+  	</insert>
 </mapper>
