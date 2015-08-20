@@ -52,4 +52,26 @@ public class MenuController extends AbstractBaseController {
 		}
 		return msg;
 	}
+	/**
+	 * 获取当前登录用户的菜单Test
+	 * @return
+	 */
+	@RequestMapping(value = "/getMenuForTest")
+	@ResponseBody
+	public IRestMessage getMenu(AdminUser adminUser) {
+		IRestMessage msg = getRestMessage();
+		AdminUser currentUser = adminUser;
+		if(null != currentUser){
+			try {
+				List<Menu> menu = menuService.getMenu(currentUser);
+				msg.setCode(ErrorMessage.SUCCESS.getCode());
+				msg.setResult(menu);
+			} catch (Exception e) {
+				logger.error("获取失败==>" + ExceptionUtils.getStackTrace(e));
+			}
+		} else {
+			msg.setCode(ErrorMessage.NEED_LOGIN.getCode());
+		}
+		return msg;
+	}
 }

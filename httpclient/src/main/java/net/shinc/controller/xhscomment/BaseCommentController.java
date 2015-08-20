@@ -13,6 +13,7 @@ import net.shinc.common.AbstractBaseController;
 import net.shinc.common.ErrorMessage;
 import net.shinc.common.IRestMessage;
 import net.shinc.common.TreeNode;
+import net.shinc.formbean.common.AddCommentForm;
 import net.shinc.formbean.common.CommentItForm;
 import net.shinc.orm.mybatis.bean.common.AdminUser;
 import net.shinc.orm.mybatis.bean.xhscomment.CommentCategory;
@@ -199,10 +200,11 @@ public class BaseCommentController extends AbstractBaseController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/addComment")
-	public IRestMessage addComment(@RequestParam("categoryId") String categoryId,
-			@RequestParam("commentList") List commentList) {
+	public IRestMessage addComment(AddCommentForm form) {
 		
 		IRestMessage msg = getRestMessage();
+		String categoryId = form.getCategoryId();
+		List commentList = form.getCommentList();
 		
 		if(StringUtils.isEmpty(categoryId)) {
 			msg.setCode(ErrorMessage.ERROR_PARAM_CHECK.getCode());
@@ -214,9 +216,9 @@ public class BaseCommentController extends AbstractBaseController {
 		Date date = new Date();
 		try {
 			
-			for(Iterator<String> it = commentList.iterator();it.hasNext();) {
+			for(Iterator<Map> it = commentList.iterator();it.hasNext();) {
 				
-				baseCommentService.addComment(Integer.parseInt(categoryId), it.next(), date);
+				baseCommentService.addComment(Integer.parseInt(categoryId), (String)it.next().get("content"), date);
 			}
 			msg.setCode(ErrorMessage.SUCCESS.getCode());
 		} catch(Exception e) {

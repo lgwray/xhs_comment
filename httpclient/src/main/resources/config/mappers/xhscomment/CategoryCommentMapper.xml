@@ -38,7 +38,7 @@
 			content,
 			add_time
 		)
-		VALUES(#{categoryId},#{content},#{addTime} )
+		VALUES(#{categoryId},#{content},#{addTime,jdbcType=TIMESTAMP} )
 	</insert>
 	
 </mapper>
