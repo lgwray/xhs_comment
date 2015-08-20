@@ -45,6 +45,12 @@ public class ArticleController extends AbstractBaseController {
 	// 用户id
 	private static String userId = "0";
 	
+	/**
+	 * 获取文章列表
+	 * @param cid
+	 * @param ctype
+	 * @return
+	 */
 	@RequestMapping(value = "/refreshArticleList")
 	@ResponseBody
 	public IRestMessage refreshArticleList(String cid,String ctype){
@@ -65,6 +71,13 @@ public class ArticleController extends AbstractBaseController {
 		logger.info(">>>"+Helper.objToJson(list));
 		return msg;
 	}
+	
+	/**
+	 * 自动刷新文章列表，记录文章发布频率
+	 * @param cid
+	 * @param ctype
+	 * @return
+	 */
 	@RequestMapping(value = "/autoRefreshArticleList")
 	@ResponseBody
 	public IRestMessage autoRefreshArticleList(String cid,String ctype){
@@ -74,7 +87,7 @@ public class ArticleController extends AbstractBaseController {
 			list = newsService.getNewsList(userId, listUrl,cid,ctype);
 			if(null != list) {
 				msg.setCode(ErrorMessage.SUCCESS.getCode());
-				articleService.refreshArticleList(list);//循环记录流水
+				articleService.refreshArticleList(list);//插库
 			} else {
 				msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());
 			}
@@ -86,6 +99,11 @@ public class ArticleController extends AbstractBaseController {
 	}
 	
 	
+	/**
+	 * 通过发布日期查询文章列表
+	 * @param publisDate
+	 * @return
+	 */
 	@RequestMapping(value = "/getArticleListByDate")
 	@ResponseBody
 	public IRestMessage getArticleListByDate(String publisDate){
