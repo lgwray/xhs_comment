@@ -55,10 +55,29 @@ public class ArticleController extends AbstractBaseController {
 			if(null != list) {
 				msg.setCode(ErrorMessage.SUCCESS.getCode());
 				msg.setResult(list);
+//				articleService.refreshArticleList(list);//
 			} else {
 				msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());
 			}
-			articleService.refreshArticleList(list);//查询数据库
+		} catch (Exception e) {
+			logger.error("查询失败==>" + ExceptionUtils.getStackTrace(e));
+		}
+		logger.info(">>>"+Helper.objToJson(list));
+		return msg;
+	}
+	@RequestMapping(value = "/autoRefreshArticleList")
+	@ResponseBody
+	public IRestMessage autoRefreshArticleList(String cid,String ctype){
+		IRestMessage msg = getRestMessage();
+		List list = null;
+		try {
+			list = newsService.getNewsList(userId, listUrl,cid,ctype);
+			if(null != list) {
+				msg.setCode(ErrorMessage.SUCCESS.getCode());
+				articleService.refreshArticleList(list);//循环记录流水
+			} else {
+				msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());
+			}
 		} catch (Exception e) {
 			logger.error("查询失败==>" + ExceptionUtils.getStackTrace(e));
 		}
