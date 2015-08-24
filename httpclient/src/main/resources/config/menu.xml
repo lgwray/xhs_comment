@@ -48,7 +48,7 @@
 		<menu>
 			<level>1</level>
 			<parent>PerformanceManage</parent>
-			<value>PerformanceManage</value>                <!--    一级菜单  文章管理 -->
+			<value>PerformanceManage</value>                <!--    一级菜单  绩效管理 -->
 			<url>/article/jixiao</url>
 		</menu>
 		
