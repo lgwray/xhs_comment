@@ -32,8 +32,10 @@
 			a.id=j.article_id
 		and
 			j.user_id = u.id 
-		and
-			j.user_id = #{userId}
+		<if test="userId != null" >
+			and
+				j.user_id = #{userId}
+		</if>
 		and
 			date_format(j.adddate,'%Y-%m-%d') = #{addDate}
 		order by

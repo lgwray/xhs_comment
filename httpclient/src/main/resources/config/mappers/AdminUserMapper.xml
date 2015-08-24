@@ -28,6 +28,21 @@
 			<result column="e_remark" property="remark" />
     	</collection> 
 	</resultMap>
+	<resultMap id="getAllAdminUserListMap" type="java.util.Map">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="realname" property="realname" jdbcType="VARCHAR" />
+		<result column="nickname" property="nickname" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" jdbcType="CHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="tel" property="tel" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="enabled" property="enabled" jdbcType="CHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="position" property="position" jdbcType="VARCHAR" />
+		<result column="head_pic" property="headPic" jdbcType="VARCHAR" />
+	</resultMap>
 
 	<sql id="Base_Column_List">
 		id, sh_company_id, realname, nickname, password, sex, address, email, tel, create_time, update_time, enabled, remark, position, head_pic
@@ -311,6 +326,14 @@
 			sh_admin_user
 		where 1 = 1
 			and id=#{id}
+			and enabled = '1'
+	</select>
+	<select id="getAllAdminUserList" resultMap="getAllAdminUserListMap" >
+	 	select
+			id, sh_company_id, realname, nickname, sex, address, email, tel, DATE_FORMAT(create_time , '%Y-%m-%d %H:%i') create_time, DATE_FORMAT(update_time , '%Y-%m-%d %H:%i') update_time, enabled, remark, position, head_pic
+		from 
+			sh_admin_user
+		where 1 = 1
 			and enabled = '1'
 	</select>
 </mapper>

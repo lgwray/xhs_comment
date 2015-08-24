@@ -1,5 +1,7 @@
 package net.shinc.controller.xhscomment;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -328,8 +330,8 @@ public class BaseCommentController extends AbstractBaseController {
 		try {
 			for(Iterator<Map> it = commentList.iterator(); it.hasNext();) {
 				Map map = it.next();
-				 
 				String comment = (String)map.get("comment");
+				comment = URLDecoder.decode(comment,"UTF-8");
 				String nick = (String)map.get("nick");
 				if(StringUtils.isEmpty(nick)) {
 					nick = "新华社客户端网友";
@@ -354,6 +356,10 @@ public class BaseCommentController extends AbstractBaseController {
 		}
 		
 	}
-	
+	public static void main(String[] args) throws UnsupportedEncodingException {
+		String str = "%E4%B8%AD%E5%9B%BD啊";
+		String result = URLDecoder.decode(str,"UTF-8");
+		System.out.println(result);
+	}
 
 }

@@ -10,6 +10,7 @@ import net.shinc.common.AbstractBaseController;
 import net.shinc.common.ErrorMessage;
 import net.shinc.common.IRestMessage;
 import net.shinc.formbean.common.QueryCommentForm;
+import net.shinc.service.common.AdminUserService;
 import net.shinc.service.common.impl.JnlServiceImpl;
 import net.shinc.service.impl.CommentServiceImpl;
 
@@ -38,6 +39,8 @@ public class CommentController extends AbstractBaseController {
 	private CommentServiceImpl commentService;
 	@Autowired
 	private JnlServiceImpl jnlServiceImpl;
+	@Autowired
+	private AdminUserService adminUserService;
 	private static Logger logger = LoggerFactory.getLogger(CommentController.class);
 
 	
@@ -119,6 +122,20 @@ public class CommentController extends AbstractBaseController {
 		map.put("pageIndex", pageIndex);
 		map.put("pageCount", pageCount);
 		List list = jnlServiceImpl.selectCommentJnl(map);
+		logger.info("绩效列表==>" + list.toString());
+		msg.setCode(ErrorMessage.SUCCESS.getCode());
+		msg.setResult(list); 
+		return msg;
+	}
+	/**
+	 * 获取管理员列表
+	 * @return
+	 */
+	@RequestMapping(value = "/getAllAdminUserList")
+	@ResponseBody
+	public IRestMessage getAllAdminUserList() {
+		IRestMessage msg = getRestMessage();
+		List list = adminUserService.getAllAdminUserList();
 		logger.info("绩效列表==>" + list.toString());
 		msg.setCode(ErrorMessage.SUCCESS.getCode());
 		msg.setResult(list); 
