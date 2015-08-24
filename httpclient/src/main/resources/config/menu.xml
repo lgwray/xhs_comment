@@ -6,7 +6,7 @@
 			<level>1</level>
 			<parent>ArticleManage</parent>
 			<value>ArticleManage</value>                <!--    一级菜单  文章管理 -->
-			<url>/article/articlePre</url>
+			<url>/article/article_list</url>
 		</menu>
 		
 		<menu>
@@ -44,6 +44,12 @@
 			<parent>publishManage</parent>
 			<value>refreshArticleList</value>            <!--   二级菜单  发布管理 -->
 			<url>/index</url>
+		</menu>
+		<menu>
+			<level>1</level>
+			<parent>PerformanceManage</parent>
+			<value>PerformanceManage</value>                <!--    一级菜单  文章管理 -->
+			<url>/article/jixiao</url>
 		</menu>
 		
 	</menus>
