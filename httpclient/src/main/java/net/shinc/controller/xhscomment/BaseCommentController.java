@@ -2,6 +2,7 @@ package net.shinc.controller.xhscomment;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -133,7 +134,7 @@ public class BaseCommentController extends AbstractBaseController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/addCategory")
-	public IRestMessage addCategory(@RequestParam("name") String name) {
+	public IRestMessage addCategory(@RequestParam("name") String name,@RequestParam("parent") Integer parent) {
 		
 		IRestMessage msg = getRestMessage();
 		
@@ -141,7 +142,7 @@ public class BaseCommentController extends AbstractBaseController {
 			msg.setCode(ErrorMessage.ERROR_PARAM_CHECK.getCode());
 		}
 		try {
-			baseCommentService.addCategory(name);
+			baseCommentService.addCategory(name,parent);
 			msg.setCode(ErrorMessage.SUCCESS.getCode());
 			
 		} catch(DuplicateKeyException de) {
@@ -357,9 +358,13 @@ public class BaseCommentController extends AbstractBaseController {
 		
 	}
 	public static void main(String[] args) throws UnsupportedEncodingException {
-		String str = "兵哥哥好帅啊,100%的帅";
+		String str = "%22id%22:%22310%22,%22comment%22:%22%E5%BC%BA%E5%9B%BD%E6%A2%A6%E9%A6%96%E5%85%88%E6%98%AF%E5%BC%BA%E5%86%9B%E6%A2%A6%EF%BC%81%22,%22nick%22:%22xiaoxi940824%22},{%22id%22:%22311%22,%22comment%22:%22%E4%B8%80%E4%B8%AA%E5%85%A8%E4%B8%96%E7%95%8C%E8%BD%B0%E5%8A%A8%E7%9A%84%E5%A4%A7%E5%9E%8B%E9%98%85%E5%85%B5%22,%22nick%22:%22%E5%86%B7%E9%9B%A8%E5%A4%9C01%22},{%22id%22:%22314%22,%22comment%22:%22%E5%9C%A8%E9%98%85%E5%85%B5%E4%B8%AD%E5%90%91%E4%B8%96%E4%BA%BA%E5%B1%95%E7%A4%BA%E5%85%88%E8%BF%9B%E7%9A%84%E6%AD%A6%E5%99%A8%E8%A3%85%E5%A4%87%E6%98%AF%E4%B8%96%E7%95%8C%E5%90%84%E5%9B%BD%E7%9A%84%E9%80%9A%E8%A1%8C%E5%81%9A%E6%B3%95%EF%BC%8C%E8%BF%99%E6%AC%A1%E9%98%85%E5%85%B5%E9%9B%86%E4%B8%AD%E5%B1%95%E7%A4%BA%E4%BA%8684%E7%9A%84%E6%96%B0%E5%9E%8B%E6%AD%A6%E5%99%A8%E8%A3%85%E5%A4%87%EF%BC%8C%E4%BD%93%E7%8E%B0%E4%BA%86%E6%88%91%E5%86%9B%E7%8E%B0%E4%BB%A3%E5%8C%96%E5%BB%BA%E8%AE%BE%E7%9A%84%E5%8F%91%E5%B1%95%E6%B0%B4%E5%B9%B3%EF%BC%8C%E8%BF%99%E6%98%AF%E5%BC%80%E6%94%BE%E9%80%8F%E6%98%8E%E3%80%81%E5%92%8C%E5%B9%B3%E5%8F%8B%E5%A5%BD%E7%9A%84%E4%BD%93%E7%8E%B0%EF%BC%8C%E4%BC%A0%E9%80%92%E7%9A%84%E6%98%AF%E4%B8%8E%E4%B8%96%E7%95%8C%E5%90%84%E5%9B%BD%E4%BA%BA%E6%B0%91%E4%B8%80%E9%81%93%E5%85%B1%E5%90%8C%E7%BB%B4%E6%8A%A4%E4%B8%96%E7%95%8C%E5%92%8C%E5%B9%B3%E7%9A%84%E6%AD%A3%E8%83%BD%E9%87%8F%EF%BC%81%22,%22nick%22:%22%22";
 		String result = URLDecoder.decode(str,"UTF-8");
+		
+		String enc = "这次阅兵集中展示了84%的";
+		String encResult =URLEncoder.encode(enc);
 		System.out.println(result);
+		System.out.println(encResult);
 	}
 
 }

@@ -18,11 +18,13 @@
 	<insert id="addCategory" parameterType="CommentCategory">
 		INSERT INTO sh_comment_catetory
 		(
-			name
+			name,
+			parent
 		)
 		VALUES
 		(
-			#{name}
+			#{name},
+			#{parent}
 		)
 	</insert>
 	
