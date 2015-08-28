@@ -28,7 +28,7 @@ public interface BaseCommentService {
 	 * 新增一个分类
 	 * @param name
 	 */
-	public void addCategory(String name,Integer parent) throws DuplicateKeyException;
+	public int addCategory(String name,Integer parent) throws DuplicateKeyException;
 	
 	/**
 	 * 新增一条基础评论

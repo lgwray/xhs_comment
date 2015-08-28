@@ -14,6 +14,6 @@ public interface CommentCategoryMapper {
 
 	public List<TreeNode<CommentCategory>> getCategoryList();
 	
-	public void addCategory(CommentCategory category);
+	public int addCategory(CommentCategory category);
 	
 }

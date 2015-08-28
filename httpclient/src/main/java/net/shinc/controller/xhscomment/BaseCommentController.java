@@ -142,8 +142,9 @@ public class BaseCommentController extends AbstractBaseController {
 			msg.setCode(ErrorMessage.ERROR_PARAM_CHECK.getCode());
 		}
 		try {
-			baseCommentService.addCategory(name,parent);
+			int id = baseCommentService.addCategory(name,parent);
 			msg.setCode(ErrorMessage.SUCCESS.getCode());
+			msg.setResult(id);
 			
 		} catch(DuplicateKeyException de) {
 			msg.setCode(ErrorMessage.ERRPR_RECORD_EXISTS.getCode());

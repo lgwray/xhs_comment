@@ -15,7 +15,7 @@
 		select id,name,parent from sh_comment_catetory
 	</select>
 
-	<insert id="addCategory" parameterType="CommentCategory">
+	<insert id="addCategory" parameterType="CommentCategory" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO sh_comment_catetory
 		(
 			name,
