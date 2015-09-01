@@ -1,12 +1,13 @@
 package net.shinc.controller.common;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import net.shinc.common.AbstractBaseController;
 import net.shinc.common.ErrorMessage;
 import net.shinc.common.IRestMessage;
 import net.shinc.service.NewsService;
-import net.shinc.service.common.impl.JnlServiceImpl;
 import net.shinc.service.impl.ArticleServiceImpl;
 import net.shinc.utils.Helper;
 
@@ -56,8 +57,22 @@ public class ArticleController extends AbstractBaseController {
 	public IRestMessage refreshArticleList(String cid,String ctype){
 		IRestMessage msg = getRestMessage();
 		List list = null;
+		List countsList = null;
 		try {
 			list = newsService.getNewsList(userId, listUrl,cid,ctype);
+			countsList = newsService.getLocalArticleCommentsCounts(list);
+			for(Iterator<Map> item = list.iterator(); item.hasNext();){
+				Map map = item.next();
+				map.put("commentsCount", "0");
+				String id = (String)map.get("id");
+				for(Iterator<Map> countItem = countsList.iterator(); countItem.hasNext();){
+					Map countMap = countItem.next();
+					String articlId = (String)countMap.get("articlId");
+					if(id != null && id.equals(articlId)){
+						map.put("commentsCount", countMap.get("commentsCounts"));
+					}
+				}
+			}
 			if(null != list) {
 				msg.setCode(ErrorMessage.SUCCESS.getCode());
 				msg.setResult(list);
