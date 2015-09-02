@@ -73,7 +73,7 @@ public class CommentController extends AbstractBaseController {
 			
 		} else if("2".equals(con)) {
 			try {
-				List re = commentService.getCommentsByTitle(form.getNewsType(), form.getPageSize(), form.getPage());
+				List re = commentService.getCommentsByTitle(form.getType(),form.getNewsType(), form.getPageSize(), form.getPage());
 				list.addAll(re);
 			} catch(Exception e) {
 				logger.error(ExceptionUtils.getStackTrace(e));

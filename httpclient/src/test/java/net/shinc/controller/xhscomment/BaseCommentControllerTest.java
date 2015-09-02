@@ -73,7 +73,9 @@ public class BaseCommentControllerTest {
     public void queryRemoteComment(){
     	try {
     		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/basecomment/queryRemoteComment")
-    				.param("queryType","2").param("content", "爆炸");
+    				.param("type","zhihu")
+    				.param("queryType","2")
+    				.param("content", "爆炸");
     		mockMvc.perform(reqbuild).andDo(handler);
     	} catch (Exception e) {
     		e.printStackTrace();

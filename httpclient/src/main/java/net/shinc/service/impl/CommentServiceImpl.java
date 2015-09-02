@@ -54,7 +54,7 @@ public class CommentServiceImpl {
 	 * @return
 	 * @throws URISyntaxException 
 	 */
-	public List getCommentsByTitle(String title,int pageSize, int page ) throws URISyntaxException {
+	public List getCommentsByTitle(String type,String title,int pageSize, int page ) throws URISyntaxException {
 		
 		pageSize = pageSize < 1 ? 200 :pageSize;
 		page = page < 1 ? 1 : page;
@@ -65,6 +65,7 @@ public class CommentServiceImpl {
 	        .setHost(url.getHost())
 	        .setPath(url.getPath())
 	        .setPort(url.getPort())
+	        .setParameter("type", type)
 	        .setParameter("str", title)
 	        .setParameter("num", String.valueOf(pageSize))
 	        .setParameter("page", String.valueOf(page))
