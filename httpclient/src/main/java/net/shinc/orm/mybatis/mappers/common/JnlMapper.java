@@ -9,5 +9,6 @@ public interface JnlMapper {
     public int insertJnlArticleComment(Map map);
     
     public List<Map> selectCommentJnl(Map map);
+    public int selectCommentJnlCount(Map map);
 
 }

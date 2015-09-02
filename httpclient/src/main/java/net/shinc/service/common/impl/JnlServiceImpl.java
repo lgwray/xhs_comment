@@ -51,4 +51,15 @@ public class JnlServiceImpl {
 	public List<Map> selectCommentJnl(Map map) {
 		return jnlMapper.selectCommentJnl(map);
 	}
+	/**
+	 * 查询评论日志总数
+	 * @param userId
+	 * @param addDate
+	 * @param pageIndex
+	 * @param pageCount
+	 * @return
+	 */
+	public int selectCommentJnlCount(Map map) {
+		return jnlMapper.selectCommentJnlCount(map);
+	}
 }

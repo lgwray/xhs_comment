@@ -122,9 +122,13 @@ public class CommentController extends AbstractBaseController {
 		map.put("pageIndex", pageIndex);
 		map.put("pageCount", pageCount);
 		List list = jnlServiceImpl.selectCommentJnl(map);
+		int count = jnlServiceImpl.selectCommentJnlCount(map);
+		Map resultMap = new HashMap();
+		resultMap.put("list", list);
+		resultMap.put("count", count);
 		logger.info("绩效列表==>" + list.toString());
 		msg.setCode(ErrorMessage.SUCCESS.getCode());
-		msg.setResult(list); 
+		msg.setResult(resultMap); 
 		return msg;
 	}
 	/**

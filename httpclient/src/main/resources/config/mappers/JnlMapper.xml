@@ -43,4 +43,22 @@
 		limit
 			${pageIndex},${pageCount}
 	</select>
+	<select id="selectCommentJnlCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+		SELECT 
+			count(*)
+		from 
+			sh_jnl_article_comment j,
+			sh_admin_user u ,
+			sh_article a 
+		where 
+			a.id=j.article_id
+		and
+			j.user_id = u.id 
+		<if test="userId != null" >
+			and
+				j.user_id = #{userId}
+		</if>
+		and
+			date_format(j.adddate,'%Y-%m-%d') = #{addDate}
+	</select>
 </mapper>
