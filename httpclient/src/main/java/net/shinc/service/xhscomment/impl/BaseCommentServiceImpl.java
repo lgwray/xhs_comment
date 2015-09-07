@@ -83,15 +83,17 @@ public class BaseCommentServiceImpl implements BaseCommentService {
 	}
 
 	@Override
-	public void addCategory(String name) throws DuplicateKeyException {
+	public int addCategory(String name,Integer parent) throws DuplicateKeyException {
 		
 		if(StringUtils.isEmpty(name)) {
 			throw new IllegalArgumentException(name);
 		}
 		CommentCategory category = new CommentCategory();
 		category.setName(name);
-		categoryMapper.addCategory(category);
+		category.setParent(parent);
 		categoryList = null;
+		categoryMapper.addCategory(category);
+		return category.getId();
 		
 	}
 

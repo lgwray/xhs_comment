@@ -1,12 +1,17 @@
 package net.shinc.controller.common;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import net.shinc.common.AbstractBaseController;
+import net.shinc.common.ErrorMessage;
+import net.shinc.common.IRestMessage;
 import net.shinc.formbean.common.QueryCommentForm;
+import net.shinc.service.common.AdminUserService;
+import net.shinc.service.common.impl.JnlServiceImpl;
 import net.shinc.service.impl.CommentServiceImpl;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -32,6 +37,10 @@ public class CommentController extends AbstractBaseController {
 
 	@Autowired
 	private CommentServiceImpl commentService;
+	@Autowired
+	private JnlServiceImpl jnlServiceImpl;
+	@Autowired
+	private AdminUserService adminUserService;
 	private static Logger logger = LoggerFactory.getLogger(CommentController.class);
 
 	
@@ -64,7 +73,7 @@ public class CommentController extends AbstractBaseController {
 			
 		} else if("2".equals(con)) {
 			try {
-				List re = commentService.getCommentsByTitle(form.getNewsType(), form.getPageSize(), form.getPage());
+				List re = commentService.getCommentsByTitle(form.getType(),form.getNewsType(), form.getPageSize(), form.getPage());
 				list.addAll(re);
 			} catch(Exception e) {
 				logger.error(ExceptionUtils.getStackTrace(e));
@@ -99,6 +108,42 @@ public class CommentController extends AbstractBaseController {
 		}
 		
 	}
-	
+	/**
+	 * 绩效列表
+	 * @return
+	 */
+	@RequestMapping(value = "/selectCommentJnl")
+	@ResponseBody
+	public IRestMessage selectCommentJnl(String userId, String addDate,String pageIndex,String pageCount) {
+		IRestMessage msg = getRestMessage();
+		Map map = new HashMap();
+		map.put("userId", userId);
+		map.put("addDate", addDate);
+		map.put("pageIndex", pageIndex);
+		map.put("pageCount", pageCount);
+		List list = jnlServiceImpl.selectCommentJnl(map);
+		int count = jnlServiceImpl.selectCommentJnlCount(map);
+		Map resultMap = new HashMap();
+		resultMap.put("list", list);
+		resultMap.put("count", count);
+		logger.info("绩效列表==>" + list.toString());
+		msg.setCode(ErrorMessage.SUCCESS.getCode());
+		msg.setResult(resultMap); 
+		return msg;
+	}
+	/**
+	 * 获取管理员列表
+	 * @return
+	 */
+	@RequestMapping(value = "/getAllAdminUserList")
+	@ResponseBody
+	public IRestMessage getAllAdminUserList() {
+		IRestMessage msg = getRestMessage();
+		List list = adminUserService.getAllAdminUserList();
+		logger.info("绩效列表==>" + list.toString());
+		msg.setCode(ErrorMessage.SUCCESS.getCode());
+		msg.setResult(list); 
+		return msg;
+	}
 
 }

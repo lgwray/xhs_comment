@@ -12,6 +12,7 @@ public class CommentCategory implements ResultBean {
 	
 	private Integer id;
 	private String name;
+	private Integer parent;
 	public Integer getId() {
 		return id;
 	}
@@ -23,6 +24,12 @@ public class CommentCategory implements ResultBean {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public Integer getParent() {
+		return parent;
+	}
+	public void setParent(Integer parent) {
+		this.parent = parent;
 	}
 	
 	

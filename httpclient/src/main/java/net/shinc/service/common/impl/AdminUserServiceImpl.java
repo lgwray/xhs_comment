@@ -210,5 +210,10 @@ public class AdminUserServiceImpl implements AdminUserService {
 		}
 		return null;
 	}
+	@Override
+	public List<AdminUser> getAllAdminUserList() {
+		List<AdminUser> list = adminUserMapper.getAllAdminUserList();
+		return list;
+	}
 
 }

@@ -61,7 +61,8 @@ public class BaseCommentControllerTest {
     public void addCategory(){
     	try {
     		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/basecomment/addCategory")
-    				.param("name","足球");
+    				.param("name","足球")
+    				.param("parent","6");
     		mockMvc.perform(reqbuild).andDo(handler);
     	} catch (Exception e) {
     		e.printStackTrace();
@@ -72,7 +73,9 @@ public class BaseCommentControllerTest {
     public void queryRemoteComment(){
     	try {
     		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/basecomment/queryRemoteComment")
-    				.param("queryType","2").param("content", "爆炸");
+    				.param("type","zhihu")
+    				.param("queryType","2")
+    				.param("content", "爆炸");
     		mockMvc.perform(reqbuild).andDo(handler);
     	} catch (Exception e) {
     		e.printStackTrace();
@@ -114,7 +117,7 @@ public class BaseCommentControllerTest {
     		List list = new ArrayList();
     		list.add("aa");
     		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/basecomment/commentIt")
-    				.param("articleId","1").param("commentList[0].comment", "comment1").param("commentList[1].comment", "comment1");
+    				.param("articleId","1").param("commentList[0].comment", "%啊").param("commentList[1].comment", "comment1");
     		mockMvc.perform(reqbuild).andDo(handler);
     	} catch (Exception e) {
     		e.printStackTrace();

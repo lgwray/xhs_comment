@@ -5,6 +5,10 @@
 		<result column="id" property="id" jdbcType="VARCHAR" />
 		<result column="content" property="content" jdbcType="VARCHAR" />
 	</resultMap>
+	<resultMap id="selectLocalArticleCommentsCountsMap" type="java.util.Map">
+		<result column="comments_counts" property="commentsCounts" jdbcType="VARCHAR" />
+		<result column="article_id" property="articlId" jdbcType="VARCHAR" />
+	</resultMap>
 	<select id="selectNeuterComment" resultMap="selectNeuterCommentMap" parameterType="java.lang.Integer">
 		SELECT 
 			ID,
@@ -39,4 +43,21 @@
 	    values 
 			(#{id}, #{topic},#{releaseDate,jdbcType=TIMESTAMP})
   	</insert>
+  	
+  	<select id="getLocalArticleCommentsCounts" resultMap="selectLocalArticleCommentsCountsMap" >
+		SELECT 
+			count(j.article_id) as comments_counts,
+			j.article_id 
+		FROM 
+			sh_jnl_article_comment j 
+		<if test="list!=null and list.size!=0">
+			where 
+				article_id in
+				<foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+				  #{item.id}  
+			    </foreach>  
+		</if>
+		group by 
+			j.article_id;
+	</select>
 </mapper>

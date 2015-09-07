@@ -14,4 +14,6 @@ public interface CommentMapper {
 	public void insertArticleListBatch(List articleList);
 	
 	public void insertArticle(Map map);
+	
+	public List getLocalArticleCommentsCounts(List list);
 }

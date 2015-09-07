@@ -62,4 +62,11 @@ public interface NewsService {
 	 */
 	public int sendCommentBatchByPeople(Map map,String sendCommentUrl, String userId, int minNum, int limitNum, String phpUrl);
 	
+	/**
+	 * 获取本地评论条数
+	 * @param list
+	 * @return
+	 */
+	public List getLocalArticleCommentsCounts(List list);
+	
 }

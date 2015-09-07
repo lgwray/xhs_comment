@@ -70,6 +70,12 @@ public interface AdminUserService {
 	public AdminUser getAdminUserByNickName(String nickname);
 	
 	/**
+	 * 获取所有用户列表
+	 * @return
+	 */
+	public List<AdminUser> getAllAdminUserList();
+	
+	/**
 	 * 获取某公司下所有员工
 	 * @param company
 	 * @return

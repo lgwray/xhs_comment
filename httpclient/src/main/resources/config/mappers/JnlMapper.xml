@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="net.shinc.orm.mybatis.mappers.common.JnlMapper">
+	<resultMap id="selectCommentJnlMap" type="java.util.Map">
+		<result column="adddate" property="addDate" jdbcType="VARCHAR" />
+		<result column="article_id" property="articleId" jdbcType="VARCHAR" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="id" property="userId" jdbcType="VARCHAR" />
+		<result column="nickname" property="userNickName" jdbcType="VARCHAR" />
+	</resultMap>
 	
 	<insert id="insertJnlArticleComment" parameterType="java.util.Map" >
 	    insert into 
@@ -8,4 +15,50 @@
 	    values 
 			(#{articleId},now(),#{content},#{contentType},#{userId},#{commentWay})
   	</insert>
+  	
+	<select id="selectCommentJnl" resultMap="selectCommentJnlMap" parameterType="java.util.Map">
+		SELECT 
+			j.adddate,
+			j.article_id,
+		    a.title,
+		    j.content,
+		    u.id,
+		    u.nickname 
+		from 
+			sh_jnl_article_comment j,
+			sh_admin_user u ,
+			sh_article a 
+		where 
+			a.id=j.article_id
+		and
+			j.user_id = u.id 
+		<if test="userId != null" >
+			and
+				j.user_id = #{userId}
+		</if>
+		and
+			date_format(j.adddate,'%Y-%m-%d') = #{addDate}
+		order by
+			j.adddate desc
+		limit
+			${pageIndex},${pageCount}
+	</select>
+	<select id="selectCommentJnlCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+		SELECT 
+			count(*)
+		from 
+			sh_jnl_article_comment j,
+			sh_admin_user u ,
+			sh_article a 
+		where 
+			a.id=j.article_id
+		and
+			j.user_id = u.id 
+		<if test="userId != null" >
+			and
+				j.user_id = #{userId}
+		</if>
+		and
+			date_format(j.adddate,'%Y-%m-%d') = #{addDate}
+	</select>
 </mapper>

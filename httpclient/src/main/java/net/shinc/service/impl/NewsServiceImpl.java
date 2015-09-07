@@ -46,6 +46,9 @@ public class NewsServiceImpl implements NewsService {
 		return list;
 	}
 	
+	/**
+	 * 新闻列表
+	 */
 	public List getNewsList(String userId, String listUrl,String cid,String ctype) {
 		String res = HttpClient.post(listUrl, ParamUtils.getNewsListParamMap(userId,cid,ctype));
 		logger.info(res);
@@ -53,6 +56,13 @@ public class NewsServiceImpl implements NewsService {
 		List list = (List) map.get("data_scroll");
 		List list2 = (List) map.get("data");
 		list.addAll(list2);
+		return list;
+	}
+	/**
+	 * 本地新闻评论数列表
+	 */
+	public List getLocalCommentsList() {
+		List list = null;
 		return list;
 	}
 
@@ -229,6 +239,16 @@ public class NewsServiceImpl implements NewsService {
 			return list;
 		}
 		return null;
+	}
+	/**
+	 * 获取本地评论条数
+	 * @param list
+	 * @return
+	 */
+	public List getLocalArticleCommentsCounts(List list) {
+		List resultList = null;
+		resultList = commentMapper.getLocalArticleCommentsCounts(list);
+		return resultList;
 	}
 	
 	/**

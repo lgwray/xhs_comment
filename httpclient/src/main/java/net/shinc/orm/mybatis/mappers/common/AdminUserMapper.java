@@ -38,4 +38,6 @@ public interface AdminUserMapper {
     
     public List<AdminUser> getAdminUserByCompany(Integer companyId,PageBounds pb);
     
+    public List<AdminUser> getAllAdminUserList();
+    
 }
