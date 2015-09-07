@@ -106,7 +106,7 @@ public class HttpClient {
 	}
 	
 	public static void main(String[] args) {
-		//拉取新闻列表
-//		post(newsListUrl, ParamUtils.getNewsListParamMap("0"));
+		post("http://192.168.1.222:8085/httpclient/login", getAddParams());
+		post("http://192.168.1.222:8085/httpclient/article/refreshArticleList", ParamUtils.getNewsListParamMap("0", "463", "4002"));
 	}
 }

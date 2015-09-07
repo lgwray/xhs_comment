@@ -123,6 +123,7 @@ public class NewsController extends AbstractBaseController {
 		msg.setResult(list); 
 		return msg;
 	}
+	
 	/**
 	 * 批量评论
 	 * @return
