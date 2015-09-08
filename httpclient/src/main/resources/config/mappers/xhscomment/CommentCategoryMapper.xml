@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.shinc.orm.mybatis.mappers.xhscomment.CommentCategoryMapper">
+	
+	<resultMap id="CommentCategoryResultMap" type="net.shinc.common.TreeNode">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="parent" property="parent" />
+		<association property="item" javaType="CommentCategory">  
+	        <result column="id" property="id"/>  
+	        <result column="name" property="name"/>  
+    	</association>
+	</resultMap>
+	
+	<select id="getCategoryList" resultMap="CommentCategoryResultMap">
+		select id,name,parent from sh_comment_catetory
+	</select>
+
+	<insert id="addCategory" parameterType="CommentCategory" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO sh_comment_catetory
+		(
+			name,
+			parent
+		)
+		VALUES
+		(
+			#{name},
+			#{parent}
+		)
+	</insert>
+	
+</mapper>

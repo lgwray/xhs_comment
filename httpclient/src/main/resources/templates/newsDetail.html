@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head>
+        <title>新华社发布评论</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <script type="text/javascript">
+        	
+        </script>
+    </head>
+    <body>
+        <form th:action="@{/sendCommentBatchByPeople}" method="post">
+        	<table border="1" style="border-collapse:collapse;" width="90%">
+				<tr align="center">
+						<td>文章id</td>
+						<td>文章title</td>
+				</tr>
+				<tr>
+					<td th:text="${id}" width= "10%" align="center" ></td>
+					<td th:text="${title}" width= "10%" align="center"></td>
+				</tr>
+				<tr>
+        			<td colspan="2" th:text="${count}">
+        			</td>
+        		</tr>
+ 			</table>
+        <!-- 	<label><input name="newsType" type="radio" value="财经" />财经</label>
+        	<label><input name="newsType" type="radio" value="体育" />体育</label>
+        	<label><input name="newsType" type="radio" value="国际" />国际</label>
+        	<label><input name="newsType" type="radio" value="军事" />军事</label>
+        	<label><input name="newsType" type="radio" value="科技" />科技</label>
+        	<label><input name="newsType" type="radio" value="娱乐" />娱乐</label> -->
+        	<br/>
+        	<br/>
+        	筛选条件：
+        	<label><input name="condition" type="radio" value="1" checked="checked" />分类</label>
+        	<label><input name="condition" type="radio" value="2" />关键词</label>
+        	<br/>
+        	<br/>
+        	查询内容：<input type="text" name="newsType" id="newsType" value=""/><label><font color="red">分类如：财经、体育、国内、国际、军事、科技、娱乐、探索、社会。</font></label>
+        	<br/>
+        	<br/>
+        	插入数量：<input type="text" name="newsCount" id="newsCount" value=""/>
+        	<input type="hidden" name="id" id="id" th:value="*{id}"/>
+        	<input type="hidden" name="title" id="title" th:value="*{title}"/>
+        	
+        	<input type="submit" value="提交"/>&nbsp;&nbsp;
+			<input type="reset" value="重置"/>&nbsp;&nbsp;
+			<input type="button" value="刷新" onclick="refresh();"/>&nbsp;&nbsp;
+            <br/>
+            <br/>
+            <a href="index">返回</a>
+            
+        </form>
+    </body>
+</html>

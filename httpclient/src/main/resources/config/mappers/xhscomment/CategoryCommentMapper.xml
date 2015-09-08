@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.shinc.orm.mybatis.mappers.xhscomment.CategoryCommentMapper">
+	<resultMap id="CategoryCommentResultMap" type="CategoryComment">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="content" property="content" />
+		<result column="add_time" property="addTime" />
+		<result column="sh_comment_catetory_id" property="categoryId"/>
+		<result column="nickname" property="nickName"/>
+		<association property="category" javaType="CommentCategory">  
+	        <result column="cid" property="id"/>  
+	        <result column="cname" property="name"/>  
+    	</association>
+	</resultMap>
+	
+	<select id="getCommentList" resultMap="CategoryCommentResultMap">
+		SELECT 
+		    a.id,
+		    a.sh_comment_catetory_id,
+		    a.content,
+		    a.add_time,
+		    b.id cid,
+		    b.name cname,
+		     (select nickname from nick order by rand() limit 1) nickname
+		FROM
+		    sh_category_comment a
+		    left join sh_comment_catetory b on b.id = a.sh_comment_catetory_id
+		where 1=1
+		<if test="categoryId != null" >
+       		 and a.sh_comment_catetory_id = #{categoryId}
+     	 </if>
+	</select>
+
+	<insert id="addComment" parameterType="CategoryComment">
+		INSERT INTO sh_category_comment
+		(
+			sh_comment_catetory_id,
+			content,
+			add_time
+		)
+		VALUES(#{categoryId},#{content},#{addTime,jdbcType=TIMESTAMP} )
+	</insert>
+	
+</mapper>
