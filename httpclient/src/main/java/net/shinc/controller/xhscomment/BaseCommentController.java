@@ -458,10 +458,10 @@ public class BaseCommentController extends AbstractBaseController {
 			Map<Future<Boolean>,Boolean> resmap= new HashMap<Future<Boolean>,Boolean>();
 			for(int i=0; i< taskSize; i++) {
 				 Future<Boolean> future = threadPoolExecutor.submit(list.get(i));
-				 HashMap<Future<Boolean>, Boolean> map = new HashMap<Future<Boolean>,Boolean>();
 				 resmap.put(future, false);
 			}
 			
+			logger.info("group size:" + resmap.size());
 			while(taskDone != taskSize) {
 				logger.info("taskSize: " + taskSize + "\ttaskDone: " + taskDone);
 				Set<Future<Boolean>> keySet = resmap.keySet();
