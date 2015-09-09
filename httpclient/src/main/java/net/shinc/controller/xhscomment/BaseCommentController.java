@@ -22,6 +22,7 @@ import net.shinc.formbean.common.AddCommentForm;
 import net.shinc.formbean.common.CommentItForm;
 import net.shinc.orm.mybatis.bean.common.AdminUser;
 import net.shinc.orm.mybatis.bean.xhscomment.CommentCategory;
+import net.shinc.service.WeiboService;
 import net.shinc.service.common.impl.JnlServiceImpl;
 import net.shinc.service.impl.CommentServiceImpl;
 import net.shinc.service.xhscomment.BaseCommentService;
@@ -61,6 +62,9 @@ public class BaseCommentController extends AbstractBaseController {
 	
 	@Autowired
 	private JnlServiceImpl jnlService;
+	
+	@Autowired
+	private WeiboService weiboService;
 	
 	@Autowired
 	private BaseCommentService baseCommentService;
@@ -304,6 +308,16 @@ public class BaseCommentController extends AbstractBaseController {
 					msg.setCode(ErrorMessage.SUCCESS.getCode());
 				} else {
 					msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());
+				}
+			} catch(Exception e) {
+				logger.error(ExceptionUtils.getStackTrace(e));
+			}
+		} else if("3".equals(queryType)){
+			try {
+				List list2 = weiboService.getWeiboCommentsList(type, content, page, num);
+				if(!CollectionUtils.isEmpty(list2)){
+					list.addAll(list2);
+					msg.setCode(ErrorMessage.SUCCESS.getCode());
 				}
 			} catch(Exception e) {
 				logger.error(ExceptionUtils.getStackTrace(e));

@@ -1,6 +1,9 @@
 package net.shinc.service.impl;
 
+import java.util.List;
+
 import net.shinc.service.WeiboService;
+import net.shinc.utils.Helper;
 import net.shinc.utils.HttpClient;
 
 import org.slf4j.Logger;
@@ -28,6 +31,15 @@ public class WeiboServiceImpl implements WeiboService{
 		logger.info("weibo url:"+url);
 		String res = HttpClient.get(url);
 		return res;
+	}
+
+	@Override
+	public List getWeiboCommentsList(String type, String mid, String page, String num) {
+		String url = phpWeiboUrl + "?type="+type+"&mid="+mid+"&page="+page+"&num="+num;
+		logger.info("weibo url:"+url);
+		String res = HttpClient.get(url);
+		List list = Helper.jsonToList(res);
+		return list;
 	}
 
 }
