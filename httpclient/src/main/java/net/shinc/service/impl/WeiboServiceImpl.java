@@ -22,12 +22,12 @@ public class WeiboServiceImpl implements WeiboService{
 	
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	
-	@Value("${php.news.weibo}")
+	@Value("${php.news.list}")
 	private String phpWeiboUrl;
 
 	@Override
 	public String getWeiboComments(String type, String mid, String page, String num) {
-		String url = phpWeiboUrl + "?type="+type+"&mid="+mid+"&page="+page+"&num="+num;
+		String url = phpWeiboUrl + "match.php?type="+type+"&mid="+mid+"&page="+page+"&num="+num;
 		logger.info("weibo url:"+url);
 		String res = HttpClient.get(url);
 		return res;
@@ -35,7 +35,7 @@ public class WeiboServiceImpl implements WeiboService{
 
 	@Override
 	public List getWeiboCommentsList(String type, String mid, String page, String num) {
-		String url = phpWeiboUrl + "?type="+type+"&mid="+mid+"&page="+page+"&num="+num;
+		String url = phpWeiboUrl + "match.php?type="+type+"&mid="+mid+"&page="+page+"&num="+num;
 		logger.info("weibo url:"+url);
 		String res = HttpClient.get(url);
 		List list = Helper.jsonToList(res);

@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -133,6 +134,36 @@ public class ArticleController extends AbstractBaseController {
 			}
 		}catch (Exception e) {
 			logger.error("查询失败==>" + ExceptionUtils.getStackTrace(e));
+		}
+		return msg;
+	}
+	
+	@RequestMapping(value = "/getNewsListByTitle")
+	@ResponseBody
+	public IRestMessage getNewsListByTitle(String type,String str,String page,String num) {
+		IRestMessage msg = getRestMessage();
+		List list = newsService.getNewsListByTitle(type, str, page, num);
+		logger.info("查出文章条数==>" + list.size());
+		if(!CollectionUtils.isEmpty(list)) {
+			msg.setCode(ErrorMessage.SUCCESS.getCode());
+			msg.setResult(list); 
+		} else {
+			msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());
+		}
+		return msg;
+	}
+	
+	@RequestMapping(value = "/getCommentsByNews")
+	@ResponseBody
+	public IRestMessage getCommentsByNews(String type, String newsid, String page, String num) {
+		IRestMessage msg = getRestMessage();
+		List list = newsService.getCommentsByNews(type, newsid, page, num);
+		logger.info("查出评论条数==>" + list.size());
+		if(!CollectionUtils.isEmpty(list)) {
+			msg.setCode(ErrorMessage.SUCCESS.getCode());
+			msg.setResult(list); 
+		} else {
+			msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());
 		}
 		return msg;
 	}

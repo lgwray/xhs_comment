@@ -69,4 +69,24 @@ public interface NewsService {
 	 */
 	public List getLocalArticleCommentsCounts(List list);
 	
+	/**
+	 * 根据新闻标题精准匹配其他网站新闻
+	 * @param type
+	 * @param str
+	 * @param page
+	 * @param num
+	 * @return
+	 */
+	public List getNewsListByTitle(String type,String str,String page,String num);
+	
+	/**
+	 * 根据新闻查询评论
+	 * @param type
+	 * @param newsid
+	 * @param page
+	 * @param num
+	 * @return
+	 */
+	public List getCommentsByNews(String type, String newsid, String page, String num);
+	
 }
