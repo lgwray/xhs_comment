@@ -29,7 +29,7 @@ public class WeiboControllerTest {
     private ResultHandler handler;
     
     @Before  
-    public void init(){  
+    public void init() {  
     	mockMvc = MockMvcBuilders.webAppContextSetup(wac).build(); 
     	handler = MockMvcResultHandlers.print();
     } 
