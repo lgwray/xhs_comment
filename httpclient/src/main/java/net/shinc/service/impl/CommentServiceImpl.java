@@ -139,13 +139,6 @@ public class CommentServiceImpl {
 		return null;
 	}
 
-	
-	/**根据title抓取评论
-	 * @param title
-	 * @param pageSize 每页条数
-	 * @param page 第page页
-	 * @return
-	 */
 	public String sendComment(String userId, String articleId, String content,String username) {
 		HttpPost post = new HttpPost(getSendCommentUrl());
 		post.setHeader("X-Forwarded-For", RandomUtils.generateIp());
