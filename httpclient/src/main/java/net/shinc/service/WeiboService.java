@@ -1,5 +1,7 @@
 package net.shinc.service;
 
+import java.util.List;
+
 /** 
  * @ClassName WeiboService 
  * @Description TODO
@@ -9,4 +11,5 @@ package net.shinc.service;
 public interface WeiboService {
 
 	public String getWeiboComments(String type, String mid, String page, String num);
+	public List getWeiboCommentsList(String type, String mid, String page, String num);
 }

@@ -44,9 +44,10 @@ public class WeiboController extends AbstractBaseController {
 		try {
 			logger.info("mid"+mid);
 			String res = weiboService.getWeiboComments(type, mid, page, num);
-			logger.info("res:"+res);
+			String unicode = UnicodeUtils.decodeUnicode(res);
+			logger.info("res:"+unicode);
 			msg.setCode(ErrorMessage.SUCCESS.getCode());
-			msg.setResult(res);
+			msg.setResult(unicode);
 		} catch (Exception e) {
 			logger.error(ExceptionUtils.getStackTrace(e));
 		}

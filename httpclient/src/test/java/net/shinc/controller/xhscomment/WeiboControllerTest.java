@@ -29,7 +29,7 @@ public class WeiboControllerTest {
     private ResultHandler handler;
     
     @Before  
-    public void init(){  
+    public void init() {  
     	mockMvc = MockMvcBuilders.webAppContextSetup(wac).build(); 
     	handler = MockMvcResultHandlers.print();
     } 
@@ -39,7 +39,7 @@ public class WeiboControllerTest {
     public void getWeiboComments(){
     	try {
     		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/weibo/getWeiboComments")
-    				.param("mid", "3885110983662653").param("page", "1").param("num", "");
+    				.param("mid", "3885183818367115").param("page", "1").param("num", "");
     		mockMvc.perform(reqbuild).andDo(handler);
     	} catch (Exception e) {
     		e.printStackTrace();
