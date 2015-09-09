@@ -318,6 +318,8 @@ public class BaseCommentController extends AbstractBaseController {
 				if(!CollectionUtils.isEmpty(list2)){
 					list.addAll(list2);
 					msg.setCode(ErrorMessage.SUCCESS.getCode());
+				} else {
+					msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());
 				}
 			} catch(Exception e) {
 				logger.error(ExceptionUtils.getStackTrace(e));
