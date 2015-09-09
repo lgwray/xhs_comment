@@ -1,4 +1,4 @@
-package net.shinc.controller.common;
+package net.shinc.controller.xhscomment;
 
 import java.util.HashMap;
 import java.util.Map;

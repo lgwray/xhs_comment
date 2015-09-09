@@ -1,4 +1,4 @@
-package net.shinc.controller.common;
+package net.shinc.controller.xhscomment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -84,6 +84,7 @@ public class CommentController extends AbstractBaseController {
 		
 		return list ;
 	}
+	
 	@RequestMapping(value = "/commentIt")
 	@ResponseBody
 	public String commentIt(QueryCommentForm form) {
@@ -108,6 +109,7 @@ public class CommentController extends AbstractBaseController {
 		}
 		
 	}
+	
 	/**
 	 * 绩效列表
 	 * @return
@@ -131,6 +133,7 @@ public class CommentController extends AbstractBaseController {
 		msg.setResult(resultMap); 
 		return msg;
 	}
+	
 	/**
 	 * 获取管理员列表
 	 * @return

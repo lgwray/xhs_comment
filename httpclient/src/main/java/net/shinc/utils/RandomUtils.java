@@ -1,6 +1,6 @@
 package net.shinc.utils;
 
-import net.shinc.controller.common.NewsController;
+import net.shinc.controller.xhscomment.NewsController;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
