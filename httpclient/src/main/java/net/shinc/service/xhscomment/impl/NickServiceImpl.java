@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
 import com.github.miemiedev.mybatis.paginator.domain.PageList;
@@ -64,6 +65,23 @@ public class NickServiceImpl implements NickService {
 		int num2 = nickMapper.deleteBatch(nickList);
 		logger.info("delete nicknames: " + num2);
 		return num;
+	}
+
+	@Override
+	public Integer deleteNickById(Integer id) {
+		if(null!=id){
+			return nickMapper.deleteByPrimaryKey(id);
+		}
+		return 0;
+	}
+
+	@Override
+	public Integer deleteNickBatch(List<Map> list) {
+		if(!CollectionUtils.isEmpty(list)){
+			int i = nickMapper.deleteBatch(list);
+			return i;
+		}
+		return 0;
 	}
 
 }

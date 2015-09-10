@@ -1,5 +1,6 @@
 package net.shinc.service.xhscomment;
 
+import java.util.List;
 import java.util.Map;
 
 import net.shinc.formbean.common.NickForm;
@@ -24,5 +25,7 @@ public interface NickService {
 	
 	public Integer filterNick(NickForm nickform);
 	
+	public Integer deleteNickById(Integer id);
 	
+	public Integer deleteNickBatch(List<Map> list);
 }

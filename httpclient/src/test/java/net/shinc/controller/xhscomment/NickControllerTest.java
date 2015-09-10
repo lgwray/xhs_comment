@@ -58,4 +58,5 @@ public class NickControllerTest {
     		e.printStackTrace();
     	}
     }
+    
 }

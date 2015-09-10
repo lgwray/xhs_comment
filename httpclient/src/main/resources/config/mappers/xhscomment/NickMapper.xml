@@ -83,6 +83,7 @@
 		<result column="id" property="id" jdbcType="VARCHAR" />
 		<result column="nickname" property="nickname" jdbcType="VARCHAR" />
   </resultMap>
+  
   <select id="getNickListByPage2" resultMap="getNickListMapByPageRes">
   	select
   		id, nickname

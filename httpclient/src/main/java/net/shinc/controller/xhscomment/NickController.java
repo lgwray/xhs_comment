@@ -84,9 +84,9 @@ public class NickController extends AbstractBaseController {
 	 */
 	@RequestMapping(value = "/filterNick")
 	@ResponseBody
-	public IRestMessage filterNick(NickForm nickList) {
+	public IRestMessage filterNick(NickForm form) {
 		IRestMessage msg = getRestMessageWithoutUser();
-		Integer num = nickService.filterNick(nickList);
+		Integer num = nickService.filterNick(form);
 		if(null!=num && num >0){
 			msg.setCode(ErrorMessage.SUCCESS.getCode());
 			msg.setResult(num);
