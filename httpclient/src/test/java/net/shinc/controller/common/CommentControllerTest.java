@@ -60,4 +60,15 @@ public class CommentControllerTest {
     	}
     }
     
+    @WithMockUser(username="admin",password="admin",authorities={"adminUserList"})
+    @Test
+    public void getTodayCommentsNums() {
+    	RequestBuilder reqbuild = MockMvcRequestBuilders.post("/getTodayCommentsNums");
+    	try {
+    		mockMvc.perform(reqbuild).andDo(MockMvcResultHandlers.print());
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    }
+    
 }

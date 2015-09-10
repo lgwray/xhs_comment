@@ -52,6 +52,7 @@ public class MenuController extends AbstractBaseController {
 		}
 		return msg;
 	}
+	
 	/**
 	 * 获取当前登录用户的菜单Test
 	 * @return

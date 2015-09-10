@@ -1,5 +1,6 @@
 package net.shinc.service.xhscomment.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -14,6 +15,7 @@ import net.shinc.orm.mybatis.mappers.comment.CommentMapper;
 import net.shinc.orm.mybatis.mappers.xhscomment.CategoryCommentMapper;
 import net.shinc.orm.mybatis.mappers.xhscomment.CommentCategoryMapper;
 import net.shinc.service.xhscomment.BaseCommentService;
+import net.shinc.utils.DateUtils;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -134,5 +136,16 @@ public class BaseCommentServiceImpl implements BaseCommentService {
 		List list = cmMapper.getLocalCommentsNums();
 		return list;
 	}
-
+	
+	@Override
+	public List getTodayCommentsNums() {
+		String today = DateUtils.dateToString(new Date(), "yyyy-MM-dd");
+		List list = cmMapper.getTodayCommentsNums(today);
+		return list;
+	}
+	
+	public static void main(String[] args) {
+		String dateToString = DateUtils.dateToString(new Date(), "yyyy-MM-dd");
+		System.out.println(dateToString);
+	}
 }

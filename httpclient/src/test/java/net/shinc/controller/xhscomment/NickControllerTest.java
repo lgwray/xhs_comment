@@ -48,7 +48,7 @@ public class NickControllerTest {
     
     @Test
     @WithMockUser(username="admin",password="admin")
-    public void filterNick(){
+    public void filterNick() {
     	try {
     		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/nick/filterNick")
     				.param("nickList[0][id]", "275143").param("nickList[0][nickname]", " 獨 家 記 憶")

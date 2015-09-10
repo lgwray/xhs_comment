@@ -85,4 +85,18 @@
 		order by cal desc
 	</select>
 	
+	<select id="getTodayCommentsNums" resultMap="getLocalCommentsNumsResMap">
+		select 
+			sum,cal 
+		from 
+			(SELECT 
+				count(*) sum,date_format(adddate,'%Y-%m-%d') cal
+			FROM 
+				sh_jnl_article_comment 
+			group by cal 
+			order by cal desc) tba 
+		where 
+			date_format(cal,'%Y-%c-%d') = str_to_date(#{todayDate},'%Y-%c-%d')
+	</select>
+	
 </mapper>

@@ -157,8 +157,22 @@ public class CommentController extends AbstractBaseController {
 	@RequestMapping(value = "/getLocalEverydayCommentsNums")
 	@ResponseBody
 	public IRestMessage getLocalEverydayCommentsNums() {
-		IRestMessage msg = getRestMessage();
+		IRestMessage msg = getRestMessageWithoutUser();
 		List list = baseCommentService.getLocalEverydayCommentsNums();
+		msg.setCode(ErrorMessage.SUCCESS.getCode());
+		msg.setResult(list); 
+		return msg;
+	}
+	
+	/**
+	 * 获得当天的总评论数
+	 * @return
+	 */
+	@RequestMapping(value = "/getTodayCommentsNums")
+	@ResponseBody
+	public IRestMessage getTodayCommentsNums() {
+		IRestMessage msg = getRestMessageWithoutUser();
+		List list = baseCommentService.getTodayCommentsNums();
 		msg.setCode(ErrorMessage.SUCCESS.getCode());
 		msg.setResult(list); 
 		return msg;

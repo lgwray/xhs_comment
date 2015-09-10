@@ -24,5 +24,7 @@ public interface CommentMapper {
 	 * @return
 	 */
 	public List getLocalCommentsNums();
+	
+	public List getTodayCommentsNums(String todayDate);
 
 }
