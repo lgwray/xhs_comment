@@ -40,6 +40,8 @@ public class ArticleServiceImpl {
 						commentMapper.insertArticle(list.get(i));
 					}catch(Exception e){
 						logger.error("SQLException => "+e);
+					}finally{
+						commentMapper.updateArticle(list.get(i));
 					}
 				}
 			}

@@ -43,7 +43,12 @@
 	    values 
 			(#{id}, #{topic},#{releaseDate,jdbcType=TIMESTAMP})
   	</insert>
-  	
+  	<update id="updateArticle" parameterType="java.util.Map">
+  		update 
+  			sh_article(id, title,publish_date,comments_total)
+  		where
+  			id=#{id}		
+  	</update>
   	<select id="getLocalArticleCommentsCounts" resultMap="selectLocalArticleCommentsCountsMap" >
 		SELECT 
 			count(j.article_id) as comments_counts,
