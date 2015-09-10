@@ -22,10 +22,13 @@ import net.shinc.formbean.common.AddCommentForm;
 import net.shinc.formbean.common.CommentItForm;
 import net.shinc.orm.mybatis.bean.common.AdminUser;
 import net.shinc.orm.mybatis.bean.xhscomment.CommentCategory;
+import net.shinc.orm.mybatis.bean.xhscomment.JnlComment;
+import net.shinc.orm.mybatis.bean.xhscomment.JnlComment.SendFlag;
 import net.shinc.service.WeiboService;
 import net.shinc.service.common.impl.JnlServiceImpl;
 import net.shinc.service.impl.CommentServiceImpl;
 import net.shinc.service.xhscomment.BaseCommentService;
+import net.shinc.service.xhscomment.JnlCommentService;
 import net.shinc.utils.Helper;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -69,6 +72,9 @@ public class BaseCommentController extends AbstractBaseController {
 	
 	@Autowired
 	private BaseCommentService baseCommentService;
+	
+	@Autowired
+	private JnlCommentService jnlCommentService;
 	private static Logger logger = LoggerFactory.getLogger(BaseCommentController.class);
 
 	private int perGroup = 5;
@@ -345,7 +351,7 @@ public class BaseCommentController extends AbstractBaseController {
 	 * @param form
 	 * @return
 	 */
-	@RequestMapping(value = "/commentIt")
+	@RequestMapping(value = "/commentItold")
 	@ResponseBody
 	public IRestMessage commentIt(@Valid CommentItForm form) {
 		IRestMessage msg = getRestMessage();
@@ -383,34 +389,46 @@ public class BaseCommentController extends AbstractBaseController {
 		}
 	}
 	
-	@RequestMapping(value = "/commentItMultiThread")
+	@RequestMapping(value = "/commentIt")
 	@ResponseBody
-	public IRestMessage commentItMultiThread(@Valid CommentItForm form) {
+	public IRestMessage sendComment(@Valid CommentItForm form) {
 		IRestMessage msg = getRestMessage();
 		String articleId = form.getArticleId();
 		List<Map> commentList = form.getCommentList();
-		
-		int size = commentList.size();
-		int count = size % perGroup == 0 ? size / perGroup : size / perGroup + 1;
-		
-		List<CommentTask> taskList = new ArrayList<CommentTask>();
-		for(int i = 0; i < count; i++) {
-			int fromIndex = i * perGroup;
-			int toIndex = fromIndex + perGroup;
-			List<Map> sub = toIndex > size ? commentList.subList(fromIndex, size) : commentList.subList(fromIndex, toIndex);
-			CommentTask task = new CommentTask(jnlService, sub, articleId);
-			taskList.add(task);
-		}
-		
-		CommentCallable task = new CommentCallable(msg, taskList);
-		Future<IRestMessage> future = threadPoolExecutor.submit(task);
+		List<JnlComment> list = new ArrayList<JnlComment>();
 		try {
-			IRestMessage msg2 = future.get();
-			return msg2;
-		} catch (Exception e) {
+			int allNum = 0;
+			for(Iterator<Map> it = commentList.iterator(); it.hasNext();) {
+				JnlComment jnlComment = new JnlComment();
+				String userId = "-1";
+				try {
+					userId = String.valueOf(AdminUser.getCurrentUser().getId());
+				} catch(Exception e) {
+					logger.error(ExceptionUtils.getStackTrace(e));
+				}
+				jnlComment.setUserId(Integer.parseInt(userId));
+				
+				Map map = it.next();
+				String comment = (String)map.get("comment");
+				String nick = (String)map.get("nick");
+				if(StringUtils.isEmpty(nick)) {
+					nick = "新华社客户端网友";
+				}
+				
+				jnlComment.setAddDate(new Date());
+				jnlComment.setNickName(nick);
+				jnlComment.setContent(comment);
+				jnlComment.setSendFlag(SendFlag.nosend.getValue());
+				jnlComment.setArticleId(articleId);
+				list.add(jnlComment);
+			}
+			jnlCommentService.putComment(list);
+			msg.setCode(ErrorMessage.SUCCESS.getCode());
+			return msg;
+		} catch(Exception e) {
 			logger.error(ExceptionUtils.getStackTrace(e));
+			return msg;
 		}
-		return msg;
 	}
 	
 	class CommentTask implements Callable<Boolean> {
