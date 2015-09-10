@@ -41,7 +41,7 @@
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="FILE" />
 	</logger>
-	<logger name="net.shinc.orm.mybatis.mappers" level="debug"
+	<logger name="net.shinc.orm.mybatis.mappers" level="info"
 		additivity="false">
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="FILE" />
