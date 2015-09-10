@@ -23,12 +23,14 @@
 		<result column="id" property="id" jdbcType="VARCHAR" />
 		<result column="title" property="title" jdbcType="VARCHAR" />
 		<result column="publish_date" property="publishDate" jdbcType="VARCHAR" />
+		<result column="comment_total" property="comment" jdbcType="VARCHAR" />
 	</resultMap>
 	<select id="selectArticleListByDate" resultMap="selectArticleListByDateMap" >
 		SELECT 
 			id,
 			title,
-			publish_date
+			publish_date,
+			IFNULL(comment_total,'0') comment_total
 		FROM 
 			sh_article 
 		WHERE

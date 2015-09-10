@@ -7,6 +7,7 @@ import java.util.Map;
 import net.shinc.common.AbstractBaseController;
 import net.shinc.common.ErrorMessage;
 import net.shinc.common.IRestMessage;
+import net.shinc.orm.mybatis.bean.common.Article;
 import net.shinc.service.NewsService;
 import net.shinc.service.impl.ArticleServiceImpl;
 import net.shinc.utils.Helper;
@@ -126,6 +127,21 @@ public class ArticleController extends AbstractBaseController {
 		IRestMessage msg = getRestMessage();
 		try {
 			List list = articleService.getArticleListByDate(publisDate);
+			
+			List countsList = newsService.getLocalArticleCommentsCounts(list);
+			for(Iterator<Article> item = list.iterator(); item.hasNext();){
+				Article article = item.next();
+				article.setCommentsCount("0");
+				String id = (String)article.getId();
+				for(Iterator<Map> countItem = countsList.iterator(); countItem.hasNext();){
+					Map countMap = countItem.next();
+					String articlId = (String)countMap.get("articlId");
+					if(id != null && id.equals(articlId)){
+						article.setCommentsCount(((Long)countMap.get("commentsCounts")).toString());
+					}
+				}
+			}
+			
 			if(null != list) {
 				msg.setCode(ErrorMessage.SUCCESS.getCode());
 				msg.setResult(list);

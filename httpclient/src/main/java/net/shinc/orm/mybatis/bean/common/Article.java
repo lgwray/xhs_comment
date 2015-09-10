@@ -6,6 +6,9 @@ public class Article {
 	private String id;
 	private String title;
 	private String publishDate;
+	private String comment;
+	private String commentsCount;
+	
 	public String getId() {
 		return id;
 	}
@@ -29,4 +32,22 @@ public class Article {
 	public String toString() {
 		return MessageFormat.format("id:{0}\ttitle{1}\tpublishDate:{2}", this.id,this.title,this.publishDate);
 	}
+	
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
+	public String getCommentsCount() {
+		return commentsCount;
+	}
+
+	public void setCommentsCount(String commentsCount) {
+		this.commentsCount = commentsCount;
+	}
+	
+	
 }
