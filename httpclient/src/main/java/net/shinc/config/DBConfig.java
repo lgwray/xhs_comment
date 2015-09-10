@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.sql.DataSource;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -24,7 +25,7 @@ import org.springframework.core.io.ClassPathResource;
  */
 @Configuration
 @PropertySource("classpath:config/properties/config_${spring.profiles.active}.properties")
-@MapperScan(basePackages={"net.shinc.orm.mybatis.mappers"})
+@MapperScan(basePackages={"net.shinc.orm.mybatis.mappers"},sqlSessionTemplateRef="sqlSession")
 public class DBConfig {
     
 	@Autowired
@@ -74,6 +75,11 @@ public class DBConfig {
 	@Bean
 	public SqlSessionTemplate sqlSession(SqlSessionFactory ssf) {
 		SqlSessionTemplate sqlSession = new SqlSessionTemplate(ssf);
+		return sqlSession;
+	}
+	@Bean(name="sqlSessionBatch")
+	public SqlSessionTemplate sqlSessionBatch(SqlSessionFactory ssf) {
+		SqlSessionTemplate sqlSession = new SqlSessionTemplate(ssf,ExecutorType.BATCH);
 		return sqlSession;
 	}
 }
