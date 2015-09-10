@@ -263,7 +263,7 @@ public class AdminUserController extends AbstractBaseController {
 	public IRestMessage getCurrentUser() {
 		IRestMessage msg = getRestMessage();
 		AdminUser currentUser = AdminUser.getCurrentUser();
-		if(null != currentUser){
+		if(null != currentUser) {
 			Map<String,Object> map = new HashMap<String,Object>();
 			map.put("userId", currentUser.getId());
 			map.put("userName", currentUser.getUsername());

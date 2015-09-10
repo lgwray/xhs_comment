@@ -44,4 +44,10 @@ public interface BaseCommentService {
 	 * @return
 	 */
 	public List getCommentList(Integer categoryId,RowBounds rb);
+	
+	/**
+	 * 获得每天的总评论数
+	 * @return
+	 */
+	public List getLocalEverydayCommentsNums();
 }

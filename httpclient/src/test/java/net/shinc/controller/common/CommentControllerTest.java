@@ -48,4 +48,16 @@ public class CommentControllerTest {
 			e.printStackTrace();
 		}
     }
+    
+    @WithMockUser(username="admin",password="admin",authorities={"adminUserList"})
+    @Test
+    public void getLocalEverydayCommentsNums() {
+    	RequestBuilder reqbuild = MockMvcRequestBuilders.post("/getLocalEverydayCommentsNums");
+    	try {
+    		mockMvc.perform(reqbuild).andDo(MockMvcResultHandlers.print());
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    }
+    
 }

@@ -70,4 +70,19 @@
 		group by 
 			j.article_id;
 	</select>
+	
+	<resultMap id="getLocalCommentsNumsResMap" type="java.util.Map">
+		<result column="comments_counts" property="commentsCounts" jdbcType="VARCHAR" />
+		<result column="article_id" property="articlId" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="getLocalCommentsNums" resultMap="getLocalCommentsNumsResMap">
+		SELECT 
+			count(*) sum,date_format(adddate,'%Y-%m-%d') cal
+		FROM 
+			sh_jnl_article_comment 
+		group by cal 
+		order by cal desc
+	</select>
+	
 </mapper>

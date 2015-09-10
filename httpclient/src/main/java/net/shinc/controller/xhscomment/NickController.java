@@ -45,7 +45,7 @@ public class NickController extends AbstractBaseController {
 	private String limit;
 	
 	/**
-	 * @param mid
+	 * 获取杂乱昵称列表
 	 * @param page 当前页
 	 * @param num 每页条数
 	 * @return
@@ -75,6 +75,11 @@ public class NickController extends AbstractBaseController {
 		return msg;
 	}
 	
+	/**
+	 * 过滤昵称
+	 * @param nickList
+	 * @return
+	 */
 	@RequestMapping(value = "/filterNick")
 	@ResponseBody
 	public IRestMessage filterNick(NickForm nickList) {

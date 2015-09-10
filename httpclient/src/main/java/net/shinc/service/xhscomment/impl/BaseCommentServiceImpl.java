@@ -10,6 +10,7 @@ import java.util.Map;
 import net.shinc.common.TreeNode;
 import net.shinc.orm.mybatis.bean.xhscomment.CategoryComment;
 import net.shinc.orm.mybatis.bean.xhscomment.CommentCategory;
+import net.shinc.orm.mybatis.mappers.comment.CommentMapper;
 import net.shinc.orm.mybatis.mappers.xhscomment.CategoryCommentMapper;
 import net.shinc.orm.mybatis.mappers.xhscomment.CommentCategoryMapper;
 import net.shinc.service.xhscomment.BaseCommentService;
@@ -35,6 +36,9 @@ public class BaseCommentServiceImpl implements BaseCommentService {
 	
 	@Autowired
 	private CommentCategoryMapper categoryMapper;
+	
+	@Autowired
+	private CommentMapper cmMapper;
 
 	@Override
 	public List<TreeNode<CommentCategory>> getCategory() {
@@ -119,6 +123,16 @@ public class BaseCommentServiceImpl implements BaseCommentService {
 		CategoryComment cmt = new CategoryComment();
 		cmt.setCategoryId(categoryId);
 		return commentMapper.getCommentList(cmt, rb);
+	}
+	
+	/**
+	 * 获得每天的总评论数
+	 * @return
+	 */
+	@Override
+	public List getLocalEverydayCommentsNums() {
+		List list = cmMapper.getLocalCommentsNums();
+		return list;
 	}
 
 }

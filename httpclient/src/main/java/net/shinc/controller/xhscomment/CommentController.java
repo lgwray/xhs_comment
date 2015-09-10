@@ -13,6 +13,7 @@ import net.shinc.formbean.common.QueryCommentForm;
 import net.shinc.service.common.AdminUserService;
 import net.shinc.service.common.impl.JnlServiceImpl;
 import net.shinc.service.impl.CommentServiceImpl;
+import net.shinc.service.xhscomment.BaseCommentService;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
@@ -43,8 +44,8 @@ public class CommentController extends AbstractBaseController {
 	private AdminUserService adminUserService;
 	private static Logger logger = LoggerFactory.getLogger(CommentController.class);
 
-	
-	
+	@Autowired
+	private BaseCommentService baseCommentService;
 
 	/**
 	 * 首页
@@ -144,6 +145,20 @@ public class CommentController extends AbstractBaseController {
 		IRestMessage msg = getRestMessage();
 		List list = adminUserService.getAllAdminUserList();
 		logger.info("绩效列表==>" + list.toString());
+		msg.setCode(ErrorMessage.SUCCESS.getCode());
+		msg.setResult(list); 
+		return msg;
+	}
+	
+	/**
+	 * 获得每天的总评论数
+	 * @return
+	 */
+	@RequestMapping(value = "/getLocalEverydayCommentsNums")
+	@ResponseBody
+	public IRestMessage getLocalEverydayCommentsNums() {
+		IRestMessage msg = getRestMessage();
+		List list = baseCommentService.getLocalEverydayCommentsNums();
 		msg.setCode(ErrorMessage.SUCCESS.getCode());
 		msg.setResult(list); 
 		return msg;

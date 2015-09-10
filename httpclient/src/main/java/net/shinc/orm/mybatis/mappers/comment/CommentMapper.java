@@ -18,5 +18,11 @@ public interface CommentMapper {
 	public void updateArticle(Map map);
 	
 	public List getLocalArticleCommentsCounts(List list);
+	
+	/**
+	 * 查看每天本地的评论量
+	 * @return
+	 */
+	public List getLocalCommentsNums();
 
 }
