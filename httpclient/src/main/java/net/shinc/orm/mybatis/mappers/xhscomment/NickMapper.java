@@ -23,4 +23,5 @@ public interface NickMapper {
     int updateByPrimaryKey(Nick record);
     
     public List<Nick> getNickListByPage(PageBounds pb);
+    public List<Map> getNickListByPage2(PageBounds pb);
 }

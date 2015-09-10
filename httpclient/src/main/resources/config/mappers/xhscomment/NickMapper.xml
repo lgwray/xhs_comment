@@ -79,4 +79,16 @@
   	where 1 = 1
   </select>
   
+  <resultMap id="getNickListMapByPageRes" type="java.util.Map">
+		<result column="id" property="id" jdbcType="VARCHAR" />
+		<result column="nickname" property="nickname" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="getNickListByPage2" resultMap="getNickListMapByPageRes">
+  	select
+  		id, nickname
+  	from 
+  		nick
+  	where 1 = 1
+  </select>
+  
 </mapper>

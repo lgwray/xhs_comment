@@ -1,10 +1,11 @@
 package net.shinc.controller.xhscomment;
 
+import java.util.Map;
+
 import net.shinc.common.AbstractBaseController;
 import net.shinc.common.ErrorMessage;
 import net.shinc.common.IRestMessage;
 import net.shinc.formbean.common.NickForm;
-import net.shinc.orm.mybatis.bean.xhscomment.Nick;
 import net.shinc.service.xhscomment.NickNameService;
 import net.shinc.service.xhscomment.NickService;
 
@@ -61,7 +62,8 @@ public class NickController extends AbstractBaseController {
 			}
 			logger.info("page:" + page + "\tnum:" + num);
 			PageBounds pb = new PageBounds(Integer.parseInt(page), Integer.parseInt(num));
-			PageList<Nick> list = nickService.getNickListByPage(pb);
+//			PageList<Nick> list = nickService.getNickListByPage(pb);
+			PageList<Map> list = nickService.getNickListByPage2(pb);
 			if (null != list && list.size() > 0) {
 				msg.setCode(ErrorMessage.SUCCESS.getCode());
 				msg.setResult(list);
