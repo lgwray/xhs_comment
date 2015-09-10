@@ -96,7 +96,7 @@ public class ArticleControllerTest {
     public void testgetNewsListByTitle() {
     	RequestBuilder reqbuild = MockMvcRequestBuilders.post("/article/getNewsListByTitle")
     			.param("type", "news")
-    			.param("str", "夫妻唆使4名亲生子女盗窃:10天偷40余万赃物")
+    			.param("title", "夫妻唆使4名亲生子女盗窃:10天偷40余万赃物")
     			.param("page", "1")
     			.param("num", "10");
 		try {

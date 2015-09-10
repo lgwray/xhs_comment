@@ -138,11 +138,19 @@ public class ArticleController extends AbstractBaseController {
 		return msg;
 	}
 	
+	/**
+	 * 新闻标题查新闻列表
+	 * @param type 固定查news
+	 * @param title 新闻标题
+	 * @param page
+	 * @param num
+	 * @return
+	 */
 	@RequestMapping(value = "/getNewsListByTitle")
 	@ResponseBody
-	public IRestMessage getNewsListByTitle(String type,String str,String page,String num) {
+	public IRestMessage getNewsListByTitle(String type,String title,String page,String num) {
 		IRestMessage msg = getRestMessage();
-		List list = newsService.getNewsListByTitle(type, str, page, num);
+		List list = newsService.getNewsListByTitle(type, title, page, num);
 		logger.info("查出文章条数==>" + list.size());
 		if(!CollectionUtils.isEmpty(list)) {
 			msg.setCode(ErrorMessage.SUCCESS.getCode());
@@ -153,6 +161,14 @@ public class ArticleController extends AbstractBaseController {
 		return msg;
 	}
 	
+	/**
+	 * 
+	 * @param type
+	 * @param newsid
+	 * @param page
+	 * @param num
+	 * @return
+	 */
 	@RequestMapping(value = "/getCommentsByNews")
 	@ResponseBody
 	public IRestMessage getCommentsByNews(String type, String newsid, String page, String num) {
