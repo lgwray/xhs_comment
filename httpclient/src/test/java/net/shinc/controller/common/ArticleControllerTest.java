@@ -91,6 +91,17 @@ public class ArticleControllerTest {
     	}
     }
     
+    @WithMockUser(username="admin",password="admin",authorities={"adminUserList"})
+    @Test
+    public void autoRefreshArticleList() {
+    	RequestBuilder reqbuild = MockMvcRequestBuilders.post("/article/autoRefreshArticleList").param("cid", "470").param("ctype", "4001");
+    	try {
+    		mockMvc.perform(reqbuild).andDo(MockMvcResultHandlers.print());
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    }
+    
     @Test
     @WithMockUser(username="admin",password="admin",authorities={"adminUserList"})
     public void testgetNewsListByTitle() {

@@ -39,13 +39,16 @@
 	
 	<insert id="insertArticle" parameterType="java.util.Map" >
 	    insert into 
-	    	sh_article(id, title,publish_date)
+	    	sh_article(id, title,publish_date,comment_total)
 	    values 
-			(#{id}, #{topic},#{releaseDate,jdbcType=TIMESTAMP})
+			(#{id}, #{topic},#{releaseDate,jdbcType=TIMESTAMP},#{comment})
   	</insert>
   	<update id="updateArticle" parameterType="java.util.Map">
   		update 
-  			sh_article(id, title,publish_date,comments_total)
+  			sh_article
+  		set
+  			publish_date=#{releaseDate,jdbcType=TIMESTAMP},
+  			comment_total=#{comment}
   		where
   			id=#{id}		
   	</update>
