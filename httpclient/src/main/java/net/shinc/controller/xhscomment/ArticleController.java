@@ -140,7 +140,7 @@ public class ArticleController extends AbstractBaseController {
 	
 	/**
 	 * 新闻标题查新闻列表
-	 * @param type 固定查news
+	 * @param type 固定传news
 	 * @param title 新闻标题
 	 * @param page
 	 * @param num
@@ -162,9 +162,9 @@ public class ArticleController extends AbstractBaseController {
 	}
 	
 	/**
-	 * 
-	 * @param type
-	 * @param newsid
+	 * 根据新闻id,查新闻下的评论
+	 * @param type 固定传news
+	 * @param newsid 新闻id
 	 * @param page
 	 * @param num
 	 * @return
