@@ -8,20 +8,39 @@
   <sql id="Base_Column_List" >
     id, nickname
   </sql>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from sh_nick
     where id = #{id,jdbcType=INTEGER}
   </select>
+  
+  <select id="selectByNickName" resultMap="BaseResultMap" parameterType="NickName" >
+    select 
+    	<include refid="Base_Column_List" />
+    from sh_nick
+    where nickname = #{nickname,jdbcType=INTEGER}
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sh_nick
     where id = #{id,jdbcType=INTEGER}
   </delete>
+  
   <insert id="insert" parameterType="NickName" >
     insert into sh_nick (id, nickname)
     values (#{id,jdbcType=INTEGER}, #{nickname,jdbcType=VARCHAR})
   </insert>
+  
+  <insert id="insertBatch" parameterType="java.util.List">
+  	insert into sh_nick (nickname)
+  	values
+		<foreach collection="list" item="item" index="index" separator="," >
+			(#{item.nickname,jdbcType=VARCHAR})
+		</foreach>
+  </insert>
+  
   <insert id="insertSelective" parameterType="NickName" >
     insert into sh_nick
     <trim prefix="(" suffix=")" suffixOverrides="," >

@@ -37,6 +37,7 @@ public abstract class AbstractBaseController implements ApplicationContextAware 
             ServletRequestDataBinder binder) throws Exception {
         binder.setAutoGrowCollectionLimit(1024);// 数字越界问题
     }
+	
 	public IRestMessage getRestMessage() {
 		IRestMessage msg = (IRestMessage)applicationContext.getBean("restMessage");
 		AdminUser currentUser = AdminUser.getCurrentUser();

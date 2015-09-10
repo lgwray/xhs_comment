@@ -1,7 +1,9 @@
 package net.shinc.controller.common;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -252,6 +254,24 @@ public class AdminUserController extends AbstractBaseController {
 			}
 		} catch (Exception e) {
 			logger.error("修改密码失败==>" + ExceptionUtils.getStackTrace(e));
+		}
+		return msg;
+	}
+	
+	@RequestMapping(value = "/getCurrentUser")
+	@ResponseBody
+	public IRestMessage getCurrentUser() {
+		IRestMessage msg = getRestMessage();
+		AdminUser currentUser = AdminUser.getCurrentUser();
+		if(null != currentUser){
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.put("userId", currentUser.getId());
+			map.put("userName", currentUser.getUsername());
+			map.put("menuMap", currentUser.getMenuMap());
+			msg.setUserInfo(map);
+			msg.setCode(ErrorMessage.SUCCESS.getCode());
+		} else {
+			msg.setCode(ErrorMessage.NEED_LOGIN.getCode());
 		}
 		return msg;
 	}

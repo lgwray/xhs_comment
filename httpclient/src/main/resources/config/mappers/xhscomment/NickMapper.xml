@@ -22,6 +22,14 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   
+  <delete id="deleteBatch" parameterType="java.util.List">
+  	delete from nick
+  	where id in
+	  	<foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+		  #{item.id}  
+	    </foreach> 
+  </delete>
+  
   <insert id="insert" parameterType="Nick" >
     insert into nick (id, nickname)
     values (#{id,jdbcType=INTEGER}, #{nickname,jdbcType=VARCHAR})
@@ -62,5 +70,13 @@
     set nickname = #{nickname,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="getNickListByPage" resultMap="BaseResultMap">
+  	select
+  		id, nickname
+  	from 
+  		nick
+  	where 1 = 1
+  </select>
   
 </mapper>

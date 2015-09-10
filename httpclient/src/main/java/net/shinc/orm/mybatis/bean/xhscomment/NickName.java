@@ -4,8 +4,16 @@ public class NickName {
     private Integer id;
 
     private String nickname;
+    
+    public NickName() {
+		super();
+	}
+    
+	public NickName(String nickname) {
+		this.nickname = nickname;
+	}
 
-    public Integer getId() {
+	public Integer getId() {
         return id;
     }
 

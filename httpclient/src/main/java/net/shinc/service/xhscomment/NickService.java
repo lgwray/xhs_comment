@@ -1,5 +1,11 @@
 package net.shinc.service.xhscomment;
 
+import net.shinc.formbean.common.NickForm;
+import net.shinc.orm.mybatis.bean.xhscomment.Nick;
+
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+
 /** 
  * @ClassName NickService 
  * @Description TODO
@@ -8,4 +14,9 @@ package net.shinc.service.xhscomment;
  */
 public interface NickService {
 
+	public PageList<Nick> getNickListByPage(PageBounds pageBounds);
+	
+	public Integer deleteNick(Nick nick);
+	
+	public Integer filterNick(NickForm nickform);
 }
