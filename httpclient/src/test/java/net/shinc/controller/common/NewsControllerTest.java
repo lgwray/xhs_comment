@@ -43,4 +43,5 @@ public class NewsControllerTest {
 			e.printStackTrace();
 		}
     }
+    
 }

@@ -20,6 +20,7 @@ import org.apache.http.client.utils.URIBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
@@ -35,6 +36,9 @@ public class NewsServiceImpl implements NewsService {
 	
 	@Autowired
 	private CommentMapper commentMapper;
+	
+	@Value("${php.news.list}")
+	private String phpUrl;
 
 	public List getNewsList(String userId, String listUrl) {
 		String res = HttpClient.post(listUrl, ParamUtils.getNewsListParamMap(userId));
@@ -310,6 +314,26 @@ public class NewsServiceImpl implements NewsService {
 		} catch (Exception e) {
 			logger.error(ExceptionUtils.getStackTrace(e));
 		}
+	}
+
+	//http://news.test.com/newslist.php?type=news&str=%E7%9B%97%E7%AA%83&page=1&num=10
+	@Override
+	public List getNewsListByTitle(String type, String str, String page, String num) {
+		String url = phpUrl + "newslist.php?type="+type+"&str="+str+"&page="+page+"&num="+num;
+		logger.info("phpNewsListUrl:"+url);
+		String res = HttpClient.get(url);
+		List list = Helper.jsonToList(res);
+		return list;
+	}
+	
+	//http://news.test.com/contentlist.php?type=news&newsid=34&page=1&num=5
+	@Override
+	public List getCommentsByNews(String type, String newsid, String page, String num) {
+		String url = phpUrl + "contentlist.php?type="+type+"&newsid="+newsid+"&page="+page+"&num="+num;
+		logger.info("phpNewsListUrl:"+url);
+		String res = HttpClient.get(url);
+		List list = Helper.jsonToList(res);
+		return list;
 	}
 	
 //	public static void main(String[] args) {

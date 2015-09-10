@@ -90,4 +90,34 @@ public class ArticleControllerTest {
     		e.printStackTrace();
     	}
     }
+    
+    @Test
+    @WithMockUser(username="admin",password="admin",authorities={"adminUserList"})
+    public void testgetNewsListByTitle() {
+    	RequestBuilder reqbuild = MockMvcRequestBuilders.post("/article/getNewsListByTitle")
+    			.param("type", "news")
+    			.param("title", "夫妻唆使4名亲生子女盗窃:10天偷40余万赃物")
+    			.param("page", "1")
+    			.param("num", "10");
+		try {
+			mockMvc.perform(reqbuild).andDo(MockMvcResultHandlers.print());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    }
+    
+    @Test
+    @WithMockUser(username="admin",password="admin",authorities={"adminUserList"})
+    public void testgetCommentsByNews() {
+    	RequestBuilder reqbuild = MockMvcRequestBuilders.post("/article/getCommentsByNews")
+    			.param("type", "news")
+    			.param("newsid", "34")
+    			.param("page", "1")
+    			.param("num", "10");
+    	try {
+    		mockMvc.perform(reqbuild).andDo(MockMvcResultHandlers.print());
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    }
 }

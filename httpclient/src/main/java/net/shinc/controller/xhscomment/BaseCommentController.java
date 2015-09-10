@@ -26,6 +26,7 @@ import net.shinc.service.WeiboService;
 import net.shinc.service.common.impl.JnlServiceImpl;
 import net.shinc.service.impl.CommentServiceImpl;
 import net.shinc.service.xhscomment.BaseCommentService;
+import net.shinc.utils.Helper;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
@@ -318,6 +319,8 @@ public class BaseCommentController extends AbstractBaseController {
 				if(!CollectionUtils.isEmpty(list2)){
 					list.addAll(list2);
 					msg.setCode(ErrorMessage.SUCCESS.getCode());
+				} else {
+					msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());
 				}
 			} catch(Exception e) {
 				logger.error(ExceptionUtils.getStackTrace(e));
@@ -349,6 +352,7 @@ public class BaseCommentController extends AbstractBaseController {
 		String articleId = form.getArticleId();
 		List<Map> commentList = form.getCommentList();
 		try {
+			int allNum = 0;
 			for(Iterator<Map> it = commentList.iterator(); it.hasNext();) {
 				Map map = it.next();
 				String comment = (String)map.get("comment");
@@ -357,6 +361,10 @@ public class BaseCommentController extends AbstractBaseController {
 					nick = "新华社客户端网友";
 				}
 				String re = commentService.sendComment("0", articleId, comment,nick);
+				Map resMap = Helper.jsonToMap(re);
+				if("success".equals(resMap.get("state"))){
+					allNum ++;
+				}
 				String userId = "-1";
 				try {
 					userId = String.valueOf(AdminUser.getCurrentUser().getId());
@@ -364,8 +372,9 @@ public class BaseCommentController extends AbstractBaseController {
 					logger.error(ExceptionUtils.getStackTrace(e));
 				}
 				jnlService.insertJnlArticleComment(articleId, comment, null, userId, "1");
-				logger.info("评论id:" + articleId + "  map:" + map + "  result:" + re);
+				logger.info("评论id:" + articleId + "  map:" + map + "  result:" + re);  //result:{"state":"success","message":"\u63d0\u4ea4\u6210\u529f"}
 			}
+			logger.info("文章ID:"+articleId+"成功评论了"+allNum+"条评论");
 			msg.setCode(ErrorMessage.SUCCESS.getCode());
 			return msg;
 		} catch(Exception e) {
