@@ -1,5 +1,7 @@
 package net.shinc.service.xhscomment;
 
+import java.util.Map;
+
 import net.shinc.formbean.common.NickForm;
 import net.shinc.orm.mybatis.bean.xhscomment.Nick;
 
@@ -16,7 +18,11 @@ public interface NickService {
 
 	public PageList<Nick> getNickListByPage(PageBounds pageBounds);
 	
+	public PageList<Map> getNickListByPage2(PageBounds pageBounds);
+	
 	public Integer deleteNick(Nick nick);
 	
 	public Integer filterNick(NickForm nickform);
+	
+	
 }

@@ -38,6 +38,13 @@ public class NickServiceImpl implements NickService {
 		PageList<Nick> pageList = (PageList<Nick>) list;
 		return pageList;
 	}
+	
+	@Override
+	public PageList<Map> getNickListByPage2(PageBounds pageBounds) {
+		List<Map> list = nickMapper.getNickListByPage2(pageBounds);
+		PageList<Map> pageList = (PageList<Map>) list;
+		return pageList;
+	}
 
 	@Override
 	public Integer deleteNick(Nick nick) {
