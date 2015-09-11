@@ -11,6 +11,8 @@ public interface NickMapper {
     int deleteByPrimaryKey(Integer id);
     
     int deleteBatch(List<Map> list);
+    
+    int updateFlagBatch(List<Map> list);
 
     int insert(Nick record);
 

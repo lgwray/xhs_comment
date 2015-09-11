@@ -60,11 +60,9 @@ public class NickServiceImpl implements NickService {
 	@Transactional
 	public Integer filterNick(NickForm nickform) {
 		List<Map> nickList = nickform.getNickList();
-		int num = nickNameMapper.insertBatch(nickList);
-		logger.info("inser nicknames: " + num);
-		int num2 = nickMapper.deleteBatch(nickList);
-		logger.info("delete nicknames: " + num2);
-		return num;
+		int num2 = nickMapper.updateFlagBatch((nickList));
+		logger.info("deal nicknames: " + num2);
+		return num2;
 	}
 
 	@Override

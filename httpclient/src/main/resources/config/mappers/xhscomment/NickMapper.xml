@@ -30,6 +30,14 @@
 	    </foreach> 
   </delete>
   
+  <update id="updateFlagBatch" parameterType="java.util.List">
+  	update nick set flag='1'
+  	where id in
+	  	<foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+		  #{item.id}  
+	    </foreach> 
+  </update>
+  
   <insert id="insert" parameterType="Nick" >
     insert into nick (id, nickname)
     values (#{id,jdbcType=INTEGER}, #{nickname,jdbcType=VARCHAR})
@@ -89,7 +97,7 @@
   		id, nickname
   	from 
   		nick
-  	where 1 = 1
+  	where 1 = 1 and flag='0'
   </select>
   
 </mapper>
