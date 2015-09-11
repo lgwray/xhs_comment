@@ -2,13 +2,10 @@ package net.shinc.service.xhscomment;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.dao.DuplicateKeyException;
-
-import net.shinc.common.TreeNode;
-import net.shinc.orm.mybatis.bean.common.ResultBean;
-import net.shinc.orm.mybatis.bean.xhscomment.CommentCategory;
 
 /**
  * 基础评论服务层
@@ -56,4 +53,10 @@ public interface BaseCommentService {
 	 * @return
 	 */
 	public List getTodayCommentsNums();
+	
+	/**
+	 * 获得当天的新华社总评论数
+	 * @return
+	 */
+	public Map getTodayRemoteNums();
 }

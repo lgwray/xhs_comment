@@ -26,5 +26,11 @@ public interface CommentMapper {
 	public List getLocalCommentsNums();
 	
 	public List getTodayCommentsNums(String todayDate);
+	
+	/**
+	 * 获取新华社当日总评论数
+	 * @return
+	 */
+	public Map getTodayRemoteNums();
 
 }

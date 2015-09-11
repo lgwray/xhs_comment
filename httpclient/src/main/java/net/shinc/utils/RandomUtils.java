@@ -29,7 +29,6 @@ public class RandomUtils {
 	
 	public static String generateIp() {
 		String ip =  firstNum() +"."+ getRandom(0, 255).toString() + "." +getRandom(0, 255).toString() + "." + getRandom(0, 255).toString();
-		logger.info("生成的ip: "+ ip);
 		return ip;
 	}
 	

@@ -178,4 +178,17 @@ public class CommentController extends AbstractBaseController {
 		return msg;
 	}
 
+	/**
+	 * 获得当天的新华社总评论数
+	 * @return
+	 */
+	@RequestMapping(value = "/getTodayxhsNums")
+	@ResponseBody
+	public IRestMessage getTodayxhsNums() {
+		IRestMessage msg = getRestMessageWithoutUser();
+		Map map = baseCommentService.getTodayRemoteNums();
+		msg.setCode(ErrorMessage.SUCCESS.getCode());
+		msg.setResult(map); 
+		return msg;
+	}
 }

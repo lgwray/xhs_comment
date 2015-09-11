@@ -144,8 +144,15 @@ public class BaseCommentServiceImpl implements BaseCommentService {
 		return list;
 	}
 	
+	@Override
+	public Map getTodayRemoteNums() {
+		return cmMapper.getTodayRemoteNums();
+	}
+	
 	public static void main(String[] args) {
 		String dateToString = DateUtils.dateToString(new Date(), "yyyy-MM-dd");
 		System.out.println(dateToString);
 	}
+
+	
 }

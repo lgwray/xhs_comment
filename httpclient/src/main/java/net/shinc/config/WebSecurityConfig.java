@@ -43,8 +43,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/manage/**").permitAll()
 				.antMatchers("/videoPastpaper/**").permitAll()
 				.antMatchers("/article/autoRefreshArticleList").permitAll()
-				.anyRequest().authenticated()
-//				.anyRequest().permitAll()
+//				.anyRequest().authenticated()
+				.anyRequest().permitAll()
 				.and()
 			.formLogin()
 				.withObjectPostProcessor(new ObjectPostProcessor<LoginUrlAuthenticationEntryPoint>(){

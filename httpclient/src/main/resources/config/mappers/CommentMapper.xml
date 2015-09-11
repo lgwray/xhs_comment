@@ -98,5 +98,8 @@
 		where 
 			date_format(cal,'%Y-%c-%d') = str_to_date(#{todayDate},'%Y-%c-%d')
 	</select>
+	<select id="getTodayRemoteNums" resultType="java.util.HashMap">
+		select sum(cast(comment_total as unsigned integer) ) sum,curdate() cal from sh_article where publish_date > curdate()
+	</select>
 	
 </mapper>
