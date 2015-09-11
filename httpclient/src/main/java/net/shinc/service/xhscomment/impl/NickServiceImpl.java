@@ -1,5 +1,6 @@
 package net.shinc.service.xhscomment.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,8 +42,12 @@ public class NickServiceImpl implements NickService {
 	}
 	
 	@Override
-	public PageList<Map> getNickListByPage2(PageBounds pageBounds) {
-		List<Map> list = nickMapper.getNickListByPage2(pageBounds);
+	public PageList<Map> getNickListByPage2(String flag,PageBounds pageBounds) {
+		
+		Map map = new HashMap();
+		map.put("flag", flag);
+		
+		List<Map> list = nickMapper.getNickListByPage2(map,pageBounds);
 		PageList<Map> pageList = (PageList<Map>) list;
 		return pageList;
 	}

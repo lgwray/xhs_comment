@@ -19,7 +19,7 @@ public interface NickService {
 
 	public PageList<Nick> getNickListByPage(PageBounds pageBounds);
 	
-	public PageList<Map> getNickListByPage2(PageBounds pageBounds);
+	public PageList<Map> getNickListByPage2(String flag,PageBounds pageBounds);
 	
 	public Integer deleteNick(Nick nick);
 	

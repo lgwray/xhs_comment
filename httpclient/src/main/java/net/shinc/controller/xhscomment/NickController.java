@@ -53,7 +53,9 @@ public class NickController extends AbstractBaseController {
 	 */
 	@RequestMapping(value = "/getNickListByPage")
 	@ResponseBody
-	public IRestMessage getNickListByPage(@RequestParam(value="page",defaultValue="1",required=true) String page, String num) {
+	public IRestMessage getNickListByPage(@RequestParam(value="page",defaultValue="1",required=true) String page
+			,@RequestParam(value="num") String num
+			,@RequestParam(value="flag", required=true) String flag) {
 		IRestMessage msg = getRestMessageWithoutUser();
 		try {
 			logger.info("page:"+page+"\tnum:"+num);
@@ -63,11 +65,12 @@ public class NickController extends AbstractBaseController {
 			logger.info("page:" + page + "\tnum:" + num);
 			PageBounds pb = new PageBounds(Integer.parseInt(page), Integer.parseInt(num));
 //			PageList<Nick> list = nickService.getNickListByPage(pb);
-			PageList<Map> list = nickService.getNickListByPage2(pb);
+			PageList<Map> list = nickService.getNickListByPage2(flag,pb);
 			if (null != list && list.size() > 0) {
 				msg.setCode(ErrorMessage.SUCCESS.getCode());
 				msg.setResult(list);
 				msg.setDetail(String.valueOf(list.size()));
+				msg.setPageInfo(list.getPaginator());
 			} else {
 				msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());
 			}
@@ -86,13 +89,18 @@ public class NickController extends AbstractBaseController {
 	@ResponseBody
 	public IRestMessage filterNick(NickForm form) {
 		IRestMessage msg = getRestMessageWithoutUser();
-		Integer num = nickService.filterNick(form);
-		if(null!=num && num >0){
-			msg.setCode(ErrorMessage.SUCCESS.getCode());
-			msg.setResult(num);
-		}else {
-			msg.setCode(ErrorMessage.ADD_FAILED.getCode());
-		}
+		try {
+			
+			Integer num = nickService.filterNick(form);
+			if(null!=num && num >0){
+				msg.setCode(ErrorMessage.SUCCESS.getCode());
+				msg.setResult(num);
+			}else {
+				msg.setCode(ErrorMessage.ADD_FAILED.getCode());
+			}
+		} catch (Exception e) {
+			logger.error(ExceptionUtils.getStackTrace(e));
+		} 
 		return msg;
 	}
 	

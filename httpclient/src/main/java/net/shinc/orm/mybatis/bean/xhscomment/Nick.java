@@ -5,6 +5,8 @@ public class Nick {
     private Integer id;
 
     private String nickname;
+    
+    private String flag;
 
     public Integer getId() {
         return id;
@@ -21,4 +23,14 @@ public class Nick {
     public void setNickname(String nickname) {
         this.nickname = nickname == null ? null : nickname.trim();
     }
+
+	public String getFlag() {
+		return flag;
+	}
+
+	public void setFlag(String flag) {
+		this.flag = flag;
+	}
+    
+    
 }

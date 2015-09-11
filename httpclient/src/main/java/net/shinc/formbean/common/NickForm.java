@@ -6,7 +6,7 @@ import java.util.Map;
 import javax.validation.constraints.NotNull;
 
 public class NickForm {
-
+	
 	@NotNull
 	private List<Map> nickList;
 
@@ -17,5 +17,6 @@ public class NickForm {
 	public void setNickList(List<Map> nickList) {
 		this.nickList = nickList;
 	}
+
 	
 }
