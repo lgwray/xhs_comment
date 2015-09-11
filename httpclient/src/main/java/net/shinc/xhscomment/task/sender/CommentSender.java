@@ -1,4 +1,4 @@
-package net.shinc.xhscomment.sender;
+package net.shinc.xhscomment.task.sender;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.shinc.orm.mybatis.mappers.xhscomment.ArticleMapper" >
+  <resultMap id="BaseResultMap" type="Topic" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <select id="selectRecent" resultType="java.util.Map" parameterType="java.util.Map" >
+   		SELECT 
+		    id, detail_url
+		FROM
+		    spider_news.sh_article
+		WHERE
+		    publish_date > DATE_SUB(CURDATE(), INTERVAL ${recentDays} DAY)
+  </select>
+  
+  <update id="updateComment"  parameterType="java.util.Map">
+  		update sh_article
+  		set comment_total=#{comment} 
+  		where id=#{id}
+  </update>
+ 
+</mapper>

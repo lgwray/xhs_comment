@@ -1,9 +1,10 @@
 package net.shinc.config;
 
-import net.shinc.xhscomment.sender.CommentQueue;
-import net.shinc.xhscomment.sender.CommentQueueProducerThread;
-import net.shinc.xhscomment.sender.CommentSender;
-import net.shinc.xhscomment.sender.CommentSenderThread;
+import net.shinc.xhscomment.task.fetcher.ArticleDetailTask;
+import net.shinc.xhscomment.task.sender.CommentQueue;
+import net.shinc.xhscomment.task.sender.CommentQueueProducerThread;
+import net.shinc.xhscomment.task.sender.CommentSender;
+import net.shinc.xhscomment.task.sender.CommentSenderThread;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,5 +36,11 @@ public class CommentSenderConfig {
 	public CommentQueueProducerThread commentQueueProducerThread() {
 		CommentQueueProducerThread cqp = new CommentQueueProducerThread();
 		return cqp;
+	}
+	
+	@Bean(initMethod="start")
+	public ArticleDetailTask articleDetailTask() {
+		ArticleDetailTask adt = new ArticleDetailTask();
+		return adt;
 	}
 }
