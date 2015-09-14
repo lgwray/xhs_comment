@@ -86,7 +86,7 @@ public class DBConfig {
 		return fb;
 	}
 	
-	@Bean
+	@Bean(name="sqlSession")
 	public SqlSessionTemplate sqlSession(SqlSessionFactory ssf) {
 		SqlSessionTemplate sqlSession = new SqlSessionTemplate(ssf);
 		return sqlSession;
