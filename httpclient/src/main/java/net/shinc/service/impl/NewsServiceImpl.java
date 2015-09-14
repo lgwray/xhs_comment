@@ -32,7 +32,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class NewsServiceImpl implements NewsService {
 
-	private static Logger logger = LoggerFactory.getLogger(NewsController.class);
+	private static Logger logger = LoggerFactory.getLogger(NewsServiceImpl.class);
 	
 	@Autowired
 	private CommentMapper commentMapper;
