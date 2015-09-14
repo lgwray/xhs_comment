@@ -91,9 +91,11 @@ public class DBConfig {
 		SqlSessionTemplate sqlSession = new SqlSessionTemplate(ssf);
 		return sqlSession;
 	}
+	
 	@Bean(name="sqlSessionBatch")
 	public SqlSessionTemplate sqlSessionBatch(SqlSessionFactory ssf) {
 		SqlSessionTemplate sqlSession = new SqlSessionTemplate(ssf,ExecutorType.BATCH);
 		return sqlSession;
 	}
+	
 }
