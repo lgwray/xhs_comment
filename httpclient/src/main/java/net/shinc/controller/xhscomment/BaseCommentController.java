@@ -207,8 +207,6 @@ public class BaseCommentController extends AbstractBaseController {
 			logger.error(ExceptionUtils.getStackTrace(e));
 			return msg ;
 		}
-		
-		
 	}
 	
 	/**

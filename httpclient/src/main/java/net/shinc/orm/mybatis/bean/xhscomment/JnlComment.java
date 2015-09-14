@@ -39,7 +39,7 @@ public class JnlComment implements ResultBean {
 	private String contentType;
 	private Integer userId;
 	private String commentWay;
-	private String sendFlag;
+	private String sendFlag;   //0=待发送，1=发送中，2=发送成功，3=发送失败，4=状态未明
 	private Date sendTime;
 	public Integer getId() {
 		return id;

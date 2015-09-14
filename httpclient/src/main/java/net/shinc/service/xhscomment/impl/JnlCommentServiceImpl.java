@@ -1,6 +1,5 @@
 package net.shinc.service.xhscomment.impl;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -33,6 +32,7 @@ public class JnlCommentServiceImpl implements JnlCommentService {
 	private SqlSessionTemplate sqlSessionBatch;
 	
 	private int batchSize = 100;
+	
 	@Override
 	public void putComment(List<JnlComment> list) {
 		
@@ -49,6 +49,7 @@ public class JnlCommentServiceImpl implements JnlCommentService {
 			jcm.insertBatch(list.subList(begin, end));
 		}
 	}
+	
 	public int getBatchSize() {
 		return batchSize;
 	}
