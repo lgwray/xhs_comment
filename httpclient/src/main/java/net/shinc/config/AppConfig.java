@@ -68,4 +68,19 @@ public class AppConfig {
 		return poolTaskExecutor;
 	}
 	
+	@Bean
+	@Scope("prototype")
+	public ThreadPoolExecutorFactoryBean prototypePoolExecutor() {
+		ThreadPoolExecutorFactoryBean fb = new ThreadPoolExecutorFactoryBean();
+		fb.setBeanName("prototypePoolExecutor");
+		//线程池所使用的缓冲队列  
+		fb.setQueueCapacity(200);  
+		//线程池维护线程的最少数量  
+		fb.setCorePoolSize(20);  
+		//线程池维护线程的最大数量  
+		fb.setMaxPoolSize(100); 
+		
+		return fb;
+	} 
+	
 }

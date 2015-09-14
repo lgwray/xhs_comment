@@ -27,6 +27,14 @@ public interface NewsService {
 	
 	
 	/**
+	 * 多线程获取新闻列表
+	 * @param userId
+	 * @param cid
+	 * @param ctype
+	 * @return
+	 */
+	public List getNewsList(String userId,String cid,String ctype);
+	/**
 	 * 发布评论
 	 * @param url
 	 * @param userId
