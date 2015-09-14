@@ -16,7 +16,14 @@ import net.shinc.utils.ParamUtils;
 import net.shinc.utils.RandomUtils;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +47,11 @@ public class NewsServiceImpl implements NewsService {
 	@Value("${php.news.list}")
 	private String phpUrl;
 
+	@Autowired
+	private CloseableHttpClient httpClient;
+	@Value("${xhs.api.fetchArticleListUrl}")
+	private String fetchArticleListUrl;
+	
 	public List getNewsList(String userId, String listUrl) {
 		String res = HttpClient.post(listUrl, ParamUtils.getNewsListParamMap(userId));
 		logger.info(res);
@@ -61,6 +73,31 @@ public class NewsServiceImpl implements NewsService {
 		List list2 = (List) map.get("data");
 		list.addAll(list2);
 		return list;
+	}
+	
+	/**
+	 * 新闻列表
+	 */
+	public List getNewsList(String userId,String cid,String ctype) {
+		
+		HttpPost post = new HttpPost(this.fetchArticleListUrl);
+		post.setHeader("X-Forwarded-For", RandomUtils.generateIp());
+		CloseableHttpResponse response = null;
+		try {
+			post.setEntity(new UrlEncodedFormEntity(ParamUtils.getNewsListParamMap(userId,cid,ctype),HTTP.UTF_8));
+			response = httpClient.execute(post);
+			HttpEntity entity = response.getEntity();
+			String result =  EntityUtils.toString(entity);
+			
+			Map map = Helper.jsonToMap(result);
+			List list = (List) map.get("data_scroll");
+			List list2 = (List) map.get("data");
+			list.addAll(list2);
+			return list;
+		} catch (Exception e) {
+			logger.error(ExceptionUtils.getStackTrace(e));
+			return null;
+		}
 	}
 	/**
 	 * 本地新闻评论数列表
