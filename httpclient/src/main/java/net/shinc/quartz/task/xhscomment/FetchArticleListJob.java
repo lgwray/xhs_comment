@@ -131,7 +131,9 @@ public class FetchArticleListJob {
 						}
 						this.sqlSession.insert("net.shinc.orm.mybatis.mappers.xhscomment.ArticleMapper.insertArticle",o);
 					} catch(DuplicateKeyException e) {
-						
+						if("0".equals(category.getValue())) {//要闻才去更新category,优先为要闻
+							this.sqlSession.update("net.shinc.orm.mybatis.mappers.xhscomment.ArticleMapper.updateArticleCategory",o);
+						}
 					} catch(Exception e) {
 						logger.error(ExceptionUtils.getStackTrace(e));
 					}
