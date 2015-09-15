@@ -6,8 +6,10 @@ import net.shinc.xhscomment.task.sender.CommentSender;
 import net.shinc.xhscomment.task.sender.CommentSenderThread;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 
+@Configuration
 public class CommentSenderConfig {
     
 	@Bean

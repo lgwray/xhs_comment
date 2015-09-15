@@ -28,5 +28,11 @@
 	    values 
 			(#{id}, #{topic},#{releaseDate,jdbcType=TIMESTAMP},#{detailurl},#{category})
   	</insert>
+  	
+  	<update id="updateArticleCategory"  parameterType="java.util.Map">
+  		update sh_article
+  		set category=#{category} 
+  		where id=#{id}
+  </update>
  
 </mapper>
