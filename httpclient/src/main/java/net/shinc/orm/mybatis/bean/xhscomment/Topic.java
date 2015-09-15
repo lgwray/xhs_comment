@@ -2,9 +2,13 @@ package net.shinc.orm.mybatis.bean.xhscomment;
 
 import java.util.Date;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class Topic {
+	
     private Integer id;
 
+    @NotEmpty(message="{topicContent.not.empty}")
     private String content;
 
     private Date createTime;

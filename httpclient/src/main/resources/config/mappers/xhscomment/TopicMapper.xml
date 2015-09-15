@@ -9,23 +9,43 @@
   <sql id="Base_Column_List" >
     id, content, create_time
   </sql>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from sh_topic
     where id = #{id,jdbcType=INTEGER}
   </select>
+  
+  <select id="getTopicsWithPagination" resultMap="BaseResultMap">
+  	select
+  		<include refid="Base_Column_List" />
+  	from 
+  		sh_topic
+    where 1=1
+  </select>
+  
+  <select id="getTopics" resultMap="BaseResultMap">
+  	select
+  		<include refid="Base_Column_List" />
+  	from 
+  		sh_topic
+    where 1=1
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sh_topic
     where id = #{id,jdbcType=INTEGER}
   </delete>
+  
   <insert id="insert" parameterType="Topic" >
     insert into sh_topic (id, content, create_time
       )
     values (#{id,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="Topic" >
+  
+  <insert id="insertSelective" parameterType="net.shinc.orm.mybatis.bean.xhscomment.Topic" >
     insert into sh_topic
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -50,6 +70,7 @@
       </if>
     </trim>
   </insert>
+  
   <update id="updateByPrimaryKeySelective" parameterType="Topic" >
     update sh_topic
     <set >
