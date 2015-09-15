@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -173,8 +174,13 @@ public class CommentController extends AbstractBaseController {
 	public IRestMessage getTodayCommentsNums() {
 		IRestMessage msg = getRestMessageWithoutUser();
 		List list = baseCommentService.getTodayCommentsNums();
-		msg.setCode(ErrorMessage.SUCCESS.getCode());
-		msg.setResult(list); 
+		if(!CollectionUtils.isEmpty(list)) {
+			Map map = (Map)list.get(0);
+			msg.setCode(ErrorMessage.SUCCESS.getCode());
+			msg.setResult(map); 
+		} else {
+			msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());
+		}
 		return msg;
 	}
 

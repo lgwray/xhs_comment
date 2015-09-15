@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -35,11 +36,48 @@ public class TopicControllerTest {
     } 
     
     @Test
+    @Transactional
     @WithMockUser(username="admin",password="admin")
     public void addTopic(){
     	try {
     		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/topic/addTopic")
     				.param("content", "iphone6s内存不够用");
+    		mockMvc.perform(reqbuild).andDo(handler);
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    }
+    
+    @Test
+    @Transactional
+    @WithMockUser(username="admin",password="admin")
+    public void deleteTopic() {
+    	try {
+    		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/topic/deleteTopic")
+    				.param("id", "1");
+    		mockMvc.perform(reqbuild).andDo(handler);
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    }
+    
+    @Test
+    @WithMockUser(username="admin",password="admin")
+    public void getTopics(){
+    	try {
+    		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/topic/getTopics");
+    		mockMvc.perform(reqbuild).andDo(handler);
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    }
+    
+    @Test
+    @WithMockUser(username="admin",password="admin")
+    public void getTopicsWithPagination(){
+    	try {
+    		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/topic/getTopicsWithPagination")
+    				.param("page", "1").param("num", "50");
     		mockMvc.perform(reqbuild).andDo(handler);
     	} catch (Exception e) {
     		e.printStackTrace();

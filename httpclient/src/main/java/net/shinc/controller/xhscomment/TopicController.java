@@ -38,14 +38,20 @@ public class TopicController extends AbstractBaseController {
 	@Autowired
 	private TopicService topicService;
 	
+	/**
+	 * 添加话题
+	 * @param topic
+	 * @return
+	 */
 	@RequestMapping(value = "addTopic")
 	@ResponseBody
 	public IRestMessage addTopic(@Valid Topic topic){
-		IRestMessage msg = getRestMessage();
+		IRestMessage msg = getRestMessageWithoutUser();
 		try {
 			Integer num = topicService.addTopic(topic);
 			if(num > 0) {
 				msg.setCode(ErrorMessage.SUCCESS.getCode());
+				msg.setResult(num);
 			} else {
 				msg.setCode(ErrorMessage.ADD_FAILED.getCode());
 			}
@@ -55,14 +61,20 @@ public class TopicController extends AbstractBaseController {
 		return msg;
 	}
 	
+	/**
+	 * 删除话题
+	 * @param topic
+	 * @return
+	 */
 	@RequestMapping(value = "deleteTopic")
 	@ResponseBody
 	public IRestMessage deleteTopic(Topic topic){
-		IRestMessage msg = getRestMessage();
+		IRestMessage msg = getRestMessageWithoutUser();
 		try {
 			Integer num = topicService.deleteTopic(topic);
 			if(num > 0) {
 				msg.setCode(ErrorMessage.SUCCESS.getCode());
+				msg.setResult(num);
 			} else {
 				msg.setCode(ErrorMessage.DELETE_FAILED.getCode());
 			}
@@ -72,17 +84,23 @@ public class TopicController extends AbstractBaseController {
 		return msg;
 	}
 	
+	/**
+	 * 获取话题列表（分页）
+	 * @param page
+	 * @param num
+	 * @return
+	 */
 	@RequestMapping(value = "getTopicsWithPagination")
 	@ResponseBody
 	public IRestMessage getTopicsWithPagination(@RequestParam(value="page",defaultValue="1",required=true) String page
 			,@RequestParam(value="num") String num){
-		IRestMessage msg = getRestMessage();
+		IRestMessage msg = getRestMessageWithoutUser();
 		try {
 			PageBounds pb = new PageBounds(Integer.parseInt(page), Integer.parseInt(num));
 			PageList<Topic> list = topicService.getTopicsWithPagination(pb);
 			if(!CollectionUtils.isEmpty(list)) {
 				msg.setCode(ErrorMessage.SUCCESS.getCode());
-				msg.setResult(msg);
+				msg.setResult(list);
 			} else {
 				msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());
 			}
@@ -92,16 +110,19 @@ public class TopicController extends AbstractBaseController {
 		return msg;
 	}
 	
-	
+	/**
+	 * 获取话题列表（不分页）
+	 * @return
+	 */
 	@RequestMapping(value = "getTopics")
 	@ResponseBody
 	public IRestMessage getTopics(){
-		IRestMessage msg = getRestMessage();
+		IRestMessage msg = getRestMessageWithoutUser();
 		try {
 			List<Topic> list = topicService.getTopics();
 			if(!CollectionUtils.isEmpty(list)) {
 				msg.setCode(ErrorMessage.SUCCESS.getCode());
-				msg.setResult(msg);
+				msg.setResult(list);
 			} else {
 				msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());
 			}

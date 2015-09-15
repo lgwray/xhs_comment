@@ -107,7 +107,7 @@ public class ArticleControllerTest {
     public void testgetNewsListByTitle() {
     	RequestBuilder reqbuild = MockMvcRequestBuilders.post("/article/getNewsListByTitle")
     			.param("type", "news")
-    			.param("title", "夫妻唆使4名亲生子女盗窃:10天偷40余万赃物")
+    			.param("title", "奥迪300万")
     			.param("page", "1")
     			.param("num", "10");
 		try {
@@ -122,9 +122,9 @@ public class ArticleControllerTest {
     public void testgetCommentsByNews() {
     	RequestBuilder reqbuild = MockMvcRequestBuilders.post("/article/getCommentsByNews")
     			.param("type", "news")
-    			.param("newsid", "34")
+    			.param("newsid", "86829")
     			.param("page", "1")
-    			.param("num", "10");
+    			.param("num", "50");
     	try {
     		mockMvc.perform(reqbuild).andDo(MockMvcResultHandlers.print());
     	} catch (Exception e) {

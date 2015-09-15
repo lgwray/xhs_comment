@@ -10,6 +10,7 @@ import java.util.Map;
 
 import net.shinc.controller.xhscomment.NewsController;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,8 +47,11 @@ public class Helper {
 	public static Map jsonToMap(String str){
 		try {
 			Gson gson  = new Gson();
-			Map map = Collections.synchronizedMap((Map)gson.fromJson(str, HashMap.class));
-			return map;
+			if(!StringUtils.isEmpty(str)){
+				Map map = Collections.synchronizedMap((Map)gson.fromJson(str, HashMap.class));
+				return map;
+			}
+			return null;
 		} catch (JsonSyntaxException e) {
 			logger.info(ExceptionUtils.getStackTrace(e));
 			logger.info("不是标准的json串");
@@ -59,8 +63,11 @@ public class Helper {
 	public static List jsonToList(String str){
 		try {
 			Gson gson  = new Gson();
-			List list = Collections.synchronizedList((List)gson.fromJson(str, ArrayList.class));
-			return list;
+			if(!StringUtils.isEmpty(str)) {
+				List list = Collections.synchronizedList((List)gson.fromJson(str, ArrayList.class));
+				return list;
+			}
+			return null;
 		} catch (JsonSyntaxException e) {
 			logger.info(ExceptionUtils.getStackTrace(e));
 			logger.info("不是标准的json串");
@@ -76,8 +83,11 @@ public class Helper {
 	public static String objToJson(Object obj){
 		try {
 			Gson g = new Gson();
-			String str  = g.toJson(obj);
-			return str;
+			if(null != obj) {
+				String str  = g.toJson(obj);
+				return str;
+			}
+			return null;
 		} catch (Exception e) {
 			logger.info(ExceptionUtils.getStackTrace(e));
 			return null;
