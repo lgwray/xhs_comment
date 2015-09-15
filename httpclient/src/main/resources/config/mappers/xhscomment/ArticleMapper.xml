@@ -21,5 +21,12 @@
   		set comment_total=#{comment} 
   		where id=#{id}
   </update>
+  
+  	<insert id="insertArticle" parameterType="java.util.Map" >
+	    insert into 
+	    	sh_article(id, title,publish_date,detail_url,category)
+	    values 
+			(#{id}, #{topic},#{releaseDate,jdbcType=TIMESTAMP},#{detailurl},#{category})
+  	</insert>
  
 </mapper>

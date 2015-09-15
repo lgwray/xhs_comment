@@ -5,8 +5,6 @@ import net.shinc.common.ErrorMessage;
 import net.shinc.common.IRestMessage;
 import net.shinc.common.RestMessage;
 
-import org.apache.http.HttpHost;
-import org.apache.http.conn.routing.HttpRoute;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
@@ -15,6 +13,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
+import org.springframework.scheduling.concurrent.ThreadPoolExecutorFactoryBean;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.servlet.LocaleResolver;
 
@@ -68,4 +67,20 @@ public class AppConfig {
 		poolTaskExecutor.setKeepAliveSeconds(30000); 
 		return poolTaskExecutor;
 	}
+	
+	@Bean
+	@Scope("prototype")
+	public ThreadPoolExecutorFactoryBean prototypePoolExecutor() {
+		ThreadPoolExecutorFactoryBean fb = new ThreadPoolExecutorFactoryBean();
+		fb.setBeanName("prototypePoolExecutor");
+		//线程池所使用的缓冲队列  
+		fb.setQueueCapacity(200);  
+		//线程池维护线程的最少数量  
+		fb.setCorePoolSize(20);  
+		//线程池维护线程的最大数量  
+		fb.setMaxPoolSize(100); 
+		
+		return fb;
+	} 
+	
 }

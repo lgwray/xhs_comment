@@ -1,4 +1,4 @@
-package net.shinc.xhscomment.task.fetcher;
+package net.shinc.quartz.task.xhscomment;
 
 import java.util.HashMap;
 import java.util.List;
