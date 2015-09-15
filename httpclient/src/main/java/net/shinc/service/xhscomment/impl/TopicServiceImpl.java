@@ -3,6 +3,7 @@ package net.shinc.service.xhscomment.impl;
 import java.util.Date;
 import java.util.List;
 
+import net.shinc.common.ShincUtil;
 import net.shinc.orm.mybatis.bean.xhscomment.Topic;
 import net.shinc.orm.mybatis.mappers.xhscomment.TopicMapper;
 import net.shinc.service.xhscomment.TopicService;
@@ -25,11 +26,12 @@ public class TopicServiceImpl implements TopicService {
 
 	@Autowired
 	private TopicMapper topicMapper;
+	public static String pattern = "yyyy-MM-dd HH:mm:ss";
 	
 	@Override
 	public Integer addTopic(Topic topic) {
 		if(null != topic) {
-			topic.setCreateTime(new Date());
+			topic.setCreateTime(ShincUtil.formatDate(new Date(), pattern));
 			Integer num = topicMapper.insertSelective(topic);
 			return num;
 		}

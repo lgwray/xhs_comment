@@ -11,7 +11,7 @@ public class Topic {
     @NotEmpty(message="{topicContent.not.empty}")
     private String content;
 
-    private Date createTime;
+    private String createTime;
 
     public Integer getId() {
         return id;
@@ -29,11 +29,12 @@ public class Topic {
         this.content = content == null ? null : content.trim();
     }
 
-    public Date getCreateTime() {
-        return createTime;
-    }
+	public String getCreateTime() {
+		return createTime;
+	}
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
+	}
+   
 }

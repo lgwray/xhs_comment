@@ -36,12 +36,12 @@ public class TopicControllerTest {
     } 
     
     @Test
-    @Transactional
+//    @Transactional
     @WithMockUser(username="admin",password="admin")
     public void addTopic(){
     	try {
     		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/topic/addTopic")
-    				.param("content", "iphone6s内存不够用");
+    				.param("content", "明天股票会大涨");
     		mockMvc.perform(reqbuild).andDo(handler);
     	} catch (Exception e) {
     		e.printStackTrace();

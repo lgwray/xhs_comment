@@ -1,5 +1,7 @@
 package net.shinc.service.xhscomment;
 
+import net.shinc.orm.mybatis.bean.xhscomment.TopicComment;
+
 /**
  * @ClassName TopicCommentService 
  * @Description TODO
@@ -8,5 +10,5 @@ package net.shinc.service.xhscomment;
  */
 public interface TopicCommentService {
 
-	
+	public Integer addCommentsWithTopic(TopicComment record);
 }

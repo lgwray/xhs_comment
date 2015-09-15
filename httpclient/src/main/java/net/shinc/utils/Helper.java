@@ -2,8 +2,11 @@ package net.shinc.utils;
 
 import java.net.URI;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -126,5 +129,22 @@ public class Helper {
 			return all;
 		}
 		return all;
+	}
+	
+	/**
+	 * 将data按照指定pattern格式化成String
+	 * @param date
+	 * @param pattern
+	 * @return
+	 */
+	public static String formatDate(Date date,String pattern) {
+		try {
+			DateFormat format = new SimpleDateFormat(pattern);
+			String datetime = format.format(date);
+			return datetime;
+		} catch (Exception e) {
+			logger.error(ExceptionUtils.getStackTrace(e));
+		}
+		return null;
 	}
 }
