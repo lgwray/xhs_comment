@@ -58,8 +58,8 @@ public class JnlCommentServiceImpl implements JnlCommentService {
 	}
 	@Override
 	public List<JnlComment> getCommentBySendFlag(SendFlag sendflag, Integer pageSize) {
-		if(pageSize == null || pageSize == 0) {
-			throw new IllegalArgumentException();
+		if(pageSize == null || pageSize <= 0) {
+			return null;
 		}
 		Map map = new HashMap();
 		map.put("SendFlag", sendflag.getValue());
