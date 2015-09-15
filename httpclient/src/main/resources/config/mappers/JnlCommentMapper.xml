@@ -65,5 +65,14 @@
 	            </if>
 	      	    where id = #{id}
   	</update>
+  	<update id="resetCommentSendFlag">
+		UPDATE sh_jnl_article_comment 
+		SET 
+		    send_flag = '0'
+		WHERE
+		    send_flag = '1'
+  	</update>
+  	
+  	
   	
 </mapper>

@@ -28,6 +28,9 @@ public class CommentQueueProducerThread implements Runnable{
 		logger.info("started");
 		while(true) {
 			try {
+				
+				commentService.resetCommentSendFlag();
+				
 				int loadSize = queue.getFree();
 				List<JnlComment> list = commentService.getCommentBySendFlag(SendFlag.nosend, loadSize);
 				if(list == null || list.size() == 0) {

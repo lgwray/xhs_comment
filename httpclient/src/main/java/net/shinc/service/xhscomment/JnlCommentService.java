@@ -19,4 +19,6 @@ public interface JnlCommentService {
 	public List<JnlComment> getCommentBySendFlag(JnlComment.SendFlag sendflag,Integer pageSize);
 	
 	public List<BatchResult> updateCommentSendFlag(List<JnlComment> paramList);
+	
+	public void resetCommentSendFlag();
 }

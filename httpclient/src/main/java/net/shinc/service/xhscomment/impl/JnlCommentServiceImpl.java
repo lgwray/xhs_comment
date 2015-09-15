@@ -73,6 +73,10 @@ public class JnlCommentServiceImpl implements JnlCommentService {
 		
 	}
 	
+	public void resetCommentSendFlag() {
+		this.sqlSessionBatch.update("net.shinc.orm.mybatis.mappers.xhscomment.JnlCommentMapper.resetCommentSendFlag");
+	}
+	
 	@Transactional
 	public List<BatchResult> updateCommentSendFlag(List<JnlComment> paramList) {
 		if(CollectionUtils.isEmpty(paramList)) {
