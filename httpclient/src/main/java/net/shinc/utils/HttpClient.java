@@ -106,7 +106,8 @@ public class HttpClient {
 	}
 	
 	public static void main(String[] args) {
-		post("http://192.168.1.222:8085/httpclient/login", getAddParams());
-		post("http://192.168.1.222:8085/httpclient/article/refreshArticleList", ParamUtils.getNewsListParamMap("0", "463", "4002"));
+//		post("http://192.168.1.222:8085/httpclient/login", getAddParams());
+//		post("http://192.168.1.222:8085/httpclient/article/refreshArticleList", ParamUtils.getNewsListParamMap("0", "463", "4002"));
+		get("http://xhpfm.mobile.zhongguowangshi.com:8091/v200/detail?docid=255243");
 	}
 }

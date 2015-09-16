@@ -34,7 +34,7 @@ import org.springframework.util.StringUtils;
  */
 public class FetchArticleDetailJob {
 	private Logger logger = LoggerFactory.getLogger(getClass());
-	private int recentDays = 7;
+	private int recentDays = 1;
 	
 	@Autowired
 	@Qualifier("sqlSession")
@@ -55,6 +55,7 @@ public class FetchArticleDetailJob {
 			List<Map> list = this.sqlSession.selectList("net.shinc.orm.mybatis.mappers.xhscomment.ArticleMapper.selectRecent", map);
 			
 			if(list != null && list.size() > 0) {
+				int index = 0;
 				for(Map tmp : list) {
 					String detailurl = (String)tmp.get("detail_url");
 					if(!StringUtils.isEmpty(detailurl)) {
@@ -70,27 +71,21 @@ public class FetchArticleDetailJob {
 							List data = (List)resultMap.get("data");
 							if(!CollectionUtils.isEmpty(data)) {
 								String comment = (String)((Map)data.get(0)).get("comment");
-								
 								String numStr = comment;
 								try {
 									int num = Integer.parseInt(comment);
 									numStr = String.valueOf(num);
 								} catch (Exception e) {
-									if(comment.indexOf("万") != -1) {
-										String strnum = comment.substring(0,comment.indexOf("万"));
-										try {
-											Double num = Double.parseDouble(strnum);
-											num = num * 10000;
-											numStr = String.valueOf(num.intValue());
-										} catch (Exception e1) {
-										}
-									}
+									numStr = Helper.formatNumWithWords(comment);
 								}
 								Map updateMap = new HashMap();
 								updateMap.put("comment", numStr);
 								updateMap.put("id", tmp.get("id"));
-								
-								this.sqlSession.update("net.shinc.orm.mybatis.mappers.xhscomment.ArticleMapper.updateComment", updateMap);
+								int i = this.sqlSession.update("net.shinc.orm.mybatis.mappers.xhscomment.ArticleMapper.updateComment", updateMap);
+								if(i > 0) {
+									index ++;
+								}
+								logger.debug("index:"+index+"\tarticleId:"+tmp.get("id")+"\tcomment:"+numStr+"\t评论数更新成功");
 							}
 						} catch (Exception e) {
 							logger.error(ExceptionUtils.getStackTrace(e));
@@ -106,6 +101,27 @@ public class FetchArticleDetailJob {
 		}
 		
 		logger.info("end");
+	}
+	
+	
+	public static void main(String[] args) {
+		String comment = "2.6万";
+		String numStr = comment;
+		try {
+			int num = Integer.parseInt(comment);
+			numStr = String.valueOf(num);
+		} catch (Exception e) {
+			if(comment.indexOf("万") != -1) {
+				String strnum = comment.substring(0,comment.indexOf("万"));
+				try {
+					Double num = Double.parseDouble(strnum);
+					num = num * 10000;
+					numStr = String.valueOf(num.intValue());
+				} catch (Exception e1) {
+				}
+			}
+		}
+		System.out.println(numStr);
 	}
 	
 }

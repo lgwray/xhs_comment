@@ -87,7 +87,7 @@ public class ParamUtils {
 	}
 	
 	/**
-	 * 新华社能用请求参数
+	 * 新华社通用请求参数
 	 * @param userId
 	 * @return
 	 */

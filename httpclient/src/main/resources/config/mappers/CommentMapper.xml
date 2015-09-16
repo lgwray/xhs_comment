@@ -80,7 +80,9 @@
 		SELECT 
 			count(*) sum,date_format(adddate,'%Y-%m-%d') cal
 		FROM 
-			sh_jnl_article_comment 
+			sh_jnl_article_comment
+		where 
+			send_flag='2' 
 		group by cal 
 		order by cal desc
 	</select>
@@ -92,14 +94,28 @@
 			(SELECT 
 				count(*) sum,date_format(adddate,'%Y-%m-%d') cal
 			FROM 
-				sh_jnl_article_comment 
+				sh_jnl_article_comment
+			where 
+				send_flag='2' 
 			group by cal 
 			order by cal desc) tba 
 		where 
 			date_format(cal,'%Y-%c-%d') = str_to_date(#{todayDate},'%Y-%c-%d')
 	</select>
+	
 	<select id="getTodayRemoteNums" resultType="java.util.HashMap">
 		select sum(cast(comment_total as unsigned integer) ) sum,curdate() cal from sh_article where publish_date > curdate()
+	</select>
+	
+	<select id="getTodayRemoteNumsByCategory" resultType="java.util.HashMap" parameterType="java.lang.String">
+		select 
+			sum(cast(comment_total as unsigned integer) ) sum,
+			curdate() cal 
+		from 
+			sh_article 
+		where 1 = 1 
+			and publish_date > curdate()
+			and category=#{categoryid}
 	</select>
 	
 </mapper>

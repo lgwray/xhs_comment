@@ -147,4 +147,25 @@ public class Helper {
 		}
 		return null;
 	}
+	
+	/**
+	 * 格式化带"万"的数字
+	 * @param str
+	 * @return
+	 */
+	public static String formatNumWithWords(String str) {
+		String numStr = null;
+		if(!StringUtils.isEmpty(str) && str.indexOf("万") != -1) {
+			String strnum = str.substring(0,str.indexOf("万"));
+			try {
+				Double num = Double.parseDouble(strnum);
+				num = num * 10000;
+				numStr = String.valueOf(num.intValue());
+			} catch (Exception e) {
+				logger.error(ExceptionUtils.getStackTrace(e));
+			}
+		}
+		return numStr;
+	}
+	
 }

@@ -148,6 +148,7 @@ public class CommentServiceImpl {
 			response = httpClient.execute(post);
 			HttpEntity entity = response.getEntity();
 			String result =  EntityUtils.toString(entity);
+			logger.info(result);
 			return result;
 		} catch (Exception e) {
 			logger.error(ExceptionUtils.getStackTrace(e));

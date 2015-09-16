@@ -59,4 +59,11 @@ public interface BaseCommentService {
 	 * @return
 	 */
 	public Map getTodayRemoteNums();
+	
+	/**
+	 * 获得当天的新华社指定栏目总评论数
+	 * @param categoryid
+	 * @return
+	 */
+	public Map getTodayRemoteNumsByCategory(String categoryid);
 }

@@ -32,5 +32,11 @@ public interface CommentMapper {
 	 * @return
 	 */
 	public Map getTodayRemoteNums();
+	
+	/**
+	 * 获取新华社当日指定栏目总评论数
+	 * @return
+	 */
+	public Map getTodayRemoteNumsByCategory(String categoryid);
 
 }

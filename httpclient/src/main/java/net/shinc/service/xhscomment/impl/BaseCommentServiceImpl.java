@@ -149,10 +149,20 @@ public class BaseCommentServiceImpl implements BaseCommentService {
 		return cmMapper.getTodayRemoteNums();
 	}
 	
+	@Override
+	public Map getTodayRemoteNumsByCategory(String categoryid) {
+		if(!StringUtils.isEmpty(categoryid)){
+			Map map = cmMapper.getTodayRemoteNumsByCategory(categoryid);
+			return map;
+		}
+		return null;
+	}
+	
 	public static void main(String[] args) {
 		String dateToString = DateUtils.dateToString(new Date(), "yyyy-MM-dd");
 		System.out.println(dateToString);
 	}
+
 
 	
 }

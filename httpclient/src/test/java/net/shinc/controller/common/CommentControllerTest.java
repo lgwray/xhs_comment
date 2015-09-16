@@ -71,4 +71,15 @@ public class CommentControllerTest {
     	}
     }
     
+    @WithMockUser(username="admin",password="admin",authorities={"adminUserList"})
+    @Test
+    public void getTodayxhsNumsByCategory() {
+    	RequestBuilder reqbuild = MockMvcRequestBuilders.post("/getTodayxhsNumsByCategory").param("categoryid", "0");
+    	try {
+    		mockMvc.perform(reqbuild).andDo(MockMvcResultHandlers.print());
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    }
+    
 }
