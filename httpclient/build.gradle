@@ -5,6 +5,11 @@ buildscript {
     repositories {
         mavenCentral()
     }
+    repositories {	
+	    flatDir {
+	       dirs	'libs'
+	    }
+	}
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") 
         classpath("io.spring.gradle:dependency-management-plugin:0.5.1.RELEASE")
@@ -72,7 +77,8 @@ dependencies {
 	compile 'com.google.code.gson:gson:2.3.1'
 	compile 'org.apache.commons:commons-lang3:3.4'
 	compile 'org.quartz-scheduler:quartz:2.2.1'
-	
+	compile 'org.apache.lucene:lucene-core:5.3.0'
+	compile fileTree(dir: 'libs', include: '*.jar')
 	
 }
 
