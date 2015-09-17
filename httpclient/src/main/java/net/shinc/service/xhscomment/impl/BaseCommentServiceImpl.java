@@ -138,10 +138,10 @@ public class BaseCommentServiceImpl implements BaseCommentService {
 	}
 	
 	@Override
-	public List getTodayCommentsNums() {
+	public Map getTodayCommentsNums() {
 		String today = DateUtils.dateToString(new Date(), "yyyy-MM-dd");
-		List list = cmMapper.getTodayCommentsNums(today);
-		return list;
+		Map map = cmMapper.getLocalCommentsNumsByDate(today);
+		return map;
 	}
 	
 	@Override
