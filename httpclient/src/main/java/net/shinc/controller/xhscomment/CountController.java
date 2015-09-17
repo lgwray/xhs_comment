@@ -32,6 +32,11 @@ public class CountController extends AbstractBaseController {
 	@Autowired
 	private CountService countService;
 	
+	/**
+	 * 获取总数和要闻的百分比统计
+	 * @param date
+	 * @return
+	 */
 	@RequestMapping(value = "/getTotalPercent")
 	@ResponseBody
 	public IRestMessage getTotalPercent(@RequestParam(value="date",required=false) String date) {
