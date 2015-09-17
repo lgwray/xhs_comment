@@ -87,7 +87,7 @@
 		order by cal desc
 	</select>
 	
-	<select id="getTodayCommentsNums" resultMap="getLocalCommentsNumsResMap">
+	<select id="getLocalCommentsNumsByDate" resultMap="getLocalCommentsNumsResMap">
 		select 
 			sum,cal 
 		from 
@@ -100,11 +100,53 @@
 			group by cal 
 			order by cal desc) tba 
 		where 
-			date_format(cal,'%Y-%c-%d') = str_to_date(#{todayDate},'%Y-%c-%d')
+			date_format(cal,'%Y-%c-%d') = str_to_date(#{date},'%Y-%c-%d')
+	</select>
+	
+	<select id="getLocalCommentsNumsByCategory" resultMap="getLocalCommentsNumsResMap">
+		select 
+			sum,cal 
+		from 
+			(SELECT 
+				count(*) sum,date_format(tb_a.adddate,'%Y-%m-%d') cal
+			FROM 
+				sh_jnl_article_comment tb_a
+			inner join
+				sh_article tb_b
+			on
+				tb_a.article_id = tb_b.id
+			where 1 = 1
+				and send_flag='2'
+				and tb_b.category=#{categoryid} 
+			group by cal 
+			order by cal desc) tba 
+		where 
+			date_format(cal,'%Y-%c-%d') = str_to_date(#{date},'%Y-%c-%d')
 	</select>
 	
 	<select id="getTodayRemoteNums" resultType="java.util.HashMap">
 		select sum(cast(comment_total as unsigned integer) ) sum,curdate() cal from sh_article where publish_date > curdate()
+	</select>
+	
+	<select id="getXhsCommentSum" resultType="java.util.HashMap">
+		select 
+			sum(cast(comment_total as unsigned integer) ) sum,
+			date_format(publish_date,'%Y-%c-%d') cal 
+		from 
+			sh_article 
+		where 
+			date_format(publish_date,'%Y-%c-%d') = str_to_date(#{date},'%Y-%c-%d')
+	</select>
+	
+	<select id="getXhsCommentSumByCategory" resultType="java.util.HashMap">
+		select 
+			sum(cast(comment_total as unsigned integer) ) sum,
+			date_format(publish_date,'%Y-%c-%d') cal 
+		from 
+			sh_article 
+		where 1 = 1
+			and date_format(publish_date,'%Y-%c-%d') = str_to_date(#{date},'%Y-%c-%d')
+			and category=#{categoryid}
 	</select>
 	
 	<select id="getTodayRemoteNumsByCategory" resultType="java.util.HashMap" parameterType="java.lang.String">
@@ -116,6 +158,15 @@
 		where 1 = 1 
 			and publish_date > curdate()
 			and category=#{categoryid}
+	</select>
+	
+	<select id="getArticlesNumByDate" resultType="java.util.HashMap">
+		select 
+			date_format(publish_date,'%Y-%c-%d') cal, count(*) sum 
+		from 
+			sh_article 
+		where 1 = 1
+			and date_format(publish_date,'%Y-%c-%d') = str_to_date(#{date},'%Y-%c-%d');
 	</select>
 	
 </mapper>

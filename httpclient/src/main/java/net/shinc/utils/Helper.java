@@ -1,15 +1,19 @@
 package net.shinc.utils;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URL;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import net.shinc.controller.xhscomment.NewsController;
 
@@ -29,7 +33,7 @@ import com.google.gson.JsonSyntaxException;
  */
 public class Helper {
 
-	private static Logger logger = LoggerFactory.getLogger(NewsController.class);
+	private static Logger logger = LoggerFactory.getLogger(Helper.class);
 	
 	/**
 	 * 获取当前时间戳
@@ -166,6 +170,42 @@ public class Helper {
 			}
 		}
 		return numStr;
+	}
+	
+	/**
+	 * 遍历输出Map
+	 * @param map
+	 */
+	public static void iteratorMap(Map map) {
+		Set set = map.keySet();
+		Iterator iterator = set.iterator();
+		for (Object object : set) {
+			logger.info("\n"+object + ":"+ map.get(object));
+		}
+	}
+	
+	/**
+	 * 计算a/b 的百分比
+	 * @param a
+	 * @param b
+	 * @return
+	 */
+	public static String getPercent(String a, String b) {
+		try {
+			BigDecimal bd = new BigDecimal(Double.parseDouble(a)/Double.parseDouble(b));  
+			Double f1 = bd.setScale(4, BigDecimal.ROUND_HALF_UP).doubleValue();
+			DecimalFormat df = new DecimalFormat("######0.00");
+			String format = df.format(f1*100);
+			return format + "%";
+		} catch (NumberFormatException e) {
+			logger.error(ExceptionUtils.getStackTrace(e));
+		}
+		return null;
+	}
+	
+	public static void main(String[] args) {
+		String percent = getPercent("99998","140119");
+		System.out.println(percent);
 	}
 	
 }

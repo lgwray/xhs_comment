@@ -173,9 +173,8 @@ public class CommentController extends AbstractBaseController {
 	@ResponseBody
 	public IRestMessage getTodayCommentsNums() {
 		IRestMessage msg = getRestMessageWithoutUser();
-		List list = baseCommentService.getTodayCommentsNums();
-		if(!CollectionUtils.isEmpty(list)) {
-			Map map = (Map)list.get(0);
+		Map map = baseCommentService.getTodayCommentsNums();
+		if(!CollectionUtils.isEmpty(map)) {
 			msg.setCode(ErrorMessage.SUCCESS.getCode());
 			msg.setResult(map); 
 		} else {

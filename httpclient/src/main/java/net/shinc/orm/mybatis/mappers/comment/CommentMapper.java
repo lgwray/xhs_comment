@@ -20,12 +20,31 @@ public interface CommentMapper {
 	public List getLocalArticleCommentsCounts(List list);
 	
 	/**
-	 * 查看每天本地的评论量
+	 * 查看本地每天的评论量
 	 * @return
 	 */
 	public List getLocalCommentsNums();
 	
-	public List getTodayCommentsNums(String todayDate);
+	/**
+	 * 根据日期查本地评论数
+	 * @param date
+	 * @return
+	 */
+	public Map getLocalCommentsNumsByDate(String date);
+	
+	/**
+	 * 根据日期date和categoryid(栏目id)查本地评论数
+	 * @param map
+	 * @return
+	 */
+	public Map getLocalCommentsNumsByCategory(Map map);
+	
+	/**
+	 * 获取抓取的文章数（根据日期）
+	 * @param date
+	 * @return
+	 */
+	public Map getArticlesNumByDate(String date);
 	
 	/**
 	 * 获取新华社当日总评论数
@@ -38,5 +57,19 @@ public interface CommentMapper {
 	 * @return
 	 */
 	public Map getTodayRemoteNumsByCategory(String categoryid);
+	
+	/**
+	 * 获取新华社总评论数（根据日期）
+	 * @param date
+	 * @return
+	 */
+	public Map getXhsCommentSum(String date);
+	
+	/**
+	 * 获取新华社总评论数（根据日期和categoryid(栏目id)）
+	 * @param date
+	 * @return
+	 */
+	public Map getXhsCommentSumByCategory(Map map);
 
 }

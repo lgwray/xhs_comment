@@ -49,13 +49,13 @@ public interface BaseCommentService {
 	public List getLocalEverydayCommentsNums();
 	
 	/**
-	 * 获得当天的总评论数
+	 * 获得本地当天的总评论数
 	 * @return
 	 */
-	public List getTodayCommentsNums();
+	public Map getTodayCommentsNums();
 	
 	/**
-	 * 获得当天的新华社总评论数
+	 * 获得新华社当天的总评论数
 	 * @return
 	 */
 	public Map getTodayRemoteNums();
