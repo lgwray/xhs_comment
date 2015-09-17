@@ -3,6 +3,8 @@ package net.shinc.config;
 import net.shinc.quartz.task.xhscomment.FetchArticleDetailJob;
 import net.shinc.quartz.task.xhscomment.FetchArticleListJob;
 import net.shinc.quartz.task.xhscomment.FetchArticleListJob.FetchArticleListThread;
+import net.shinc.quartz.task.xhscomment.FetchCommentListJob;
+import net.shinc.quartz.task.xhscomment.FetchCommentListJob.FetchCommentListThread;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -25,6 +27,7 @@ public class QuartzConfig  {
 		
 		fb.setTriggers(fetchArticleDetailTrigger().getObject()
 				,fetchArticleListJobTrigger().getObject()
+				,fetchCommentListJobTrigger().getObject()
 				);
 		
 		return fb;
@@ -56,6 +59,7 @@ public class QuartzConfig  {
 	}
 	/** fetchArticleDetailJob begin */
 	
+	/**  FetchArticleListJob begin */
 	@Bean
 	@Scope("prototype")
 	public FetchArticleListThread fetchArticleListThread() {
@@ -85,4 +89,35 @@ public class QuartzConfig  {
 		fb.setRepeatInterval(1000 * env.getProperty("FetchArticleList.intevalSeconds", Integer.class));
 		return fb;
 	}
+	/**  FetchArticleListJob end */
+	
+	/** FetchCommentListJob begin */
+	
+	@Bean
+	@Scope("prototype")
+	public FetchCommentListThread fetchCommentListThread() {
+		return new FetchCommentListThread();
+	}
+	
+	@Bean
+	public FetchCommentListJob fetchCommentListJob() {
+		return new FetchCommentListJob();
+	}
+	@Bean
+	public MethodInvokingJobDetailFactoryBean fetchCommentListJobDetail() {
+		MethodInvokingJobDetailFactoryBean fb = new MethodInvokingJobDetailFactoryBean();
+		fb.setTargetBeanName("fetchCommentListJob");
+		fb.setTargetMethod("work");
+		fb.setConcurrent(false);
+		return fb;
+	}
+	
+	@Bean
+	public SimpleTriggerFactoryBean fetchCommentListJobTrigger() {
+		SimpleTriggerFactoryBean fb = new SimpleTriggerFactoryBean();
+		fb.setJobDetail(fetchCommentListJobDetail().getObject());
+		fb.setRepeatInterval(1000 * env.getProperty("FetchCommentListJob.intevalSeconds", Integer.class));
+		return fb;
+	}
+	/** FetchCommentListJob end */
 }

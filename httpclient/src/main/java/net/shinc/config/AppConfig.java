@@ -74,11 +74,11 @@ public class AppConfig {
 		ThreadPoolExecutorFactoryBean fb = new ThreadPoolExecutorFactoryBean();
 		fb.setBeanName("prototypePoolExecutor");
 		//线程池所使用的缓冲队列  
-		fb.setQueueCapacity(200);  
+		fb.setQueueCapacity(2000);  
 		//线程池维护线程的最少数量  
-		fb.setCorePoolSize(20);  
+		fb.setCorePoolSize(100);  
 		//线程池维护线程的最大数量  
-		fb.setMaxPoolSize(100); 
+		fb.setMaxPoolSize(3000); 
 		
 		return fb;
 	} 
