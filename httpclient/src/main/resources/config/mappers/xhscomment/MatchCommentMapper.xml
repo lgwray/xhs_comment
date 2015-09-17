@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.shinc.orm.mybatis.mappers.xhscomment.MatchCommentMapper" >
+  <resultMap id="BaseResultMap" type="MatchComment" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="match_news_id" property="matchNewsId" jdbcType="INTEGER" />
+    <result column="cmt_uuid" property="cmtUuid" jdbcType="CHAR" />
+    <result column="nick" property="nick" jdbcType="VARCHAR" />
+    <result column="publish_time" property="publishTime" jdbcType="TIMESTAMP" />
+    <result column="is_hot" property="isHot" jdbcType="BIT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="MatchComment" extends="BaseResultMap" >
+    <result column="comment" property="comment" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, match_news_id, cmt_uuid, nick, publish_time, is_hot
+  </sql>
+  <sql id="Blob_Column_List" >
+    comment
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sp2_match_comment
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sp2_match_comment
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="MatchComment" >
+    insert into sp2_match_comment (id, match_news_id, cmt_uuid, 
+      nick, publish_time, is_hot, 
+      comment)
+    values (#{id,jdbcType=INTEGER}, #{matchNewsId,jdbcType=INTEGER}, #{cmtUuid,jdbcType=CHAR}, 
+      #{nick,jdbcType=VARCHAR}, #{publishTime,jdbcType=TIMESTAMP}, #{isHot,jdbcType=BIT}, 
+      #{comment,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="MatchComment" >
+    insert into sp2_match_comment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="matchNewsId != null" >
+        match_news_id,
+      </if>
+      <if test="cmtUuid != null" >
+        cmt_uuid,
+      </if>
+      <if test="nick != null" >
+        nick,
+      </if>
+      <if test="publishTime != null" >
+        publish_time,
+      </if>
+      <if test="isHot != null" >
+        is_hot,
+      </if>
+      <if test="comment != null" >
+        comment,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="matchNewsId != null" >
+        #{matchNewsId,jdbcType=INTEGER},
+      </if>
+      <if test="cmtUuid != null" >
+        #{cmtUuid,jdbcType=CHAR},
+      </if>
+      <if test="nick != null" >
+        #{nick,jdbcType=VARCHAR},
+      </if>
+      <if test="publishTime != null" >
+        #{publishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isHot != null" >
+        #{isHot,jdbcType=BIT},
+      </if>
+      <if test="comment != null" >
+        #{comment,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="MatchComment" >
+    update sp2_match_comment
+    <set >
+      <if test="matchNewsId != null" >
+        match_news_id = #{matchNewsId,jdbcType=INTEGER},
+      </if>
+      <if test="cmtUuid != null" >
+        cmt_uuid = #{cmtUuid,jdbcType=CHAR},
+      </if>
+      <if test="nick != null" >
+        nick = #{nick,jdbcType=VARCHAR},
+      </if>
+      <if test="publishTime != null" >
+        publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isHot != null" >
+        is_hot = #{isHot,jdbcType=BIT},
+      </if>
+      <if test="comment != null" >
+        comment = #{comment,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="MatchComment" >
+    update sp2_match_comment
+    set match_news_id = #{matchNewsId,jdbcType=INTEGER},
+      cmt_uuid = #{cmtUuid,jdbcType=CHAR},
+      nick = #{nick,jdbcType=VARCHAR},
+      publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      is_hot = #{isHot,jdbcType=BIT},
+      comment = #{comment,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="MatchComment" >
+    update sp2_match_comment
+    set match_news_id = #{matchNewsId,jdbcType=INTEGER},
+      cmt_uuid = #{cmtUuid,jdbcType=CHAR},
+      nick = #{nick,jdbcType=VARCHAR},
+      publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      is_hot = #{isHot,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
