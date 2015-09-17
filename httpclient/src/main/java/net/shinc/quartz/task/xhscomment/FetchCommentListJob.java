@@ -158,10 +158,11 @@ public class FetchCommentListJob {
 			post.setHeader("X-Forwarded-For", RandomUtils.generateIp());
 			
 			CloseableHttpResponse response = null;
+			String result = "";
 			try {
 				response = httpClient.execute(post);
 				HttpEntity entity = response.getEntity();
-				String result =  EntityUtils.toString(entity);
+				result =  EntityUtils.toString(entity);
 				Map resultMap = Helper.jsonToMap(result);
 				
 				if("success".equals(resultMap.get("state"))) {
@@ -181,16 +182,20 @@ public class FetchCommentListJob {
 						if(hasmore.intValue() == 1) {
 							return true;
 						} else {
+							logger.debug("<hasmore:no>-" + articleId + ":" + resultMap);
 							return false;
 						}
 					} else {
+						logger.debug("<listnull:>-" + articleId + ":" + resultMap);
 						return false;
 					}
 				} else {
+					logger.debug("<statenotsuccess:>-" + articleId + ":" + resultMap);
 					return false;
 				}
 				
 			} catch (Exception e) {
+				logger.error("<articleId>=" + articleId + " <pageNum>=" + pageNumber + " result is:\n" + result);;
 				logger.error(ExceptionUtils.getStackTrace(e));
 				return false;
 			}

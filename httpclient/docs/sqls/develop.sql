@@ -1,3 +1,12 @@
+--20150917
+ALTER TABLE `sh_xhs_commentlist` 
+ADD COLUMN `row_num` VARCHAR(45) NULL AFTER `content`,
+ADD COLUMN `user_id` VARCHAR(45) NULL AFTER `row_num`;
+
+ALTER TABLE `sh_xhs_commentlist` 
+CHANGE COLUMN `nick` `nick` VARCHAR(256) NOT NULL ;
+
+
 --20150916
 CREATE TABLE IF NOT EXISTS `sh_xhs_commentlist` (
   `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
