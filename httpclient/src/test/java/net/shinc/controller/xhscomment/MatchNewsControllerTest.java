@@ -21,7 +21,7 @@ import org.springframework.web.context.WebApplicationContext;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = InfoMgmtApplication.class)
 @WebAppConfiguration
-public class CountControllerTest {
+public class MatchNewsControllerTest {
 
 	@Autowired  
     private WebApplicationContext wac;  
@@ -34,12 +34,29 @@ public class CountControllerTest {
     	handler = MockMvcResultHandlers.print();
     } 
     
+    /**
+     * 新华社新闻id匹配全网新闻列表
+     */
     @Test
     @WithMockUser(username="admin",password="admin")
-    public void getTotalPercent(){
+    public void getMatchNewsListByArticleId(){
     	try {
-    		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/count/getTotalPercent").param("date", "2015-09-17");
-//    		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/count/getTotalPercent");
+    		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/matchNews/getMatchNewsListByArticleId")
+    				.param("articleId", "260524");
+    		mockMvc.perform(reqbuild).andDo(handler);
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    }
+    
+    @Test
+    @WithMockUser(username="admin",password="admin")
+    public void getMatchCommentsByMatchNewsId(){
+    	try {
+    		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/matchNews/getMatchCommentsByMatchNewsId")
+    				.param("matchNewsId", "226")
+    				.param("page", "1")
+    				.param("num", "50");
     		mockMvc.perform(reqbuild).andDo(handler);
     	} catch (Exception e) {
     		e.printStackTrace();

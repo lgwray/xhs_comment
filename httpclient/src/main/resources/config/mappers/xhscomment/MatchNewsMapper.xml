@@ -11,12 +11,12 @@
     <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, news_type, news_uuid, title, url, spider_time, remark
+    id, news_type, news_uuid, title, url, DATE_FORMAT(spider_time , '%Y-%m-%d %H:%i') spider_time, remark
   </sql>
   
   <select id="getMatchNewsBatch" resultMap="BaseResultMap" parameterType="java.util.List">
   	select
-  		<include refid="Base_Column_List" />
+  		id, news_type, news_uuid, title, url, DATE_FORMAT(spider_time , '%Y-%m-%d %H:%i') spider_time
   	from
   		sp2_match_news
   	where

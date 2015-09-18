@@ -1,5 +1,6 @@
 package net.shinc.controller.xhscomment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.shinc.common.AbstractBaseController;
@@ -30,7 +31,7 @@ import com.github.miemiedev.mybatis.paginator.domain.PageList;
  * @date 2015年9月18日 上午11:19:12  
  */
 @Controller
-@RequestMapping(value = "/MatchNews")
+@RequestMapping(value = "/matchNews")
 public class MatchNewsController extends AbstractBaseController {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
@@ -40,6 +41,61 @@ public class MatchNewsController extends AbstractBaseController {
 	
 	@Autowired
 	private ArticleService articleService;
+	
+	/**
+	 * 根据新闻id查询匹配到的新闻列表（新华社新闻匹配全网新闻）
+	 * @param articleId
+	 * @return
+	 */
+	@RequestMapping(value = "/getMatchNewsListByArticleId")
+	@ResponseBody
+	public IRestMessage getMatchNewsListByArticleId(@RequestParam(value="articleId",required=true) String articleId) {
+		IRestMessage msg = getRestMessageWithoutUser();
+		try {
+			List<MatchNews> list = articleService.getMatchNewsByArticleId(Integer.parseInt(articleId));
+			if(!CollectionUtils.isEmpty(list)) {
+				msg.setCode(ErrorMessage.SUCCESS.getCode());
+				msg.setResult(list);
+				msg.setDetail(new Integer(list.size()).toString());
+			} else {
+				msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());
+			}
+		} catch (Exception e) {
+			logger.error(ExceptionUtils.getStackTrace(e));
+		}
+		return msg;
+	}
+	
+	/**
+	 * 查询匹配到的某条新闻下的评论
+	 * @param articleId
+	 * @return
+	 */
+	@RequestMapping(value = "/getMatchCommentsByMatchNewsId")
+	@ResponseBody
+	public IRestMessage getMatchCommentsByMatchNewsId(@RequestParam(value="matchNewsId",required=true) String matchNewsId,
+			@RequestParam(value="page",defaultValue="1") Integer page,
+			@RequestParam(value = "num",defaultValue="50") Integer num) {
+		
+		IRestMessage msg = getRestMessageWithoutUser();
+		try {
+			PageBounds pb = new PageBounds(page,num);
+			List<String> list = new ArrayList<String>();
+			list.add(matchNewsId);
+			List<MatchComment> withPagination = mnService.getMatchNewsCommentsBatchWithPagination(list, pb);
+			if(!CollectionUtils.isEmpty(withPagination)) {
+				PageList<MatchComment> pagelist = (PageList<MatchComment>)withPagination;
+				msg.setCode(ErrorMessage.SUCCESS.getCode());
+				msg.setResult(pagelist);
+				msg.setPageInfo(pagelist.getPaginator());
+			} else {
+				msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());
+			}
+		} catch (Exception e) {
+			logger.error(ExceptionUtils.getStackTrace(e));
+		}
+		return msg;
+	}
 	
 	/**
 	 * 根据新闻id查询匹配到的评论
@@ -62,31 +118,6 @@ public class MatchNewsController extends AbstractBaseController {
 				msg.setCode(ErrorMessage.SUCCESS.getCode());
 				msg.setResult(pagelist);
 				msg.setPageInfo(pagelist.getPaginator());
-			} else {
-				msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());
-			}
-		} catch (Exception e) {
-			logger.error(ExceptionUtils.getStackTrace(e));
-		}
-		return msg;
-	}
-	
-	/**
-	 * 根据新闻id查询匹配到的新闻列表
-	 * @param articleId
-	 * @param page
-	 * @param num
-	 * @return
-	 */
-	@RequestMapping(value = "/getMatchNewsListByArticleId")
-	@ResponseBody
-	public IRestMessage getMatchNewsListByArticleId(@RequestParam(value="articleId",required=true) String articleId) {
-		IRestMessage msg = getRestMessageWithoutUser();
-		try {
-			List<MatchNews> list = articleService.getMatchNewsByArticleId(Integer.parseInt(articleId));
-			if(!CollectionUtils.isEmpty(list)) {
-				msg.setCode(ErrorMessage.SUCCESS.getCode());
-				msg.setResult(list);
 			} else {
 				msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());
 			}

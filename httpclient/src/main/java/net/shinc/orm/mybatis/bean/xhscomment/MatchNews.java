@@ -13,7 +13,7 @@ public class MatchNews {
 
     private String url;
 
-    private Date spiderTime;
+    private String spiderTime;
 
     private String remark;
 
@@ -57,14 +57,6 @@ public class MatchNews {
         this.url = url == null ? null : url.trim();
     }
 
-    public Date getSpiderTime() {
-        return spiderTime;
-    }
-
-    public void setSpiderTime(Date spiderTime) {
-        this.spiderTime = spiderTime;
-    }
-
     public String getRemark() {
         return remark;
     }
@@ -72,4 +64,13 @@ public class MatchNews {
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
     }
+
+	public String getSpiderTime() {
+		return spiderTime;
+	}
+
+	public void setSpiderTime(String spiderTime) {
+		this.spiderTime = spiderTime;
+	}
+    
 }
