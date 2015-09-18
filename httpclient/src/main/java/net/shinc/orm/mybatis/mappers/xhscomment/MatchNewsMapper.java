@@ -1,5 +1,8 @@
 package net.shinc.orm.mybatis.mappers.xhscomment;
 
+import java.util.List;
+
+import net.shinc.orm.mybatis.bean.xhscomment.MatchComment;
 import net.shinc.orm.mybatis.bean.xhscomment.MatchNews;
 
 public interface MatchNewsMapper {
@@ -14,4 +17,5 @@ public interface MatchNewsMapper {
     int updateByPrimaryKeySelective(MatchNews record);
 
     int updateByPrimaryKey(MatchNews record);
+    
 }

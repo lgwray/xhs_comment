@@ -1,5 +1,9 @@
 package net.shinc.orm.mybatis.mappers.xhscomment;
 
+import java.util.List;
+
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+
 import net.shinc.orm.mybatis.bean.xhscomment.MatchComment;
 
 public interface MatchCommentMapper {
@@ -16,4 +20,8 @@ public interface MatchCommentMapper {
     int updateByPrimaryKeyWithBLOBs(MatchComment record);
 
     int updateByPrimaryKey(MatchComment record);
+    
+    List<MatchComment> getMatchNewsCommentsBatch(List<Integer> list);
+    
+    List<MatchComment> getMatchNewsCommentsBatch(List<Integer> list, PageBounds pb);
 }
