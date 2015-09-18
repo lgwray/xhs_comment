@@ -100,5 +100,13 @@
 	    </trim>
 		)
 	</insert>
+	
+	<update id="updateXhsCommentList" parameterType="java.util.Map">
+		update sh_xhs_commentlist
+		<set>
+			<if test="row_num != null">row_num=#{row_num}</if>
+		</set>
+		where comment_id=#{id}
+	</update>
 
 </mapper>

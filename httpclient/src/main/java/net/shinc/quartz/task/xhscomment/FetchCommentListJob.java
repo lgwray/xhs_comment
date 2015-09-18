@@ -128,10 +128,7 @@ public class FetchCommentListJob {
 			
 			if(map == null) return ;
 			
-			Long commentLocal = (Long)map.get("comment_local");
-			
-			//计算起始页
-			Long start =  commentLocal / pageSize + 1;
+			int start = 1;
 			
 			String id = (String)map.get("id");
 			boolean hasMore = false;
@@ -175,22 +172,28 @@ public class FetchCommentListJob {
 								try {
 									this.sqlSession.insert("net.shinc.orm.mybatis.mappers.xhscomment.ArticleMapper.insertXhsCommentList", tmp);
 								} catch(DuplicateKeyException e) {
-								}
+									try {
+										this.sqlSession.update("net.shinc.orm.mybatis.mappers.xhscomment.ArticleMapper.updateXhsCommentList", tmp);
+									} catch(Exception ee) {}
+								} catch(Exception e2) {
+									logger.error("<articleId>=" + articleId + " <pageNum>=" + pageNumber + " result is:\n" + result);;
+									logger.error(ExceptionUtils.getStackTrace(e2));
+								} 
 							}
 						} 
 						Double hasmore = (Double)resultMap.get("hasmore");
 						if(hasmore.intValue() == 1) {
 							return true;
 						} else {
-							logger.debug("<hasmore:no>-" + articleId + ":" + resultMap);
+							logger.debug("<hasmore:no>-" + "<articleId>=" + articleId + " <pageNum>=" + pageNumber + ":" + resultMap);
 							return false;
 						}
 					} else {
-						logger.debug("<listnull:>-" + articleId + ":" + resultMap);
+						logger.debug("<listnull:>-" + "<articleId>=" + articleId + " <pageNum>=" + pageNumber + ":" + resultMap);
 						return false;
 					}
 				} else {
-					logger.debug("<statenotsuccess:>-" + articleId + ":" + resultMap);
+					logger.debug("<statenotsuccess:>-" + "<articleId>=" + articleId + " <pageNum>=" + pageNumber + ":" + resultMap);
 					return false;
 				}
 				
