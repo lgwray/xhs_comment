@@ -74,7 +74,6 @@ public class FetchCommentListJob {
 			}
 			
 			List<Map<String,Object>> list = this.sqlSession.selectList("net.shinc.orm.mybatis.mappers.xhscomment.ArticleMapper.selectRecentWithComment", map);
-			
 			if(list != null && list.size() > 0) {
 				for(Map tmp : list) {
 					try {
@@ -86,7 +85,7 @@ public class FetchCommentListJob {
 					}
 				}
 				executor.shutdown();
-				executor.awaitTermination(1, TimeUnit.HOURS);
+				executor.awaitTermination(1, TimeUnit.DAYS);
 			}
 			
 			
