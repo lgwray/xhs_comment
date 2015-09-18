@@ -13,16 +13,31 @@
   <sql id="Base_Column_List" >
     id, news_type, news_uuid, title, url, spider_time, remark
   </sql>
+  
+  <select id="getMatchNewsBatch" resultMap="BaseResultMap" parameterType="java.util.List">
+  	select
+  		<include refid="Base_Column_List" />
+  	from
+  		sp2_match_news
+  	where
+  		id in
+    	 <foreach collection="list" item="item" index="index"  open="(" separator="," close=")" >
+   			#{item,jdbcType=INTEGER}
+		</foreach>  	
+  </select>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from sp2_match_news
     where id = #{id,jdbcType=INTEGER}
   </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sp2_match_news
     where id = #{id,jdbcType=INTEGER}
   </delete>
+  
   <insert id="insert" parameterType="MatchNews" >
     insert into sp2_match_news (id, news_type, news_uuid, 
       title, url, spider_time, 
@@ -31,6 +46,7 @@
       #{title,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{spiderTime,jdbcType=TIMESTAMP}, 
       #{remark,jdbcType=VARCHAR})
   </insert>
+  
   <insert id="insertSelective" parameterType="MatchNews" >
     insert into sp2_match_news
     <trim prefix="(" suffix=")" suffixOverrides="," >

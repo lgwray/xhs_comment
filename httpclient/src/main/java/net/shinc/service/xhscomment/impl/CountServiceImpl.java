@@ -2,6 +2,7 @@ package net.shinc.service.xhscomment.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import java.util.Map;
 import net.shinc.orm.mybatis.mappers.comment.CommentMapper;
 import net.shinc.quartz.task.xhscomment.FetchArticleListJob.ArticleCategory;
 import net.shinc.service.xhscomment.CountService;
+import net.shinc.utils.DateUtils;
 import net.shinc.utils.Helper;
 
 import org.apache.commons.lang3.StringUtils;
@@ -27,6 +29,7 @@ import org.springframework.stereotype.Service;
 public class CountServiceImpl implements CountService {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
+	private String pattern = "yyyy-MM-dd";
 	
 	@Autowired
 	private CommentMapper cmMapper;
@@ -46,13 +49,18 @@ public class CountServiceImpl implements CountService {
 	}
 
 	@Override
-	public Map getTotalPercent(String date) {
+	public List<Map> getTotalPercent(String date) {
+		List<Map> list = new ArrayList<Map>();
 		if(!StringUtils.isEmpty(date)) {
-			return getTotalByDate(date);
+			Map map = getTotalByDate(date);
+			list.add(map);
 		} else {
-			
+			List<String> fewsDate = DateUtils.getBeforeFewsDate(7, pattern);
+			for (String dateStr : fewsDate) {
+				list.add(getTotalByDate(dateStr));
+			}
 		}
-		return null;
+		return list;
 	}
 	
 	public Map getTotalByDate(String date) {

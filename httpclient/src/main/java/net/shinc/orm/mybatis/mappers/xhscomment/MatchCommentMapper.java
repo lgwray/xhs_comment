@@ -21,7 +21,7 @@ public interface MatchCommentMapper {
 
     int updateByPrimaryKey(MatchComment record);
     
-    List<MatchComment> getMatchNewsCommentsBatch(List<Integer> list);
+    List<MatchComment> getMatchNewsCommentsBatch(List<String> list);
     
-    List<MatchComment> getMatchNewsCommentsBatch(List<Integer> list, PageBounds pb);
+    List<MatchComment> getMatchNewsCommentsBatch(List<String> list, PageBounds pb);
 }

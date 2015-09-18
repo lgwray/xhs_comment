@@ -16,6 +16,21 @@
 		WHERE
 		publish_date > DATE_SUB(CURDATE(), INTERVAL ${recentDays} DAY)
 	</select>
+	
+	<sql id="Base_Column_List" >
+    	id, title, DATE_FORMAT(publish_date , '%Y-%m-%d %H:%i') publish_date, comment_total, detail_url, category, match_news_id
+  	</sql>
+  
+	<select id="selectArticleByPrimaryKey" resultType="java.util.Map" parameterType="java.lang.Integer">
+		select
+			<include refid="Base_Column_List" />
+		from
+			sh_article
+		where 
+			1 = 1
+			and id = #{id}
+	</select>
+	
 	<select id="selectRecentWithComment" resultType="java.util.Map"
 		parameterType="java.util.Map">
 		SELECT

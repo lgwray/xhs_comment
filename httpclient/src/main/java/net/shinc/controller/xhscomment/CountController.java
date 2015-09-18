@@ -1,5 +1,6 @@
 package net.shinc.controller.xhscomment;
 
+import java.util.List;
 import java.util.Map;
 
 import net.shinc.common.AbstractBaseController;
@@ -42,10 +43,10 @@ public class CountController extends AbstractBaseController {
 	public IRestMessage getTotalPercent(@RequestParam(value="date",required=false) String date) {
 		IRestMessage msg = getRestMessageWithoutUser();
 		try {
-			Map map = countService.getTotalPercent(date);
-			if(!CollectionUtils.isEmpty(map)) {
+			List<Map> list = countService.getTotalPercent(date);
+			if(!CollectionUtils.isEmpty(list)) {
 				msg.setCode(ErrorMessage.SUCCESS.getCode());
-				msg.setResult(map);
+				msg.setResult(list);
 			} else {
 				msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());
 			}

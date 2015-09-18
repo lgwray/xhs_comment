@@ -39,7 +39,7 @@ public class MatchNewsServiceImpl implements MatchNewsService {
 	}
 
 	@Override
-	public List<MatchComment> getMatchNewsCommentsBatch(List<Integer> list) {
+	public List<MatchComment> getMatchNewsCommentsBatch(List<String> list) {
 		if(!CollectionUtils.isEmpty(list)) {
 			List<MatchComment> comments = mcMapper.getMatchNewsCommentsBatch(list);
 			return comments;
@@ -48,10 +48,19 @@ public class MatchNewsServiceImpl implements MatchNewsService {
 	}
 
 	@Override
-	public List<MatchComment> getMatchNewsCommentsBatchWithPagination(List<Integer> list, PageBounds pb) {
+	public List<MatchComment> getMatchNewsCommentsBatchWithPagination(List<String> list, PageBounds pb) {
 		if(!CollectionUtils.isEmpty(list)) {
 			List<MatchComment> comments = mcMapper.getMatchNewsCommentsBatch(list);
 			return comments;
+		}
+		return null;
+	}
+
+	@Override
+	public List<MatchNews> getMatchNewsBatch(List<String> list) {
+		if(!CollectionUtils.isEmpty(list)){
+			List<MatchNews> list2 = mnMapper.getMatchNewsBatch(list);
+			return list2;
 		}
 		return null;
 	}

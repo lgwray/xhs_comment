@@ -18,7 +18,7 @@ public interface CountService {
 	 */
 	public Map getLocalCommentsNumsByDate(String date);
 	
-	public Map getTotalPercent(String date);
+	public List<Map> getTotalPercent(String date);
 	
 	/**
 	 * 获取抓取的文章数(根据日期)

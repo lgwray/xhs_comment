@@ -145,6 +145,7 @@ public class Helper {
 		try {
 			DateFormat format = new SimpleDateFormat(pattern);
 			String datetime = format.format(date);
+			logger.info("formatDate: "+datetime);
 			return datetime;
 		} catch (Exception e) {
 			logger.error(ExceptionUtils.getStackTrace(e));
@@ -180,7 +181,7 @@ public class Helper {
 		Set set = map.keySet();
 		Iterator iterator = set.iterator();
 		for (Object object : set) {
-			logger.info("\n"+object + ":"+ map.get(object));
+			logger.info(object + ":"+ map.get(object));
 		}
 	}
 	
@@ -204,8 +205,10 @@ public class Helper {
 	}
 	
 	public static void main(String[] args) {
-		String percent = getPercent("99998","140119");
-		System.out.println(percent);
+//		String percent = getPercent("99998","140119");
+//		System.out.println(percent);
+		
+		formatDate(new Date(), "yyyy-MM-dd");
 	}
 	
 }
