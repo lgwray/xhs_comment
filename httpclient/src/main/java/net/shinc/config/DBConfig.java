@@ -73,6 +73,10 @@ public class DBConfig {
 		ds.setUsername(env.getProperty("product.jdbc.username"));
 		ds.setPassword(env.getProperty("product.jdbc.password"));
 		ds.setUrl(env.getProperty("product.jdbc.url"));
+		ds.setInitialSize(50);
+		ds.setMaxIdle(50);
+		ds.setMinIdle(50);
+		ds.setMaxTotal(200);
 		return ds;
 	}
 	
