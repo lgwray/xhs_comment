@@ -84,7 +84,7 @@ public class MatchNewsController extends AbstractBaseController {
 			list.add(matchNewsId);
 			List<MatchComment> withPagination = mnService.getMatchNewsCommentsBatchWithPagination(list, pb);
 			if(!CollectionUtils.isEmpty(withPagination)) {
-				PageList<MatchComment> pagelist = (PageList<MatchComment>)withPagination;
+				PageList pagelist = (PageList)withPagination;
 				msg.setCode(ErrorMessage.SUCCESS.getCode());
 				msg.setResult(pagelist);
 				msg.setPageInfo(pagelist.getPaginator());
@@ -102,9 +102,9 @@ public class MatchNewsController extends AbstractBaseController {
 	 * @param articleId 新闻id
 	 * @return
 	 */
-	@RequestMapping(value = "/getMatchNewsCommentsBatch")
+	@RequestMapping(value = "/getMatchCommentsByArticleId")
 	@ResponseBody
-	public IRestMessage getMatchNewsCommentsBatch(@RequestParam(value="articleId",required=true) String articleId,
+	public IRestMessage getMatchCommentsByArticleId(@RequestParam(value="articleId",required=true) String articleId,
 			@RequestParam(value="page",defaultValue="1") Integer page,
 			@RequestParam(value = "num",defaultValue="50") Integer num) {
 		

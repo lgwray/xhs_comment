@@ -50,7 +50,7 @@ public class MatchNewsServiceImpl implements MatchNewsService {
 	@Override
 	public List<MatchComment> getMatchNewsCommentsBatchWithPagination(List<String> list, PageBounds pb) {
 		if(!CollectionUtils.isEmpty(list)) {
-			List<MatchComment> comments = mcMapper.getMatchNewsCommentsBatch(list);
+			List<MatchComment> comments = mcMapper.getMatchNewsCommentsBatch(list,pb);
 			return comments;
 		}
 		return null;

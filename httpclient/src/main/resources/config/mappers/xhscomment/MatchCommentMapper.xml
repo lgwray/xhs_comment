@@ -131,16 +131,19 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   
-  <select id="getMatchNewsCommentsBatch" parameterType="java.util.List" resultType="java.util.Map">
+  <select id="getMatchNewsCommentsBatch" parameterType="java.util.List" resultMap="BaseResultMap">
   	select
 		id,
 	    comment,
+	    match_news_id,
+	    cmt_uuid,
 	    (select nickname from nick where flag='1' and id >= (select floor(rand()*(select max(id) as nick_id from nick where flag='1'))) order by id limit 1) nick,
 	    publish_time,
 	    is_hot
 	from 
 		sp2_match_comment
-	where match_news_id in
+	where 1 = 1
+	   and match_news_id in
     	 <foreach collection="list" item="item" index="index"  open="(" separator="," close=")" >
    			#{item,jdbcType=INTEGER}
 		</foreach>  

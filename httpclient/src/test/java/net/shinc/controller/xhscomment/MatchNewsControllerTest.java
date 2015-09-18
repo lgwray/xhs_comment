@@ -54,7 +54,21 @@ public class MatchNewsControllerTest {
     public void getMatchCommentsByMatchNewsId(){
     	try {
     		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/matchNews/getMatchCommentsByMatchNewsId")
-    				.param("matchNewsId", "226")
+    				.param("matchNewsId", "376")
+    				.param("page", "1")
+    				.param("num", "50");
+    		mockMvc.perform(reqbuild).andDo(handler);
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    }
+    
+    @Test
+    @WithMockUser(username="admin",password="admin")
+    public void getMatchCommentsByArticleId(){
+    	try {
+    		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/matchNews/getMatchCommentsByArticleId")
+    				.param("articleId", "260524")
     				.param("page", "1")
     				.param("num", "50");
     		mockMvc.perform(reqbuild).andDo(handler);
