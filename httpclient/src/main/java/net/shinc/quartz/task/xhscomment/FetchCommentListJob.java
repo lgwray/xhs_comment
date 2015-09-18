@@ -74,7 +74,6 @@ public class FetchCommentListJob {
 			}
 			
 			List<Map<String,Object>> list = this.sqlSession.selectList("net.shinc.orm.mybatis.mappers.xhscomment.ArticleMapper.selectRecentWithComment", map);
-			
 			if(list != null && list.size() > 0) {
 				for(Map tmp : list) {
 					try {
@@ -86,7 +85,7 @@ public class FetchCommentListJob {
 					}
 				}
 				executor.shutdown();
-				executor.awaitTermination(1, TimeUnit.HOURS);
+				executor.awaitTermination(1, TimeUnit.DAYS);
 			}
 			
 			
@@ -128,10 +127,7 @@ public class FetchCommentListJob {
 			
 			if(map == null) return ;
 			
-			Long commentLocal = (Long)map.get("comment_local");
-			
-			//计算起始页
-			Long start =  commentLocal / pageSize + 1;
+			int start = 1;
 			
 			String id = (String)map.get("id");
 			boolean hasMore = false;
@@ -158,10 +154,11 @@ public class FetchCommentListJob {
 			post.setHeader("X-Forwarded-For", RandomUtils.generateIp());
 			
 			CloseableHttpResponse response = null;
+			String result = "";
 			try {
 				response = httpClient.execute(post);
 				HttpEntity entity = response.getEntity();
-				String result =  EntityUtils.toString(entity);
+				result =  EntityUtils.toString(entity);
 				Map resultMap = Helper.jsonToMap(result);
 				
 				if("success".equals(resultMap.get("state"))) {
@@ -174,23 +171,33 @@ public class FetchCommentListJob {
 								try {
 									this.sqlSession.insert("net.shinc.orm.mybatis.mappers.xhscomment.ArticleMapper.insertXhsCommentList", tmp);
 								} catch(DuplicateKeyException e) {
-								}
+									try {
+										this.sqlSession.update("net.shinc.orm.mybatis.mappers.xhscomment.ArticleMapper.updateXhsCommentList", tmp);
+									} catch(Exception ee) {}
+								} catch(Exception e2) {
+									logger.error("<articleId>=" + articleId + " <pageNum>=" + pageNumber + " result is:\n" + result);;
+									logger.error(ExceptionUtils.getStackTrace(e2));
+								} 
 							}
 						} 
 						Double hasmore = (Double)resultMap.get("hasmore");
 						if(hasmore.intValue() == 1) {
 							return true;
 						} else {
+							logger.debug("<hasmore:no>-" + "<articleId>=" + articleId + " <pageNum>=" + pageNumber + ":" + resultMap);
 							return false;
 						}
 					} else {
+						logger.debug("<listnull:>-" + "<articleId>=" + articleId + " <pageNum>=" + pageNumber + ":" + resultMap);
 						return false;
 					}
 				} else {
+					logger.debug("<statenotsuccess:>-" + "<articleId>=" + articleId + " <pageNum>=" + pageNumber + ":" + resultMap);
 					return false;
 				}
 				
 			} catch (Exception e) {
+				logger.error("<articleId>=" + articleId + " <pageNum>=" + pageNumber + " result is:\n" + result);;
 				logger.error(ExceptionUtils.getStackTrace(e));
 				return false;
 			}

@@ -89,13 +89,39 @@
 		comment_id,
 		article_id,
 		nick,
-		content)
+		content,
+		<trim suffixOverrides="," >
+	      <if test="row_num != null" >
+	        row_num,
+	      </if>
+	      <if test="userId != null" >
+	        user_id
+	      </if>
+	    </trim>
+		)
 		VALUES
 		(
 		#{id},
 		#{article_id},
 		#{uiAccount},
-		#{comment});
+		#{comment},
+		<trim suffixOverrides="," >
+	      <if test="row_num != null" >
+	        #{row_num},
+	      </if>
+	      <if test="userId != null" >
+	        #{userId}
+	      </if>
+	    </trim>
+		)
 	</insert>
+	
+	<update id="updateXhsCommentList" parameterType="java.util.Map">
+		update sh_xhs_commentlist
+		<set>
+			<if test="row_num != null">row_num=#{row_num}</if>
+		</set>
+		where comment_id=#{id}
+	</update>
 
 </mapper>

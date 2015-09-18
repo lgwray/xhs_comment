@@ -1,3 +1,23 @@
+--20150918
+CREATE TABLE IF NOT EXISTS `sh_base_sameword` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `word` VARCHAR(45) NOT NULL,
+  `wordlike` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `UIX_BASE_SAMEWORD` (`word` ASC, `wordlike` ASC))
+ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
+COMMENT = '基础表，同义词库';
+
+
+--20150917
+ALTER TABLE `sh_xhs_commentlist` 
+ADD COLUMN `row_num` VARCHAR(45) NULL AFTER `content`,
+ADD COLUMN `user_id` VARCHAR(45) NULL AFTER `row_num`;
+
+ALTER TABLE `sh_xhs_commentlist` 
+CHANGE COLUMN `nick` `nick` VARCHAR(256) NOT NULL ;
+
+
 --20150916
 CREATE TABLE IF NOT EXISTS `sh_xhs_commentlist` (
   `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
