@@ -109,4 +109,13 @@
 		where comment_id=#{id}
 	</update>
 
+	<select id="selectxhsCommentByArticleId" resultType="java.util.Map"
+		parameterType="map">
+		SELECT 
+		    nick, content
+		FROM
+		    sh_xhs_commentlist
+		WHERE
+		    article_id = #{id}
+	</select>
 </mapper>
