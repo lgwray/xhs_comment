@@ -20,8 +20,6 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-
-
 /**
  * <b>quartz job</b>
  * <p>发送新华社接口，查询新闻列表</p>
@@ -118,6 +116,7 @@ public class FetchArticleListJob {
 		@Autowired
 		@Qualifier("sqlSession")
 		private SqlSessionTemplate sqlSession;
+		
 		@Override
 		public void run() {
 			List articleList = newsService.getNewsList(getUserId(), category.getCid(),category.getCtype());

@@ -38,7 +38,7 @@ public class CountControllerTest {
     @WithMockUser(username="admin",password="admin")
     public void getTotalPercent(){
     	try {
-    		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/count/getTotalPercent").param("date", "2015-09-17");
+    		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/count/getTotalPercent").param("date", "2015-09-21");
 //    		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/count/getTotalPercent");
     		mockMvc.perform(reqbuild).andDo(handler);
     	} catch (Exception e) {

@@ -11,12 +11,12 @@
     <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, news_type, news_uuid, title, url, DATE_FORMAT(spider_time , '%Y-%m-%d %H:%i') spider_time, remark
+    id, news_type, news_uuid, title, url, DATE_FORMAT(parent_publish_date , '%Y-%m-%d %H:%i') spider_time, remark
   </sql>
   
   <select id="getMatchNewsBatch" resultMap="BaseResultMap" parameterType="java.util.List">
   	select
-  		id, news_type, news_uuid, title, url, DATE_FORMAT(spider_time , '%Y-%m-%d %H:%i') spider_time
+  		id, news_type, news_uuid, title, url, DATE_FORMAT(parent_publish_date , '%Y-%m-%d %H:%i') spider_time
   	from
   		sp2_match_news
   	where
@@ -40,7 +40,7 @@
   
   <insert id="insert" parameterType="MatchNews" >
     insert into sp2_match_news (id, news_type, news_uuid, 
-      title, url, spider_time, 
+      title, url, parent_publish_date, 
       remark)
     values (#{id,jdbcType=INTEGER}, #{newsType,jdbcType=VARCHAR}, #{newsUuid,jdbcType=CHAR}, 
       #{title,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{spiderTime,jdbcType=TIMESTAMP}, 
@@ -66,7 +66,7 @@
         url,
       </if>
       <if test="spiderTime != null" >
-        spider_time,
+        parent_publish_date,
       </if>
       <if test="remark != null" >
         remark,
@@ -112,7 +112,7 @@
         url = #{url,jdbcType=VARCHAR},
       </if>
       <if test="spiderTime != null" >
-        spider_time = #{spiderTime,jdbcType=TIMESTAMP},
+        parent_publish_date = #{spiderTime,jdbcType=TIMESTAMP},
       </if>
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
@@ -126,7 +126,7 @@
       news_uuid = #{newsUuid,jdbcType=CHAR},
       title = #{title,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
-      spider_time = #{spiderTime,jdbcType=TIMESTAMP},
+      parent_publish_date = #{spiderTime,jdbcType=TIMESTAMP},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

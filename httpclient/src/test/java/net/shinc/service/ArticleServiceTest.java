@@ -40,6 +40,13 @@ public class ArticleServiceTest {
 		iterator(list);
 	}
 	
+	@Test
+	public void getMatchNewsIdByArticleId(){
+		Integer articleId = 264365;
+		List<String> list = articleService.getMatchNewsIdByArticleId(articleId);
+		System.out.println(list);
+	}
+	
 	public void iterator(Collection<?> c){
 		for (Object object : c) {
 			System.out.println(object);
