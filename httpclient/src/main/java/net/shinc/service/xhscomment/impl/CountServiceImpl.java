@@ -109,6 +109,10 @@ public class CountServiceImpl implements CountService {
 		return map;
 	}
 	
+	/**
+	 * 获取新华社总数与本地总数，及百分比(根据栏目和日期)
+	 * @return
+	 */
 	public Map getTotalNumAndPercent(String date,String categoryid) {
 		Map map = new HashMap();
 		String remark = null;

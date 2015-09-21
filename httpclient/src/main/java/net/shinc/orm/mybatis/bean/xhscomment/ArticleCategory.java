@@ -1,5 +1,11 @@
 package net.shinc.orm.mybatis.bean.xhscomment;
 
+/** 
+ * @ClassName ArticleCategory 
+ * @Description TODO
+ * @author guoshijie 
+ * @date 2015年9月18日 下午6:43:06  
+ */
 public enum ArticleCategory {
 	
 	要闻("470" , "4001","0" ,"要闻"),

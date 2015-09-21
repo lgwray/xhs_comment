@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.shinc.orm.mybatis.bean.common.Article;
+import net.shinc.orm.mybatis.bean.xhscomment.MatchComment;
 import net.shinc.orm.mybatis.bean.xhscomment.MatchNews;
 import net.shinc.orm.mybatis.mappers.comment.CommentMapper;
 import net.shinc.orm.mybatis.mappers.xhscomment.ArticleMapper;
@@ -19,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * 
  * @ClassName ArticleServiceImpl 
  * @Description TODO
  * @author zhonglinzhao 
@@ -59,12 +59,10 @@ public class ArticleServiceImpl implements ArticleService{
 		}
 	}
 	
-	
 	public List<Article> getArticleListByDate(String publishDate){
 		List<Article> list = commentMapper.selectArticleListByDate(publishDate);
 		return list;
 	}
-
 
 	@Override
 	public Map getArticlesById(Integer articleId) {
@@ -92,6 +90,16 @@ public class ArticleServiceImpl implements ArticleService{
 			List<String> list = getMatchNewsIdByArticleId(articleId);
 			List<MatchNews> newsBatch = mnService.getMatchNewsBatch(list);
 			return newsBatch;
+		}
+		return null;
+	}
+
+	@Override
+	public List<MatchComment> getMatchCommentsByArticleId(Integer articleId) {
+		if(null != articleId) {
+			List<String> list = getMatchNewsIdByArticleId(articleId);
+			List<MatchComment> matchCommentList = mnService.getMatchNewsCommentsBatch(list);
+			return matchCommentList;
 		}
 		return null;
 	}

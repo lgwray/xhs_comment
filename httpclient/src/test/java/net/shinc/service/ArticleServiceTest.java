@@ -7,6 +7,7 @@ import java.util.Map;
 import net.shinc.InfoMgmtApplication;
 import net.shinc.orm.mybatis.bean.common.AdminUser;
 import net.shinc.orm.mybatis.bean.common.Menu;
+import net.shinc.orm.mybatis.bean.xhscomment.MatchComment;
 import net.shinc.service.common.MenuService;
 import net.shinc.utils.Helper;
 
@@ -30,6 +31,13 @@ public class ArticleServiceTest {
 		Integer articleId = 260245;
 		Map map = articleService.getArticlesById(articleId);
 		Helper.iteratorMap(map);
+	}
+	
+	@Test
+	public void getMatchCommentsByArticleId() {
+		Integer articleId = 260015;
+		List<MatchComment> list = articleService.getMatchCommentsByArticleId(articleId);
+		iterator(list);
 	}
 	
 	public void iterator(Collection<?> c){

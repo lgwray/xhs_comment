@@ -7,6 +7,12 @@ import net.shinc.orm.mybatis.bean.xhscomment.Nick;
 
 import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
 
+/** 
+ * @ClassName NickMapper 
+ * @Description TODO
+ * @author guoshijie 
+ * @date 2015年9月18日 下午6:44:25  
+ */
 public interface NickMapper {
     int deleteByPrimaryKey(Integer id);
     
@@ -25,5 +31,6 @@ public interface NickMapper {
     int updateByPrimaryKey(Nick record);
     
     public List<Nick> getNickListByPage(PageBounds pb);
+    
     public List<Map> getNickListByPage2(Map map,PageBounds pb);
 }
