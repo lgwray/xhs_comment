@@ -22,6 +22,8 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+
 
 /**
  * 
@@ -193,7 +195,10 @@ public class ArticleController extends AbstractBaseController {
 		logger.info("查出评论条数==>" + list.size());
 		if(!CollectionUtils.isEmpty(list)) {
 			msg.setCode(ErrorMessage.SUCCESS.getCode());
-			msg.setResult(list); 
+			msg.setResult(list);
+			int size = list.size();
+			Integer integer = new Integer(size);
+			msg.setDetail(integer.toString());
 		} else {
 			msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());
 		}

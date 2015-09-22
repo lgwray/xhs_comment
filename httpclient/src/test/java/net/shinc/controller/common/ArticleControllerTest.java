@@ -122,9 +122,9 @@ public class ArticleControllerTest {
     public void testgetCommentsByNews() {
     	RequestBuilder reqbuild = MockMvcRequestBuilders.post("/article/getCommentsByNews")
     			.param("type", "news")
-    			.param("newsid", "86829")
+    			.param("newsid", "10493")
     			.param("page", "1")
-    			.param("num", "50");
+    			.param("num", "200");
     	try {
     		mockMvc.perform(reqbuild).andDo(MockMvcResultHandlers.print());
     	} catch (Exception e) {
