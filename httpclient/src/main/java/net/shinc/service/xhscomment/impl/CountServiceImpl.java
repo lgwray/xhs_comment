@@ -55,7 +55,7 @@ public class CountServiceImpl implements CountService {
 			Map map = getTotalByDate(date);
 			list.add(map);
 		} else {
-			List<String> fewsDate = DateUtils.getBeforeFewsDate(7, pattern);
+			List<String> fewsDate = DateUtils.getBeforeFewsDate(4, pattern);
 			for (String dateStr : fewsDate) {
 				list.add(getTotalByDate(dateStr));
 			}
