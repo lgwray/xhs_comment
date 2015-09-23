@@ -27,6 +27,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+
 
 /**
  * @author zhangtaichao 2015年8月14日
@@ -113,7 +116,7 @@ public class CommentController extends AbstractBaseController {
 	}
 	
 	/**
-	 * 绩效列表
+	 * 查看已发布的评论
 	 * @return
 	 */
 	@RequestMapping(value = "/selectCommentJnl")
@@ -122,20 +125,20 @@ public class CommentController extends AbstractBaseController {
 			@RequestParam(value="addDate",required=true) String addDate,
 			@RequestParam(value="articleid",required=false) String articleid,
 			@RequestParam(value="content",required=false) String content,
-			String pageIndex,
-			String pageCount) {
+			@RequestParam(value="page",required=false,defaultValue="1") Integer page,
+			@RequestParam(value = "num",required=false,defaultValue="50") Integer num
+			) {
 		
 		IRestMessage msg = getRestMessage();
+		PageBounds pb = new PageBounds(page,num);
 		
 		Map map = new HashMap();
 		map.put("userId", userId);
 		map.put("addDate", addDate);
-		map.put("pageIndex", pageIndex);
-		map.put("pageCount", pageCount);
 		map.put("articleid", articleid);
 		map.put("content", content);
 		
-		List list = jnlServiceImpl.selectCommentJnl(map);
+		List list = jnlServiceImpl.selectCommentJnl(map,pb);
 		int count = jnlServiceImpl.selectCommentJnlCount(map);
 		Map resultMap = new HashMap();
 		resultMap.put("list", list);
@@ -143,7 +146,9 @@ public class CommentController extends AbstractBaseController {
 		logger.info("绩效列表==>" + list.toString());
 		msg.setCode(ErrorMessage.SUCCESS.getCode());
 		msg.setResult(resultMap); 
-		msg.setDetail(String.valueOf(count));
+		msg.setDetail(String.valueOf(list.size()));
+		PageList pagelist = (PageList)list;
+		msg.setPageInfo(pagelist.getPaginator());
 		return msg;
 	}
 	

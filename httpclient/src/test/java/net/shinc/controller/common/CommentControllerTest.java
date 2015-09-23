@@ -42,8 +42,8 @@ public class CommentControllerTest {
     			.param("addDate", "2015-09-23")
     			.param("articleid", "267236")
     			.param("content", "残忍")
-    			.param("pageIndex", "0")
-    			.param("pageCount", "50");
+    			.param("page", "7")
+    			.param("num", "50");
 		try {
 			mockMvc.perform(reqbuild).andDo(MockMvcResultHandlers.print());
 		} catch (Exception e) {

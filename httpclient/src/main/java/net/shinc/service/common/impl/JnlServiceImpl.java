@@ -9,6 +9,8 @@ import net.shinc.orm.mybatis.mappers.common.JnlMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+
 /**
  * 
  * @ClassName JnlServiceImpl 
@@ -48,8 +50,8 @@ public class JnlServiceImpl {
 	 * @param pageCount
 	 * @return
 	 */
-	public List<Map> selectCommentJnl(Map map) {
-		return jnlMapper.selectCommentJnl(map);
+	public List<Map> selectCommentJnl(Map map,PageBounds pb) {
+		return jnlMapper.selectCommentJnl(map,pb);
 	}
 	
 	/**
