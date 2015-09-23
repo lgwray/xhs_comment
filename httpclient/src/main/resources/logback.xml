@@ -74,10 +74,12 @@
 	</logger>
 	<logger name="org.apache.http" level="info" additivity="false">
 		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
 	</logger>
 	
 	<logger name="net.shinc.aop.log" level="debug" additivity="false">
 		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
 	</logger>
 	<logger name="net.shinc.quartz.task.xhscomment" level="info" additivity="false">
 		<appender-ref ref="JOBFILE" />
