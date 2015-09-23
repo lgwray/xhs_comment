@@ -24,4 +24,11 @@ public class XhsNavServiceTest {
 		service.getXhsNavList();
 	}
 	
+	@Test
+//	@Transactional
+	public void addXhsNavBatch() {
+		Integer num = service.addXhsNavBatch();
+		System.out.println(num);
+	}
+	
 }

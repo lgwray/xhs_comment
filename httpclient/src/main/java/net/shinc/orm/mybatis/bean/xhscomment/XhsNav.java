@@ -11,9 +11,9 @@ public class XhsNav {
 
     private String url;
 
-    private String orderid;
+    private String orderid = "0";
 
-    private String hasorder;
+    private String hasorder = "0";
 
     public Integer getId() {
         return id;

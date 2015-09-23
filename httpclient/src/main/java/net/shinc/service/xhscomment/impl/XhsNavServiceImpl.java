@@ -5,16 +5,19 @@ import java.util.List;
 import java.util.Map;
 
 import net.shinc.orm.mybatis.bean.xhscomment.XhsNav;
+import net.shinc.orm.mybatis.mappers.xhscomment.XhsNavMapper;
 import net.shinc.service.xhscomment.XhsNavService;
 import net.shinc.utils.Helper;
 import net.shinc.utils.HttpClient;
 import net.shinc.utils.ParamUtils;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -29,6 +32,9 @@ import org.springframework.util.CollectionUtils;
 public class XhsNavServiceImpl implements XhsNavService {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
+	
+	@Autowired
+	private XhsNavMapper xhsNavMapper;
 	
 	@Value("${xhs.nav.url}")
 	private String xhsNavUrl;
@@ -78,8 +84,13 @@ public class XhsNavServiceImpl implements XhsNavService {
 							
 							String provinceId = xhsNav.getId().toString();
 							List datalist = (List)jsonToMap.get("data");
+							List<XhsNav> parseNav4 = parseNav(datalist, provinceId);
+							list.addAll(parseNav4);
 							for (Object object : datalist) {
-								
+								Map map3 = (Map)object;
+								List itemList2 = (List)map3.get("items");
+								List<XhsNav> parseNav5 = parseNav(itemList2,null);
+								list.addAll(parseNav5);
 							}
 						}
 						logger.info(itemres);
@@ -161,6 +172,23 @@ public class XhsNavServiceImpl implements XhsNavService {
 			str = (String)obj;
 		}
 		return str;
+	}
+
+
+	@Override
+	public Integer addXhsNavBatch() {
+		List<XhsNav> list2 = getXhsNavList();
+//		int i = xhsNavMapper.insertBatch(list2);
+		int sum = 0;
+		for (XhsNav xhsNav : list2) {
+			try {
+				int i = xhsNavMapper.insert(xhsNav);
+				sum = sum+i;
+			} catch (Exception e) {
+				logger.info(ExceptionUtils.getStackTrace(e));
+			}
+		}
+		return sum;
 	}
 
 }

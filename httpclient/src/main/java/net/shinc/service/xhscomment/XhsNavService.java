@@ -18,5 +18,7 @@ public interface XhsNavService {
 	 * @return
 	 */
 	public List<XhsNav> getXhsNavList();
+	
+	public Integer addXhsNavBatch();
 
 }
