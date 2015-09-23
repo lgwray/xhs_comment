@@ -7,6 +7,7 @@
 		<result column="title" property="title" jdbcType="VARCHAR" />
 		<result column="id" property="userId" jdbcType="VARCHAR" />
 		<result column="nickname" property="userNickName" jdbcType="VARCHAR" />
+		<result column="send_flag" property="sendFlag" jdbcType="VARCHAR" />
 	</resultMap>
 	
 	<insert id="insertJnlArticleComment" parameterType="java.util.Map" >
@@ -18,31 +19,44 @@
   	
 	<select id="selectCommentJnl" resultMap="selectCommentJnlMap" parameterType="java.util.Map">
 		SELECT 
-			j.adddate,
+			DATE_FORMAT(j.sendtime , '%Y-%m-%d %H:%i')  adddate,
 			j.article_id,
 		    a.title,
 		    j.content,
 		    u.id,
-		    u.nickname 
+		    u.nickname,
+		    CASE j.send_flag
+				WHEN 0 THEN '待发送'
+				WHEN 1 THEN '发送中'
+				WHEN 2 THEN '发送成功'
+				WHEN 3 THEN '发送失败'
+				WHEN 4 THEN '状态未明'
+				ELSE '其他' END send_flag 
 		from 
 			sh_jnl_article_comment j,
 			sh_admin_user u ,
 			sh_article a 
-		where 
-			a.id=j.article_id
-		and
-			j.user_id = u.id 
-		<if test="userId != null" >
-			and
-				j.user_id = #{userId}
-		</if>
-		and
-			date_format(j.adddate,'%Y-%m-%d') = #{addDate}
+		where 1 = 1
+			and a.id=j.article_id
+			and date_format(j.adddate,'%Y-%m-%d') = #{addDate}
+			<if test="userId != null" >
+				and j.user_id = u.id
+				<if test="userId !=0">
+				and	j.user_id = #{userId}
+				</if>
+			</if>
+			<if test="articleid != null">
+				and j.article_id=#{articleid}
+			</if>
+			<if test="content != null">
+				and j.content like '%${content}%'
+			</if>
 		order by
 			j.adddate desc
 		limit
 			${pageIndex},${pageCount}
 	</select>
+	
 	<select id="selectCommentJnlCount" resultType="java.lang.Integer" parameterType="java.util.Map">
 		SELECT 
 			count(*)
@@ -50,15 +64,20 @@
 			sh_jnl_article_comment j,
 			sh_admin_user u ,
 			sh_article a 
-		where 
-			a.id=j.article_id
-		and
-			j.user_id = u.id 
-		<if test="userId != null" >
-			and
-				j.user_id = #{userId}
-		</if>
-		and
-			date_format(j.adddate,'%Y-%m-%d') = #{addDate}
+		where 1 = 1
+			and a.id=j.article_id
+			and date_format(j.adddate,'%Y-%m-%d') = #{addDate}
+			<if test="userId != null" >
+				and j.user_id = u.id 
+				<if test="userId !=0">
+				and j.user_id = #{userId}
+				</if>
+			</if>
+			<if test="articleid != null">
+				and j.article_id=#{articleid}
+			</if>
+			<if test="content != null">
+				and j.content like '%${content}%'
+			</if>
 	</select>
 </mapper>

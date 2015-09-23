@@ -118,13 +118,23 @@ public class CommentController extends AbstractBaseController {
 	 */
 	@RequestMapping(value = "/selectCommentJnl")
 	@ResponseBody
-	public IRestMessage selectCommentJnl(String userId, String addDate,String pageIndex,String pageCount) {
+	public IRestMessage selectCommentJnl(@RequestParam(value="userId",required=false) String userId, 
+			@RequestParam(value="addDate",required=true) String addDate,
+			@RequestParam(value="articleid",required=false) String articleid,
+			@RequestParam(value="content",required=false) String content,
+			String pageIndex,
+			String pageCount) {
+		
 		IRestMessage msg = getRestMessage();
+		
 		Map map = new HashMap();
 		map.put("userId", userId);
 		map.put("addDate", addDate);
 		map.put("pageIndex", pageIndex);
 		map.put("pageCount", pageCount);
+		map.put("articleid", articleid);
+		map.put("content", content);
+		
 		List list = jnlServiceImpl.selectCommentJnl(map);
 		int count = jnlServiceImpl.selectCommentJnlCount(map);
 		Map resultMap = new HashMap();
@@ -133,6 +143,7 @@ public class CommentController extends AbstractBaseController {
 		logger.info("绩效列表==>" + list.toString());
 		msg.setCode(ErrorMessage.SUCCESS.getCode());
 		msg.setResult(resultMap); 
+		msg.setDetail(String.valueOf(count));
 		return msg;
 	}
 	

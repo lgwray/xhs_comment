@@ -38,10 +38,12 @@ public class CommentControllerTest {
     @Test
     public void selectCommentJnl() {
     	RequestBuilder reqbuild = MockMvcRequestBuilders.post("/selectCommentJnl")
-    			.param("userId", "1")
-    			.param("addDate", "2015-08-19")
+    			.param("userId", "47")
+    			.param("addDate", "2015-09-23")
+    			.param("articleid", "267236")
+    			.param("content", "残忍")
     			.param("pageIndex", "0")
-    			.param("pageCount", "2");
+    			.param("pageCount", "50");
 		try {
 			mockMvc.perform(reqbuild).andDo(MockMvcResultHandlers.print());
 		} catch (Exception e) {
