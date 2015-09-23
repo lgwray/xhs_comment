@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.shinc.orm.mybatis.mappers.xhscomment.ArticleHasMatchNewsMapper" >
+  <resultMap id="BaseResultMap" type="ArticleHasMatchNewsKey" >
+    <id column="article_id" property="articleId" jdbcType="VARCHAR" />
+    <id column="match_news_id" property="matchNewsId" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <delete id="deleteByPrimaryKey" parameterType="ArticleHasMatchNewsKey" >
+    delete from sp2_article_match_news
+    where article_id = #{articleId,jdbcType=VARCHAR}
+      and match_news_id = #{matchNewsId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="ArticleHasMatchNewsKey" >
+    insert into sp2_article_match_news (article_id, match_news_id)
+    values (#{articleId,jdbcType=VARCHAR}, #{matchNewsId,jdbcType=INTEGER})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="ArticleHasMatchNewsKey" >
+    insert into sp2_article_match_news
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="articleId != null" >
+        article_id,
+      </if>
+      <if test="matchNewsId != null" >
+        match_news_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="articleId != null" >
+        #{articleId,jdbcType=VARCHAR},
+      </if>
+      <if test="matchNewsId != null" >
+        #{matchNewsId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="selectMatchNewsIdByArticleId" parameterType="java.lang.Integer" resultType="java.lang.String">
+  	select 
+  		match_news_id
+  	from 
+  		sp2_article_match_news
+  	where
+  		1 = 1
+  		and article_id=#{articleId}
+  </select>
+  
+</mapper>

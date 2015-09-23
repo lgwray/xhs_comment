@@ -1,7 +1,7 @@
 package net.shinc.service.xhscomment.impl;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -124,7 +124,9 @@ public class BaseCommentServiceImpl implements BaseCommentService {
 		}
 		CategoryComment cmt = new CategoryComment();
 		cmt.setCategoryId(categoryId);
-		return commentMapper.getCommentList(cmt, rb);
+		List<CategoryComment> commentList = commentMapper.getCommentList(cmt, rb);
+		Collections.shuffle(commentList);
+		return commentList;
 	}
 	
 	/**

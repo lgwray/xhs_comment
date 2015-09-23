@@ -42,7 +42,7 @@ public class MatchNewsControllerTest {
     public void getMatchNewsListByArticleId(){
     	try {
     		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/matchNews/getMatchNewsListByArticleId")
-    				.param("articleId", "260524");
+    				.param("articleId", "264365");
     		mockMvc.perform(reqbuild).andDo(handler);
     	} catch (Exception e) {
     		e.printStackTrace();
@@ -54,8 +54,8 @@ public class MatchNewsControllerTest {
     public void getMatchCommentsByMatchNewsId(){
     	try {
     		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/matchNews/getMatchCommentsByMatchNewsId")
-    				.param("matchNewsId", "376")
-    				.param("page", "1")
+    				.param("matchNewsId", "2214")
+    				.param("page", "3")
     				.param("num", "50");
     		mockMvc.perform(reqbuild).andDo(handler);
     	} catch (Exception e) {
@@ -68,7 +68,7 @@ public class MatchNewsControllerTest {
     public void getMatchCommentsByArticleId(){
     	try {
     		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/matchNews/getMatchCommentsByArticleId")
-    				.param("articleId", "260524")
+    				.param("articleId", "264343")
     				.param("page", "1")
     				.param("num", "50");
     		mockMvc.perform(reqbuild).andDo(handler);

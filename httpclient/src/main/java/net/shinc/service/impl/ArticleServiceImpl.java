@@ -1,17 +1,17 @@
 package net.shinc.service.impl;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import net.shinc.orm.mybatis.bean.common.Article;
+import net.shinc.orm.mybatis.bean.xhscomment.MatchComment;
 import net.shinc.orm.mybatis.bean.xhscomment.MatchNews;
 import net.shinc.orm.mybatis.mappers.comment.CommentMapper;
+import net.shinc.orm.mybatis.mappers.xhscomment.ArticleHasMatchNewsMapper;
 import net.shinc.orm.mybatis.mappers.xhscomment.ArticleMapper;
 import net.shinc.service.ArticleService;
 import net.shinc.service.xhscomment.MatchNewsService;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * 
  * @ClassName ArticleServiceImpl 
  * @Description TODO
  * @author zhonglinzhao 
@@ -41,6 +40,9 @@ public class ArticleServiceImpl implements ArticleService{
 	@Autowired
 	private MatchNewsService mnService;
 	
+	@Autowired
+	private ArticleHasMatchNewsMapper articleHasMatchNewsMapper;
+	
 	public void refreshArticleList(List<Map> list){
 		if(list != null){
 			String id = "";
@@ -59,12 +61,10 @@ public class ArticleServiceImpl implements ArticleService{
 		}
 	}
 	
-	
 	public List<Article> getArticleListByDate(String publishDate){
 		List<Article> list = commentMapper.selectArticleListByDate(publishDate);
 		return list;
 	}
-
 
 	@Override
 	public Map getArticlesById(Integer articleId) {
@@ -75,13 +75,8 @@ public class ArticleServiceImpl implements ArticleService{
 	@Override
 	public List<String> getMatchNewsIdByArticleId(Integer articleId) {
 		if(null != articleId) {
-			Map map = getArticlesById(articleId);
-			String match_news_id = (String) map.get("match_news_id");
-			if(!StringUtils.isEmpty(match_news_id)) {
-				String[] split = match_news_id.split(",");
-				List<String> list = Arrays.asList(split);
-				return list;
-			}
+			List<String> list = articleHasMatchNewsMapper.selectMatchNewsIdByArticleId(articleId);
+			return list;
 		}
 		return null;
 	}
@@ -92,6 +87,16 @@ public class ArticleServiceImpl implements ArticleService{
 			List<String> list = getMatchNewsIdByArticleId(articleId);
 			List<MatchNews> newsBatch = mnService.getMatchNewsBatch(list);
 			return newsBatch;
+		}
+		return null;
+	}
+
+	@Override
+	public List<MatchComment> getMatchCommentsByArticleId(Integer articleId) {
+		if(null != articleId) {
+			List<String> list = getMatchNewsIdByArticleId(articleId);
+			List<MatchComment> matchCommentList = mnService.getMatchNewsCommentsBatch(list);
+			return matchCommentList;
 		}
 		return null;
 	}

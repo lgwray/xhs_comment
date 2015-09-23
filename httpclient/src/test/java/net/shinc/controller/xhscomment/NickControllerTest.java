@@ -39,7 +39,7 @@ public class NickControllerTest {
     public void getNickListByPage(){
     	try {
     		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/nick/getNickListByPage")
-    				.param("page", "1").param("num", "30");
+    				.param("page", "1").param("num", "30").param("flag", "2");
     		mockMvc.perform(reqbuild).andDo(handler);
     	} catch (Exception e) {
     		e.printStackTrace();

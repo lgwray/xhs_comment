@@ -57,7 +57,7 @@ public class QuartzConfig  {
 		fb.setRepeatInterval(1000 * env.getProperty("ArticleDetailTask.intevalSeconds", Integer.class));
 		return fb;
 	}
-	/** fetchArticleDetailJob begin */
+	/** fetchArticleDetailJob end */
 	
 	/**  FetchArticleListJob begin */
 	@Bean

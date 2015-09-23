@@ -5,6 +5,12 @@ import java.util.Map;
 
 import net.shinc.orm.mybatis.bean.xhscomment.NickName;
 
+/** 
+ * @ClassName NickNameMapper 
+ * @Description TODO
+ * @author guoshijie 
+ * @date 2015年9月18日 下午6:44:34  
+ */
 public interface NickNameMapper {
     int deleteByPrimaryKey(Integer id);
 

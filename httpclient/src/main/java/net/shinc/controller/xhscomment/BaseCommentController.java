@@ -305,7 +305,7 @@ public class BaseCommentController extends AbstractBaseController {
 				logger.error(ExceptionUtils.getStackTrace(e));
 			}
 			
-		} else if("2".equals(queryType)) {
+		} else if("2".equals(queryType)) {//zhihu
 			try {
 				List re = commentService.getCommentsByTitle(type,content,Integer.parseInt(num),Integer.parseInt(page));
 				if(re != null){
@@ -317,7 +317,7 @@ public class BaseCommentController extends AbstractBaseController {
 			} catch(Exception e) {
 				logger.error(ExceptionUtils.getStackTrace(e));
 			}
-		} else if("3".equals(queryType)){
+		} else if("3".equals(queryType)){//weibo
 			try {
 				List list2 = weiboService.getWeiboCommentsList(type, content, page, num);
 				if(!CollectionUtils.isEmpty(list2)){

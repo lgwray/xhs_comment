@@ -1,5 +1,6 @@
 package net.shinc.orm.mybatis.bean.xhscomment;
 
+import java.text.MessageFormat;
 import java.util.Date;
 
 public class MatchComment {
@@ -71,5 +72,10 @@ public class MatchComment {
 
     public void setComment(String comment) {
         this.comment = comment == null ? null : comment.trim();
+    }
+    
+    @Override
+    public String toString() {
+    	return MessageFormat.format("id:{0}\tmatchNewsId:{1}\tpublishTime:{2}\tnick:{3}\tcomment:{4}\tisHot:{5}", this.id,this.matchNewsId,this.publishTime,this.nick,this.comment,this.isHot);
     }
 }

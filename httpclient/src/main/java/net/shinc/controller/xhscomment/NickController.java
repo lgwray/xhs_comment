@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
 import com.github.miemiedev.mybatis.paginator.domain.PageList;
 
-
 /** 
  * @ClassName NickController 
  * @Description 昵称

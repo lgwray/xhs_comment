@@ -87,6 +87,7 @@ public class MatchNewsController extends AbstractBaseController {
 				PageList pagelist = (PageList)withPagination;
 				msg.setCode(ErrorMessage.SUCCESS.getCode());
 				msg.setResult(pagelist);
+				msg.setDetail(new Integer(pagelist.size()).toString());
 				msg.setPageInfo(pagelist.getPaginator());
 			} else {
 				msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());
@@ -117,6 +118,7 @@ public class MatchNewsController extends AbstractBaseController {
 			if(!CollectionUtils.isEmpty(withPagination)) {
 				msg.setCode(ErrorMessage.SUCCESS.getCode());
 				msg.setResult(pagelist);
+				msg.setDetail(new Integer(pagelist.size()).toString());
 				msg.setPageInfo(pagelist.getPaginator());
 			} else {
 				msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());

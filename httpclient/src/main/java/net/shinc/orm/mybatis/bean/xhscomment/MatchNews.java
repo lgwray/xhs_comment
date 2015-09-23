@@ -1,7 +1,11 @@
 package net.shinc.orm.mybatis.bean.xhscomment;
 
-import java.util.Date;
-
+/** 
+ * @ClassName MatchNews 
+ * @Description TODO
+ * @author guoshijie 
+ * @date 2015年9月18日 下午6:43:23  
+ */
 public class MatchNews {
     private Integer id;
 

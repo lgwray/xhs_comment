@@ -55,7 +55,7 @@ public class CountServiceImpl implements CountService {
 			Map map = getTotalByDate(date);
 			list.add(map);
 		} else {
-			List<String> fewsDate = DateUtils.getBeforeFewsDate(7, pattern);
+			List<String> fewsDate = DateUtils.getBeforeFewsDate(4, pattern);
 			for (String dateStr : fewsDate) {
 				list.add(getTotalByDate(dateStr));
 			}
@@ -109,6 +109,10 @@ public class CountServiceImpl implements CountService {
 		return map;
 	}
 	
+	/**
+	 * 获取新华社总数与本地总数，及百分比(根据栏目和日期)
+	 * @return
+	 */
 	public Map getTotalNumAndPercent(String date,String categoryid) {
 		Map map = new HashMap();
 		String remark = null;
