@@ -161,7 +161,7 @@ public class FetchCommentListJob {
 				result =  EntityUtils.toString(entity);
 				Map resultMap = Helper.jsonToMap(result);
 				
-				if("success".equals(resultMap.get("state"))) {
+				if(resultMap != null && "success".equals(resultMap.get("state"))) {
 					List data = (List)resultMap.get("data");
 					if(!CollectionUtils.isEmpty(data)) {
 						
