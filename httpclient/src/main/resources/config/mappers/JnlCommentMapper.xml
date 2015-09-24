@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="net.shinc.orm.mybatis.mappers.xhscomment.JnlCommentMapper">
+	<insert id="insert" parameterType="JnlComment">
+		INSERT INTO sh_jnl_article_comment
+		(article_id,
+		adddate,
+		nickname,
+		content,
+		content_type,
+		user_id,
+		comment_way,
+		send_flag,
+		sendtime,
+		md5)
+		VALUES
+			(#{articleId },
+			#{addDate },
+			#{nickName },
+			#{content },
+			#{contentType },
+			#{userId },
+			#{commentWay },
+			#{sendFlag },
+			#{sendTime },
+			#{md5 })
+	</insert>
+	
 	<insert id="insertBatch" parameterType="List" >
 	   INSERT INTO sh_jnl_article_comment
 		(article_id,

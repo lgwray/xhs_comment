@@ -38,7 +38,6 @@ public class JnlCommentServiceImpl implements JnlCommentService {
 	@Override
 	public Integer putComment(List<JnlComment> list) {
 		int sum = 0;
-		try {
 			if(CollectionUtils.isEmpty(list)) {
 				return 0;
 			}
@@ -48,12 +47,16 @@ public class JnlCommentServiceImpl implements JnlCommentService {
 				int begin = batchSize * i;
 				int end = begin + batchSize;
 				end = Math.min(end, size);
-				int num = jcm.insertBatch(list.subList(begin, end));
-				sum = sum + num;
+				List<JnlComment> subList = list.subList(begin, end);
+				for (JnlComment jnlComment : subList) {
+					try {
+						int num = jcm.insert(jnlComment);
+						sum = sum + num;
+					} catch (DuplicateKeyException e) {
+						logger.info(ExceptionUtils.getStackTrace(e));
+					}
+				}
 			}
-		} catch (DuplicateKeyException e) {
-			logger.info(ExceptionUtils.getStackTrace(e));
-		}
 		return sum;
 	}
 	
