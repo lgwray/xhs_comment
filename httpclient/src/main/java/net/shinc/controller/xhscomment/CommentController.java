@@ -119,6 +119,7 @@ public class CommentController extends AbstractBaseController {
 	 * 查看已发布的评论
 	 * @return
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "/selectCommentJnl")
 	@ResponseBody
 	public IRestMessage selectCommentJnl(@RequestParam(value="userId",required=false) String userId, 
@@ -136,7 +137,8 @@ public class CommentController extends AbstractBaseController {
 		map.put("userId", userId);
 		map.put("addDate", addDate);
 		map.put("articleid", articleid);
-		map.put("content", content);
+		map.put("content", content.trim());
+		logger.info(map.toString());
 		
 		List list = jnlServiceImpl.selectCommentJnl(map,pb);
 		int count = jnlServiceImpl.selectCommentJnlCount(map);
@@ -200,7 +202,7 @@ public class CommentController extends AbstractBaseController {
 	}
 
 	/**
-	 * 获得当天的新华社总评论数
+	 * 获得新华社当天的总评论数
 	 * @return
 	 */
 	@RequestMapping(value = "/getTodayxhsNums")

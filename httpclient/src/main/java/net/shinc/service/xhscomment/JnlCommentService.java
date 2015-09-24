@@ -14,7 +14,7 @@ import net.shinc.orm.mybatis.bean.xhscomment.JnlComment;
  */
 public interface JnlCommentService {
 
-	public void putComment(List<JnlComment> list);
+	public Integer putComment(List<JnlComment> list);
 	
 	public List<JnlComment> getCommentBySendFlag(JnlComment.SendFlag sendflag,Integer pageSize);
 	

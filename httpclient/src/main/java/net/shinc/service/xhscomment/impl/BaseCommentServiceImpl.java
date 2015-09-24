@@ -11,9 +11,11 @@ import java.util.Map;
 import net.shinc.common.TreeNode;
 import net.shinc.orm.mybatis.bean.xhscomment.CategoryComment;
 import net.shinc.orm.mybatis.bean.xhscomment.CommentCategory;
+import net.shinc.orm.mybatis.bean.xhscomment.Nick;
 import net.shinc.orm.mybatis.mappers.comment.CommentMapper;
 import net.shinc.orm.mybatis.mappers.xhscomment.CategoryCommentMapper;
 import net.shinc.orm.mybatis.mappers.xhscomment.CommentCategoryMapper;
+import net.shinc.orm.mybatis.mappers.xhscomment.NickMapper;
 import net.shinc.service.xhscomment.BaseCommentService;
 import net.shinc.utils.DateUtils;
 
@@ -24,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 @Service
@@ -41,6 +44,9 @@ public class BaseCommentServiceImpl implements BaseCommentService {
 	
 	@Autowired
 	private CommentMapper cmMapper;
+	
+	@Autowired
+	private NickMapper nickMapper;
 
 	@Override
 	public List<TreeNode<CommentCategory>> getCategory() {
@@ -127,6 +133,29 @@ public class BaseCommentServiceImpl implements BaseCommentService {
 		List<CategoryComment> commentList = commentMapper.getCommentList(cmt, rb);
 		Collections.shuffle(commentList);
 		return commentList;
+	}
+	
+	@Override
+	public List<CategoryComment> getCommentListWithNickNoCycle(Integer categoryId,RowBounds rb) {
+		if(categoryId == null || rb == null) {
+			throw new IllegalArgumentException("check your params");
+		}
+		CategoryComment cmt = new CategoryComment();
+		cmt.setCategoryId(categoryId);
+		List<CategoryComment> commentList = commentMapper.getCommentList(cmt, rb);
+		
+		if(!CollectionUtils.isEmpty(commentList)){
+			List<Nick> nicksRandom = nickMapper.getNicksRandom(commentList.size());
+			if(commentList.size() == nicksRandom.size()){
+				for(int i=0;i<commentList.size();i++) {
+					CategoryComment categoryComment = commentList.get(i);
+					Nick nick = nicksRandom.get(i);
+					categoryComment.setNickName(nick.getNickname());
+				}
+				return commentList;
+			}
+		}
+		return null;
 	}
 	
 	/**

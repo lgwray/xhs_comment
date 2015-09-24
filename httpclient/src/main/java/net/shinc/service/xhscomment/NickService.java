@@ -28,4 +28,11 @@ public interface NickService {
 	public Integer deleteNickById(Integer id);
 	
 	public Integer deleteNickBatch(List<Map> list);
+	
+	/**
+	 * 随机取num个昵称
+	 * @param num
+	 * @return
+	 */
+	public List<Nick> getNicksRandom(Integer num);
 }
