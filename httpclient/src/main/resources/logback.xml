@@ -34,7 +34,7 @@
 		<file>${LOG_HOME}/newsjob.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!--日志文件输出的文件名 -->
-			<FileNamePattern>${LOG_HOME}/news.log.%d{yyyy-MM-dd}.log.gz
+			<FileNamePattern>${LOG_HOME}/newsjob.log.%d{yyyy-MM-dd}.log.gz
 			</FileNamePattern>
 			<MaxHistory>30</MaxHistory>
 		</rollingPolicy>
