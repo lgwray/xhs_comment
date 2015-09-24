@@ -1,3 +1,25 @@
+--20150924
+ALTER TABLE `sh_autosend_article` 
+ADD COLUMN `match_news_id` INT(11) NOT NULL DEFAULT -1 AFTER `article_id`;
+
+
+--20150923
+CREATE TABLE `sh_autosend_article` (
+  `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `article_id` VARCHAR(32) NOT NULL,
+  `enabled` VARCHAR(1) NOT NULL COMMENT '0=无效，1=有效',
+  `user_id` INT(11) NOT NULL,
+  `begindate` DATETIME NOT NULL,
+  `enddate` DATETIME NOT NULL,
+  PRIMARY KEY (`id`))
+DEFAULT CHARACTER SET = utf8
+COMMENT = '需要自动发送的新闻列表';
+ALTER TABLE `spider_news`.`sh_autosend_article` 
+ADD UNIQUE INDEX `article_id_UNIQUE` (`article_id` ASC);
+
+ALTER TABLE `spider_news`.`sp2_match_comment` 
+ADD COLUMN `send_count` INT NOT NULL DEFAULT 0 COMMENT '已发送次数' AFTER `is_hot`;
+
 --20150918
 CREATE TABLE IF NOT EXISTS `sh_base_sameword` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,

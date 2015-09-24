@@ -52,7 +52,7 @@ public class CommentSenderThread implements Runnable {
 					comment.setSendFlag(flag);
 					comment.setSendTime(new Date());
 					list.add(comment);
-					logger.debug("sent a comment:\n" + "articleid:" + comment.getArticleId() + " nickname:" + comment.getNickName() + " content:" + comment.getContent());
+					logger.debug("sent a comment:\n" + "articleid:" + comment.getArticleId() + " nickname:" + comment.getNickName() + " content:" + comment.getContent() + " flag:" + flag );
 					if(list.size() > batchUpdateSize) {
 						jcs.updateCommentSendFlag(list);
 						list.clear();

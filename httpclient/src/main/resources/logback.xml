@@ -85,6 +85,9 @@
 		<appender-ref ref="JOBFILE" />
 		<appender-ref ref="FILE" />
 	</logger>
+	<logger name="net.shinc.xhscomment.task.sender.CommentSenderThread" level="debug" additivity="false">
+		<appender-ref ref="JOBFILE" />
+	</logger>
 
 	<root level="INFO">
 		<appender-ref ref="STDOUT" />
