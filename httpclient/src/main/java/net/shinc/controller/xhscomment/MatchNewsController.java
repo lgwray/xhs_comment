@@ -56,8 +56,7 @@ public class MatchNewsController extends AbstractBaseController {
 			if(!CollectionUtils.isEmpty(list)) {
 				msg.setCode(ErrorMessage.SUCCESS.getCode());
 				msg.setResult(list);
-				Integer integer = new Integer(list.size());
-				msg.setDetail(integer.toString());
+				msg.setDetail(String.valueOf(list.size()));
 			} else {
 				msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());
 			}

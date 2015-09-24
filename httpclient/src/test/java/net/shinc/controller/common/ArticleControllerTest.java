@@ -38,7 +38,7 @@ public class ArticleControllerTest {
     @Test
     public void refreshArticleList() {
     	//要闻
-//    	RequestBuilder reqbuild = MockMvcRequestBuilders.post("/article/refreshArticleList").param("cid", "470").param("ctype", "4001");
+    	RequestBuilder reqbuild = MockMvcRequestBuilders.post("/article/refreshArticleList").param("cid", "470").param("ctype", "4001");
     	
     	//体育
 //    	RequestBuilder reqbuild = MockMvcRequestBuilders.post("/article/refreshArticleList").param("cid", "461").param("ctype", "4002");
@@ -71,7 +71,7 @@ public class ArticleControllerTest {
 //    	RequestBuilder reqbuild = MockMvcRequestBuilders.post("/article/refreshArticleList").param("cid", "3173").param("ctype", "4003");
     	
     	//动新闻
-    	RequestBuilder reqbuild = MockMvcRequestBuilders.post("/article/refreshArticleList").param("cid", "3174").param("ctype", "4003");
+//    	RequestBuilder reqbuild = MockMvcRequestBuilders.post("/article/refreshArticleList").param("cid", "3174").param("ctype", "4003");
     	
 		try {
 			mockMvc.perform(reqbuild).andDo(MockMvcResultHandlers.print());
@@ -131,4 +131,5 @@ public class ArticleControllerTest {
     		e.printStackTrace();
     	}
     }
+    
 }

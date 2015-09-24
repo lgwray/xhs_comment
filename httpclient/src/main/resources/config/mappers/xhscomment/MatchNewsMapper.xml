@@ -130,4 +130,23 @@
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <resultMap id="getMatchNewsCountRes" type="java.util.Map" >
+    <result column="article_id" property="article_id" jdbcType="VARCHAR" />
+    <result column="matchNewsCount" property="matchNewsCount" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="getMatchNewsCount" resultMap="getMatchNewsCountRes" >
+  	SELECT 
+  		a.article_id, count(a.article_id) matchNewsCount 
+  	FROM 
+  		sp2_article_match_news a 
+  	where 1 = 1
+  		<if test="list!=null and list.size!=0">
+			and	a.article_id in
+			<foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+			  #{item.id}  
+		    </foreach>  
+		</if>
+  	group by article_id;
+  </select>
 </mapper>

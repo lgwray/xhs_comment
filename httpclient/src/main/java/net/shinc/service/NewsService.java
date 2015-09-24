@@ -97,4 +97,6 @@ public interface NewsService {
 	 */
 	public List getCommentsByNews(String type, String newsid, String page, String num);
 	
+	public List getMatchNewsCount(List list);
+	
 }

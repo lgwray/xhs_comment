@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import net.shinc.controller.xhscomment.NewsController;
 import net.shinc.orm.mybatis.bean.common.News;
 import net.shinc.orm.mybatis.mappers.comment.CommentMapper;
+import net.shinc.orm.mybatis.mappers.xhscomment.MatchNewsMapper;
 import net.shinc.service.NewsService;
 import net.shinc.utils.Helper;
 import net.shinc.utils.HttpClient;
@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 /**
  * @ClassName NewsServiceImpl 
@@ -48,7 +49,11 @@ public class NewsServiceImpl implements NewsService {
 	private String phpUrl;
 
 	@Autowired
+	private MatchNewsMapper mnMapper;
+	
+	@Autowired
 	private CloseableHttpClient httpClient;
+	
 	@Value("${xhs.api.fetchArticleListUrl}")
 	private String fetchArticleListUrl;
 	
@@ -282,15 +287,27 @@ public class NewsServiceImpl implements NewsService {
 		}
 		return null;
 	}
+	
 	/**
 	 * 获取本地评论条数
 	 * @param list
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	public List getLocalArticleCommentsCounts(List list) {
-		List resultList = null;
-		resultList = commentMapper.getLocalArticleCommentsCounts(list);
+		if(CollectionUtils.isEmpty(list)){
+			return null;
+		}
+		List resultList = commentMapper.getLocalArticleCommentsCounts(list);
 		return resultList;
+	}
+	
+	public List getMatchNewsCount(List list){
+		if(CollectionUtils.isEmpty(list)){
+			return null;
+		}
+		List newsCount = mnMapper.getMatchNewsCount(list);
+		return newsCount;
 	}
 	
 	/**

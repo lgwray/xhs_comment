@@ -65,6 +65,7 @@ public class ArticleController extends AbstractBaseController {
 		try {
 			list = newsService.getNewsList(userId, listUrl,cid,ctype);
 			countsList = newsService.getLocalArticleCommentsCounts(list);
+			List newsCount = newsService.getMatchNewsCount(list);
 			for(Iterator<Map> item = list.iterator(); item.hasNext();){
 				Map map = item.next();
 				map.put("commentsCount", "0");
@@ -74,9 +75,24 @@ public class ArticleController extends AbstractBaseController {
 					String articlId = (String)countMap.get("articlId");
 					if(id != null && id.equals(articlId)){
 						map.put("commentsCount", countMap.get("commentsCounts"));
+						break;
 					}
 				}
 			}
+			
+			for(Iterator<Map> item = list.iterator(); item.hasNext();){
+				Map map = item.next();
+				map.put("matchNewsCount", "0");
+				String id = (String)map.get("id");
+				for(Iterator<Map> countItem = newsCount.iterator(); countItem.hasNext();){
+					Map countMap = countItem.next();
+					String articlId = (String)countMap.get("article_id");
+					if(id != null && id.equals(articlId)){
+						map.put("matchNewsCount", countMap.get("matchNewsCount"));
+					}
+				}
+			}
+			
 			if(null != list) {
 				msg.setCode(ErrorMessage.SUCCESS.getCode());
 				msg.setResult(list);
