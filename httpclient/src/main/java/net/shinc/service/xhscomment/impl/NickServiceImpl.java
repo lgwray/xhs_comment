@@ -87,4 +87,12 @@ public class NickServiceImpl implements NickService {
 		return 0;
 	}
 
+	@Override
+	public List<Nick> getNicksRandom(Integer num) {
+		if(null != num){
+			return nickMapper.getNicksRandom(num);
+		}
+		return null;
+	}
+
 }

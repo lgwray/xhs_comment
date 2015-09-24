@@ -9,7 +9,7 @@ import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
 
 /** 
  * @ClassName NickMapper 
- * @Description TODO
+ * @Description 昵称
  * @author guoshijie 
  * @date 2015年9月18日 下午6:44:25  
  */
@@ -33,4 +33,6 @@ public interface NickMapper {
     public List<Nick> getNickListByPage(PageBounds pb);
     
     public List<Map> getNickListByPage2(Map map,PageBounds pb);
+    
+    public List<Nick> getNicksRandom(Integer num);
 }

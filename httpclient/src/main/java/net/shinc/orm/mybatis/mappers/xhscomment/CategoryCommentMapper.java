@@ -21,6 +21,8 @@ public interface CategoryCommentMapper {
 	 */
 	public List<CategoryComment> getCommentList(CategoryComment cmt,RowBounds rb);
 	
+	public List<CategoryComment> getCommentListWithNoNickname(CategoryComment cmt,RowBounds rb);
+	
 	/**
 	 * 添加一条基础评论信息
 	 * @param comment

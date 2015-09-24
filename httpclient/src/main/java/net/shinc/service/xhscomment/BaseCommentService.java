@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import net.shinc.orm.mybatis.bean.xhscomment.CategoryComment;
+
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.dao.DuplicateKeyException;
 
@@ -40,8 +42,8 @@ public interface BaseCommentService {
 	 * @param categoryId
 	 * @return
 	 */
-	public List getCommentList(Integer categoryId,RowBounds rb);
-	
+	public List<CategoryComment> getCommentList(Integer categoryId,RowBounds rb);
+	public List<CategoryComment> getCommentListWithNickNoCycle(Integer categoryId,RowBounds rb);
 	/**
 	 * 获得每天的总评论数
 	 * @return

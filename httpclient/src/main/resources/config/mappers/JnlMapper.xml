@@ -45,10 +45,10 @@
 				and	j.user_id = #{userId}
 				</if>
 			</if>
-			<if test="articleid != null">
+			<if test="articleid != null and articleid != ''">
 				and j.article_id=#{articleid}
 			</if>
-			<if test="content != null">
+			<if test="content != null and content != ''">
 				and j.content like '%${content}%'
 			</if>
 		order by
@@ -71,10 +71,10 @@
 				and j.user_id = #{userId}
 				</if>
 			</if>
-			<if test="articleid != null">
+			<if test="articleid != null and articleid != ''">
 				and j.article_id=#{articleid}
 			</if>
-			<if test="content != null">
+			<if test="content != null and content != ''">
 				and j.content like '%${content}%'
 			</if>
 	</select>

@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 import javax.validation.Valid;
@@ -24,12 +23,15 @@ import net.shinc.orm.mybatis.bean.common.AdminUser;
 import net.shinc.orm.mybatis.bean.xhscomment.CommentCategory;
 import net.shinc.orm.mybatis.bean.xhscomment.JnlComment;
 import net.shinc.orm.mybatis.bean.xhscomment.JnlComment.SendFlag;
+import net.shinc.orm.mybatis.bean.xhscomment.Nick;
 import net.shinc.service.WeiboService;
 import net.shinc.service.common.impl.JnlServiceImpl;
 import net.shinc.service.impl.CommentServiceImpl;
 import net.shinc.service.xhscomment.BaseCommentService;
 import net.shinc.service.xhscomment.JnlCommentService;
+import net.shinc.service.xhscomment.NickService;
 import net.shinc.utils.Helper;
+import net.shinc.utils.MD5Utils;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
@@ -72,6 +74,9 @@ public class BaseCommentController extends AbstractBaseController {
 	
 	@Autowired
 	private BaseCommentService baseCommentService;
+	
+	@Autowired
+	private NickService nickService;
 	
 	@Autowired
 	private JnlCommentService jnlCommentService;
@@ -194,7 +199,8 @@ public class BaseCommentController extends AbstractBaseController {
 		try {
 			PageBounds pb = new PageBounds(page,num);
 			
-			List list = baseCommentService.getCommentList(categoryId, pb);
+//			List list = baseCommentService.getCommentList(categoryId, pb);
+			List list = baseCommentService.getCommentListWithNickNoCycle(categoryId, pb);
 			if(CollectionUtils.isEmpty(list)) {
 				msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());
 			} else {
@@ -410,7 +416,12 @@ public class BaseCommentController extends AbstractBaseController {
 				String comment = (String)map.get("comment");
 				String nick = (String)map.get("nick");
 				if(StringUtils.isEmpty(nick)) {
-					nick = "新华社客户端网友";
+					List<Nick> random = nickService.getNicksRandom(1);
+					if(!CollectionUtils.isEmpty(random)){
+						nick = random.get(0).getNickname();
+					}else{
+						nick = "新华社客户端网友";
+					}
 				}
 				
 				jnlComment.setAddDate(new Date());
@@ -418,10 +429,15 @@ public class BaseCommentController extends AbstractBaseController {
 				jnlComment.setContent(comment);
 				jnlComment.setSendFlag(SendFlag.nosend.getValue());
 				jnlComment.setArticleId(articleId);
+				
+				String md5Encrypted = MD5Utils.getMd5Encrypted(articleId+comment);
+				jnlComment.setMd5(md5Encrypted);
+				
 				list.add(jnlComment);
 			}
-			jnlCommentService.putComment(list);
+			Integer sum = jnlCommentService.putComment(list);
 			msg.setCode(ErrorMessage.SUCCESS.getCode());
+			msg.setResult(String.valueOf(sum));
 			return msg;
 		} catch(Exception e) {
 			logger.error(ExceptionUtils.getStackTrace(e));

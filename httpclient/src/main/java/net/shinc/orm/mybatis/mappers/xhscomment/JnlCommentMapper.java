@@ -9,7 +9,7 @@ import net.shinc.orm.mybatis.bean.xhscomment.JnlComment;
 @BatchDao
 public interface JnlCommentMapper {
 	
-	public void insertBatch(List<JnlComment> list);
+	public int insertBatch(List<JnlComment> list);
 	
 	public void updateBatch(List<JnlComment> list);
 	

@@ -100,4 +100,16 @@
   	where 1 = 1 and flag=#{flag}
   </select>
   
+  <select id="getNicksRandom" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+  	select 
+  		id, nickname 
+  	from 
+  		nick 
+  	where 1 = 1
+  		and flag='1' 
+  		and id >= (select floor(rand()*(select max(id) as nick_id from nick where flag='1'))) 
+  	order by id 
+  	limit #{num}
+  </select>
+  
 </mapper>

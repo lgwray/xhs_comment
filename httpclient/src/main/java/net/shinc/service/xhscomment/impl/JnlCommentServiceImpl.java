@@ -10,12 +10,14 @@ import net.shinc.orm.mybatis.bean.xhscomment.JnlComment.SendFlag;
 import net.shinc.orm.mybatis.mappers.xhscomment.JnlCommentMapper;
 import net.shinc.service.xhscomment.JnlCommentService;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.ibatis.executor.BatchResult;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -34,20 +36,25 @@ public class JnlCommentServiceImpl implements JnlCommentService {
 	private int batchSize = 100;
 	
 	@Override
-	public void putComment(List<JnlComment> list) {
-		
-		if(CollectionUtils.isEmpty(list)) {
-			return ;
+	public Integer putComment(List<JnlComment> list) {
+		int sum = 0;
+		try {
+			if(CollectionUtils.isEmpty(list)) {
+				return 0;
+			}
+			int size = list.size();
+			int times = size % batchSize == 0 ? size / batchSize : size / batchSize + 1;
+			for(int i=0; i<times; i++) {
+				int begin = batchSize * i;
+				int end = begin + batchSize;
+				end = Math.min(end, size);
+				int num = jcm.insertBatch(list.subList(begin, end));
+				sum = sum + num;
+			}
+		} catch (DuplicateKeyException e) {
+			logger.info(ExceptionUtils.getStackTrace(e));
 		}
-		int size = list.size();
-		
-		int times = size % batchSize == 0 ? size / batchSize : size / batchSize + 1;
-		for(int i=0; i<times; i++) {
-			int begin = batchSize * i;
-			int end = begin + batchSize;
-			end = Math.min(end, size);
-			jcm.insertBatch(list.subList(begin, end));
-		}
+		return sum;
 	}
 	
 	public int getBatchSize() {

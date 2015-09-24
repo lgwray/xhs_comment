@@ -11,7 +11,8 @@
 		user_id,
 		comment_way,
 		send_flag,
-		sendtime)
+		sendtime,
+		md5)
 		VALUES
 		<foreach collection="list" item="item" index="index" separator="," >
 			(#{item.articleId },
@@ -22,7 +23,8 @@
 			#{item.userId },
 			#{item.commentWay },
 			#{item.sendFlag },
-			#{item.sendTime })
+			#{item.sendTime },
+			#{item.md5 })
 		</foreach>
   	</insert>
   	
