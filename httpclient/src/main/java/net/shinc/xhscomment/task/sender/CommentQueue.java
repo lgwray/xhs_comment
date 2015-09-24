@@ -2,8 +2,6 @@ package net.shinc.xhscomment.task.sender;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import org.springframework.beans.factory.InitializingBean;
-
 import net.shinc.orm.mybatis.bean.xhscomment.JnlComment;
 
 public class CommentQueue {

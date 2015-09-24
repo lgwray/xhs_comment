@@ -18,7 +18,8 @@ public class JnlComment implements ResultBean {
 		sending("1"),
 		sent("2"),
 		fail("3"),
-		unknown("4");
+		unknown("4"),
+		test("5");
 		
 		
 		private String value;

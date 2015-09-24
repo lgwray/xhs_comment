@@ -1,5 +1,6 @@
 package net.shinc.quartz.task.xhscomment;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,7 +67,7 @@ public class FetchArticleDetailJob {
 							HttpEntity entity = response.getEntity();
 							String result =  EntityUtils.toString(entity);
 							Map resultMap = Helper.jsonToMap(result);
-							List data = (List)resultMap.get("data");
+							List data = resultMap == null ? new ArrayList() : (List)resultMap.get("data");
 							if(!CollectionUtils.isEmpty(data)) {
 								String comment = (String)((Map)data.get(0)).get("comment");
 								String numStr = comment;

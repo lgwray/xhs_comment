@@ -40,19 +40,23 @@ public class CommentSenderThread implements Runnable {
 				if(comment != null) {
 					String flag = SendFlag.fail.getValue();
 					if(realSend) {
-						String re = bcs.sendComment(String.valueOf(comment.getUserId()), comment.getArticleId(), comment.getContent(), comment.getNickName());
-						Map resMap = Helper.jsonToMap(re);
-						if("success".equals(resMap.get("state"))){
-							flag = SendFlag.sent.getValue();
-						} 
+						try {
+							String re = bcs.sendComment(String.valueOf(comment.getUserId()), comment.getArticleId(), comment.getContent(), comment.getNickName());
+							Map resMap = Helper.jsonToMap(re);
+							if("success".equals(resMap.get("state"))){
+								flag = SendFlag.sent.getValue();
+							} 
+						} catch(Exception e) {
+							flag = SendFlag.unknown.getValue();
+							logger.error("send error:" + ExceptionUtils.getStackTrace(e));
+						}
 					} else {
-						flag = SendFlag.unknown.getValue();
+						flag = SendFlag.test.getValue();
 					}
-					
 					comment.setSendFlag(flag);
 					comment.setSendTime(new Date());
 					list.add(comment);
-					logger.debug("sent a comment:\n" + "articleid:" + comment.getArticleId() + " nickname:" + comment.getNickName() + " content:" + comment.getContent() + " flag:" + flag );
+					logger.debug("sent a comment:" + "articleid:" + comment.getArticleId() + " nickname:" + comment.getNickName() + " content:" + comment.getContent() + " flag:" + flag );
 					if(list.size() > batchUpdateSize) {
 						jcs.updateCommentSendFlag(list);
 						list.clear();
