@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.shinc.orm.mybatis.mappers.xhscomment.AutoSendArticleMapper" >
+  <resultMap id="BaseResultMap" type="AutoSendArticle" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="article_id" property="articleId" jdbcType="VARCHAR" />
+    <result column="match_news_id" property="matchNewsId" jdbcType="INTEGER" />
+    <result column="enabled" property="enabled" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="begindate" property="begindate" jdbcType="TIMESTAMP" />
+    <result column="enddate" property="enddate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, article_id, match_news_id, enabled, user_id, begindate, enddate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sh_autosend_article
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sh_autosend_article
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="AutoSendArticle" >
+    insert into sh_autosend_article (id, article_id, match_news_id, 
+      enabled, user_id, begindate, 
+      enddate)
+    values (#{id,jdbcType=INTEGER}, #{articleId,jdbcType=VARCHAR}, #{matchNewsId,jdbcType=INTEGER}, 
+      #{enabled,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{begindate,jdbcType=TIMESTAMP}, 
+      #{enddate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="AutoSendArticle" >
+    insert into sh_autosend_article
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="articleId != null" >
+        article_id,
+      </if>
+      <if test="matchNewsId != null" >
+        match_news_id,
+      </if>
+      <if test="enabled != null" >
+        enabled,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="begindate != null" >
+        begindate,
+      </if>
+      <if test="enddate != null" >
+        enddate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="articleId != null" >
+        #{articleId,jdbcType=VARCHAR},
+      </if>
+      <if test="matchNewsId != null" >
+        #{matchNewsId,jdbcType=INTEGER},
+      </if>
+      <if test="enabled != null" >
+        #{enabled,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="begindate != null" >
+        #{begindate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enddate != null" >
+        #{enddate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="AutoSendArticle" >
+    update sh_autosend_article
+    <set >
+      <if test="articleId != null" >
+        article_id = #{articleId,jdbcType=VARCHAR},
+      </if>
+      <if test="matchNewsId != null" >
+        match_news_id = #{matchNewsId,jdbcType=INTEGER},
+      </if>
+      <if test="enabled != null" >
+        enabled = #{enabled,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="begindate != null" >
+        begindate = #{begindate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enddate != null" >
+        enddate = #{enddate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="AutoSendArticle" >
+    update sh_autosend_article
+    set article_id = #{articleId,jdbcType=VARCHAR},
+      match_news_id = #{matchNewsId,jdbcType=INTEGER},
+      enabled = #{enabled,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      begindate = #{begindate,jdbcType=TIMESTAMP},
+      enddate = #{enddate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

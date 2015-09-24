@@ -425,7 +425,7 @@ public class BaseCommentController extends AbstractBaseController {
 				}
 				
 				jnlComment.setAddDate(new Date());
-				jnlComment.setNickName(nick);
+				jnlComment.setNickName(nick.trim());
 				jnlComment.setContent(comment.trim());
 				jnlComment.setSendFlag(SendFlag.nosend.getValue());
 				jnlComment.setArticleId(articleId);

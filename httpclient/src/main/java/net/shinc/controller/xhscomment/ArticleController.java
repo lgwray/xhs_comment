@@ -26,19 +26,18 @@ import com.github.miemiedev.mybatis.paginator.domain.PageList;
 
 
 /**
- * 
  * @ClassName ArticleController 
  * @Description TODO
  * @author zhonglinzhao 
  * @date 2015年8月18日 下午3:19:10
  */
-
 @Controller
 @RequestMapping(value = "/article")
 public class ArticleController extends AbstractBaseController {
 	
 	@Autowired
 	private NewsService newsService;
+	
 	@Autowired
 	private ArticleServiceImpl articleService;
 	
