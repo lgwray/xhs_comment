@@ -65,4 +65,9 @@ public class MatchNewsServiceImpl implements MatchNewsService {
 		return null;
 	}
 
+	@Override
+	public Integer getMatchNewsCommentsCount(Integer matchNewsId) {
+		return mcMapper.getMatchNewsCommentsCount(matchNewsId);
+	}
+
 }

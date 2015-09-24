@@ -86,6 +86,11 @@ public class ArticleServiceImpl implements ArticleService{
 		if(null != articleId) {
 			List<String> list = getMatchNewsIdByArticleId(articleId);
 			List<MatchNews> newsBatch = mnService.getMatchNewsBatch(list);
+			for (MatchNews matchNews : newsBatch) {
+				Integer id = matchNews.getId();
+				Integer integer = mnService.getMatchNewsCommentsCount(id);
+				matchNews.setMatchCommentsNum(integer);
+			}
 			return newsBatch;
 		}
 		return null;

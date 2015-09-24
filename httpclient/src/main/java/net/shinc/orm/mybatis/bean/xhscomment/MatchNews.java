@@ -20,6 +20,8 @@ public class MatchNews {
     private String spiderTime;
 
     private String remark;
+    
+    private Integer matchCommentsNum;
 
     public Integer getId() {
         return id;
@@ -75,6 +77,14 @@ public class MatchNews {
 
 	public void setSpiderTime(String spiderTime) {
 		this.spiderTime = spiderTime;
+	}
+
+	public Integer getMatchCommentsNum() {
+		return matchCommentsNum;
+	}
+
+	public void setMatchCommentsNum(Integer matchCommentsNum) {
+		this.matchCommentsNum = matchCommentsNum;
 	}
     
 }

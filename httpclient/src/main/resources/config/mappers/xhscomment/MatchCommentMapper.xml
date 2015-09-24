@@ -148,4 +148,8 @@
    			#{item,jdbcType=INTEGER}
 		</foreach>  
   </select>
+  
+  <select id="getMatchNewsCommentsCount" resultType="java.lang.Integer">
+  	SELECT count(*) FROM sp2_match_comment where match_news_id=#{matchNewsId}
+  </select>
 </mapper>

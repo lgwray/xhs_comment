@@ -29,5 +29,7 @@ public interface MatchCommentMapper {
     
     List<MatchComment> getMatchNewsCommentsBatch(List<String> list);
     
+    int getMatchNewsCommentsCount(Integer matchNewsId);
+    
     List<MatchComment> getMatchNewsCommentsBatch(List<String> list, PageBounds pb);
 }

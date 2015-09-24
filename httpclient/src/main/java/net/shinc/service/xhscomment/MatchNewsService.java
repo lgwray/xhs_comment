@@ -32,6 +32,13 @@ public interface MatchNewsService {
 	public List<MatchComment> getMatchNewsCommentsBatch(List<String> list);
 	
 	/**
+	 * 查询匹配新闻所拥有的评论数
+	 * @param matchNewsId
+	 * @return
+	 */
+	public Integer getMatchNewsCommentsCount(Integer matchNewsId);
+	
+	/**
 	 * 根据MatchNews的id批量查询评论(分页)
 	 * @param list MatchNews的id
 	 * @return

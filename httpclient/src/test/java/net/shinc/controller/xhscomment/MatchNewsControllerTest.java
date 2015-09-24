@@ -42,7 +42,7 @@ public class MatchNewsControllerTest {
     public void getMatchNewsListByArticleId(){
     	try {
     		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/matchNews/getMatchNewsListByArticleId")
-    				.param("articleId", "266356");
+    				.param("articleId", "268104");
     		mockMvc.perform(reqbuild).andDo(handler);
     	} catch (Exception e) {
     		e.printStackTrace();
