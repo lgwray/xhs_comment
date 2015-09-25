@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.shinc.orm.mybatis.mappers.xhscomment.CommentStatisticMapper" >
+  <resultMap id="BaseResultMap" type="CommentStatistic" >
+    <result column="statistic_type" property="statisticType" jdbcType="INTEGER" />
+    <result column="divisor" property="divisor" jdbcType="INTEGER" />
+    <result column="dividend" property="dividend" jdbcType="INTEGER" />
+    <result column="percent" property="percent" jdbcType="INTEGER" />
+    <result column="insert_date" property="insertDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <insert id="insert" parameterType="CommentStatistic" >
+    insert into sh_comment_statistic (statistic_type, divisor, dividend, 
+      percent, insert_date)
+    values (#{statisticType,jdbcType=INTEGER}, #{divisor,jdbcType=INTEGER}, #{dividend,jdbcType=INTEGER}, 
+      #{percent,jdbcType=INTEGER}, #{insertDate,jdbcType=TIMESTAMP})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="CommentStatistic" >
+    insert into sh_comment_statistic
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="statisticType != null" >
+        statistic_type,
+      </if>
+      <if test="divisor != null" >
+        divisor,
+      </if>
+      <if test="dividend != null" >
+        dividend,
+      </if>
+      <if test="percent != null" >
+        percent,
+      </if>
+      <if test="insertDate != null" >
+        insert_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="statisticType != null" >
+        #{statisticType,jdbcType=INTEGER},
+      </if>
+      <if test="divisor != null" >
+        #{divisor,jdbcType=INTEGER},
+      </if>
+      <if test="dividend != null" >
+        #{dividend,jdbcType=INTEGER},
+      </if>
+      <if test="percent != null" >
+        #{percent,jdbcType=INTEGER},
+      </if>
+      <if test="insertDate != null" >
+        #{insertDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="getCommentStatisticByDate" parameterType="java.util.List" resultMap="BaseResultMap">
+  	select
+  		statistic_type, divisor, dividend, percent, insert_date
+  	from
+  		sh_comment_statistic
+  	where 1 = 1
+  		and DATE_FORMAT(insert_date , '%Y-%m-%d') = #{date}
+  	order by insert_date desc limit 
+  </select>
+  
+</mapper>

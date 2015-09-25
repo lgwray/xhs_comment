@@ -15,8 +15,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import net.shinc.controller.xhscomment.NewsController;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
@@ -208,7 +206,21 @@ public class Helper {
 //		String percent = getPercent("99998","140119");
 //		System.out.println(percent);
 		
-		formatDate(new Date(), "yyyy-MM-dd");
+//		formatDate(new Date(), "yyyy-MM-dd");
+		BigDecimal b1 = new BigDecimal(0.1245);
+		String str = decimalToPercent(b1);
+		System.out.println(str);
+	}
+	
+	public static String decimalToPercent(BigDecimal decimal) {
+		if (null != decimal) {
+			DecimalFormat df = new DecimalFormat("######0.00");
+			BigDecimal b1 = new BigDecimal(100);
+			BigDecimal multiply = decimal.multiply(b1);
+			String format = df.format(multiply);
+			return format + "%"; 
+		}
+		return null;
 	}
 	
 }
