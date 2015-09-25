@@ -89,13 +89,13 @@ public class NickController extends AbstractBaseController {
 	public IRestMessage filterNick(NickForm form) {
 		IRestMessage msg = getRestMessageWithoutUser();
 		try {
-			
 			Integer num = nickService.filterNick(form);
-			if(null!=num && num >0){
+			if (null != num && num > 0) {
 				msg.setCode(ErrorMessage.SUCCESS.getCode());
 				msg.setResult(num);
-			}else {
+			} else {
 				msg.setCode(ErrorMessage.ADD_FAILED.getCode());
+				msg.setResult(0);
 			}
 		} catch (Exception e) {
 			logger.error(ExceptionUtils.getStackTrace(e));

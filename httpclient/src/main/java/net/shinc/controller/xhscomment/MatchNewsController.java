@@ -9,6 +9,7 @@ import net.shinc.common.IRestMessage;
 import net.shinc.orm.mybatis.bean.xhscomment.MatchComment;
 import net.shinc.orm.mybatis.bean.xhscomment.MatchNews;
 import net.shinc.service.ArticleService;
+import net.shinc.service.xhscomment.AutoSendArticleService;
 import net.shinc.service.xhscomment.MatchNewsService;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -41,6 +42,9 @@ public class MatchNewsController extends AbstractBaseController {
 	
 	@Autowired
 	private ArticleService articleService;
+	
+	@Autowired
+	private AutoSendArticleService asAservice;
 	
 	/**
 	 * 根据新闻id查询匹配到的新闻列表（新华社新闻匹配全网新闻）
@@ -84,11 +88,15 @@ public class MatchNewsController extends AbstractBaseController {
 			List<String> list = new ArrayList<String>();
 			list.add(matchNewsId);
 			List<MatchComment> withPagination = mnService.getMatchNewsCommentsBatchWithPagination(list, pb);
+			
+			Boolean isEnable = asAservice.isEnableAutoSendArticle(Integer.parseInt(articleId));
+			
 			if(!CollectionUtils.isEmpty(withPagination)) {
 				PageList pagelist = (PageList)withPagination;
 				msg.setCode(ErrorMessage.SUCCESS.getCode());
 				msg.setResult(pagelist);
 				msg.setDetail(articleId);
+				msg.setMessage(String.valueOf(isEnable));//是否已启用自动评论  true:已启用  false:未启用
 				msg.setPageInfo(pagelist.getPaginator());
 			} else {
 				msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());
