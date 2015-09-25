@@ -21,7 +21,7 @@ import org.springframework.web.context.WebApplicationContext;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = InfoMgmtApplication.class)
 @WebAppConfiguration
-public class MatchNewsControllerTest {
+public class AutoSendArticleControllerTest {
 
 	@Autowired  
     private WebApplicationContext wac;  
@@ -34,44 +34,12 @@ public class MatchNewsControllerTest {
     	handler = MockMvcResultHandlers.print();
     } 
     
-    /**
-     * 新华社新闻id匹配全网新闻列表
-     */
     @Test
     @WithMockUser(username="admin",password="admin")
-    public void getMatchNewsListByArticleId(){
+    public void autoSendMatchNews(){
     	try {
-    		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/matchNews/getMatchNewsListByArticleId")
-    				.param("articleId", "268104");
-    		mockMvc.perform(reqbuild).andDo(handler);
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    	}
-    }
-    
-    @Test
-    @WithMockUser(username="admin",password="admin")
-    public void getMatchCommentsByMatchNewsId(){
-    	try {
-    		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/matchNews/getMatchCommentsByMatchNewsId")
-    				.param("articleId", "269793")
-    				.param("matchNewsId", "4825")
-    				.param("page", "3")
-    				.param("num", "50");
-    		mockMvc.perform(reqbuild).andDo(handler);
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    	}
-    }
-    
-    @Test
-    @WithMockUser(username="admin",password="admin")
-    public void getMatchCommentsByArticleId(){
-    	try {
-    		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/matchNews/getMatchCommentsByArticleId")
-    				.param("articleId", "264343")
-    				.param("page", "1")
-    				.param("num", "50");
+    		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/autoSend/autoSendMatchNews")
+    				.param("articleId", "269757").param("matchNewsId", "3813").param("enabled", "1");
     		mockMvc.perform(reqbuild).andDo(handler);
     	} catch (Exception e) {
     		e.printStackTrace();

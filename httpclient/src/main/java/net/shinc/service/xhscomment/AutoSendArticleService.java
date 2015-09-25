@@ -10,5 +10,9 @@ import net.shinc.orm.mybatis.bean.xhscomment.AutoSendArticle;
  */
 public interface AutoSendArticleService {
 
-	public Integer addAutoSendArticle(AutoSendArticle record);
+	public Integer addAutoSendArticle(AutoSendArticle record,Integer days);
+	
+	public Boolean hasAutoSendArticle(Integer articleId);
+	
+	public Boolean isEnableAutoSendArticle(Integer articleId);
 }

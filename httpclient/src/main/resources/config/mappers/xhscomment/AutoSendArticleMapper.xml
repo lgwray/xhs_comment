@@ -13,16 +13,26 @@
   <sql id="Base_Column_List" >
     id, article_id, match_news_id, enabled, user_id, begindate, enddate
   </sql>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from sh_autosend_article
     where id = #{id,jdbcType=INTEGER}
   </select>
+  
+  <select id="selectByArticleId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+  	select 
+    <include refid="Base_Column_List" />
+    from sh_autosend_article
+    where article_id = #{articleId,jdbcType=INTEGER}
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sh_autosend_article
     where id = #{id,jdbcType=INTEGER}
   </delete>
+  
   <insert id="insert" parameterType="AutoSendArticle" >
     insert into sh_autosend_article (id, article_id, match_news_id, 
       enabled, user_id, begindate, 
@@ -80,12 +90,10 @@
       </if>
     </trim>
   </insert>
+  
   <update id="updateByPrimaryKeySelective" parameterType="AutoSendArticle" >
     update sh_autosend_article
     <set >
-      <if test="articleId != null" >
-        article_id = #{articleId,jdbcType=VARCHAR},
-      </if>
       <if test="matchNewsId != null" >
         match_news_id = #{matchNewsId,jdbcType=INTEGER},
       </if>
@@ -102,8 +110,9 @@
         enddate = #{enddate,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where article_id = #{articleId,jdbcType=VARCHAR}
   </update>
+  
   <update id="updateByPrimaryKey" parameterType="AutoSendArticle" >
     update sh_autosend_article
     set article_id = #{articleId,jdbcType=VARCHAR},

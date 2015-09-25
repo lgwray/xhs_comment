@@ -74,6 +74,7 @@ public class MatchNewsController extends AbstractBaseController {
 	@RequestMapping(value = "/getMatchCommentsByMatchNewsId")
 	@ResponseBody
 	public IRestMessage getMatchCommentsByMatchNewsId(@RequestParam(value="matchNewsId",required=true) String matchNewsId,
+			@RequestParam(value="articleId",required=true) String articleId,
 			@RequestParam(value="page",defaultValue="1") Integer page,
 			@RequestParam(value = "num",defaultValue="50") Integer num) {
 		
@@ -87,7 +88,7 @@ public class MatchNewsController extends AbstractBaseController {
 				PageList pagelist = (PageList)withPagination;
 				msg.setCode(ErrorMessage.SUCCESS.getCode());
 				msg.setResult(pagelist);
-				msg.setDetail(new Integer(pagelist.size()).toString());
+				msg.setDetail(articleId);
 				msg.setPageInfo(pagelist.getPaginator());
 			} else {
 				msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());

@@ -75,6 +75,29 @@ public class DateUtils {
     }
     
     /**
+     * 获取后几天的日期
+     * @param cl
+     * @param num
+     * @return
+     */
+    public static Calendar getAfterDay(Calendar cl,Integer num) {
+    	int day = cl.get(Calendar.DATE);  
+        cl.set(Calendar.DATE, day+num);  
+        return cl; 
+    }
+    
+    /**
+     * 获取后几天的日期
+     * @param cl
+     * @param num
+     * @return
+     */
+    public static Date getAfterDays(Calendar cl,Integer num) {
+    	Calendar cl2 = getAfterDay(cl, num);
+    	return cl2.getTime(); 
+    }
+    
+    /**
      * 获取前几天的日期list
      * @param num
      * @return
@@ -117,6 +140,10 @@ public class DateUtils {
 //        logger.info("后一天:");  
 //        printCalendar(cl);  
     	
-    	getBeforeFewsDate(7, "yyyy-MM-dd");
+//    	getBeforeFewsDate(7, "yyyy-MM-dd");
+    	
+    	Calendar c = Calendar.getInstance();
+    	Calendar afterDay = getAfterDay(c);
+    	printCalendar(afterDay);
     } 
 }

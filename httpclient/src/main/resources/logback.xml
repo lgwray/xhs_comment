@@ -45,33 +45,37 @@
 		</layout>
 	</appender>
 	
-	<logger name="org.springframework.security" level="DEBUG"
-		additivity="false">
+	<logger name="org.springframework.security" level="DEBUG" additivity="false">
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="FILE" />
 	</logger>
-	<logger name="org.springframework.web" level="DEBUG"
-		additivity="false">
+	
+	<logger name="org.springframework.web" level="DEBUG" additivity="false">
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="FILE" />
 	</logger>
+	
 	<logger name="net.shinc.web.servlet" level="debug" additivity="false">
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="FILE" />
 	</logger>
-	<logger name="net.shinc.orm.mybatis.mappers" level="debug"
-		additivity="false">
-		<appender-ref ref="FILE" />
-	</logger>
-	<logger name="net.shinc.orm.mybatis.mappers.xhscomment.JnlCommentMapper" level="info"
-		additivity="false">
+	
+	<logger name="net.shinc.orm.mybatis.mappers" level="info" additivity="false">
 		<appender-ref ref="FILE" />
 	</logger>
 	
-	<logger name="net.shinc.orm.mybatis.mappers.xhscomment.ArticleMapper" level="info"
-		additivity="false">
+	<logger name="net.shinc.orm.mybatis.mappers.xhscomment.JnlCommentMapper" level="info" additivity="false">
 		<appender-ref ref="FILE" />
 	</logger>
+	
+	<logger name="net.shinc.orm.mybatis.mappers.xhscomment.ArticleMapper" level="info" additivity="false">
+		<appender-ref ref="FILE" />
+	</logger>
+	
+	<logger name="net.shinc.orm.mybatis.mappers.xhscomment.AutoSendArticleMapper" level="debug" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
+	
 	<logger name="org.apache.http" level="info" additivity="false">
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="FILE" />
@@ -81,15 +85,17 @@
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="FILE" />
 	</logger>
+	
 	<logger name="net.shinc.quartz.task.xhscomment" level="info" additivity="false">
 		<appender-ref ref="JOBFILE" />
 		<appender-ref ref="FILE" />
 	</logger>
+	
 	<logger name="net.shinc.xhscomment.task.sender.CommentSenderThread" level="debug" additivity="false">
 		<appender-ref ref="JOBFILE" />
 	</logger>
 
-	<root level="INFO">
+	<root level="info">
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="FILE" />
 	</root>

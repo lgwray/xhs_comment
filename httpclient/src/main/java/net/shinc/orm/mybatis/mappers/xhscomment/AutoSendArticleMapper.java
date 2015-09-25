@@ -10,6 +10,8 @@ public interface AutoSendArticleMapper {
     int insertSelective(AutoSendArticle record);
 
     AutoSendArticle selectByPrimaryKey(Integer id);
+    
+    AutoSendArticle selectByArticleId(Integer articleId);
 
     int updateByPrimaryKeySelective(AutoSendArticle record);
 

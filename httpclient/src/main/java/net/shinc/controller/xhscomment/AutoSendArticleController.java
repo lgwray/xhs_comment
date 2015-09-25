@@ -3,6 +3,7 @@ package net.shinc.controller.xhscomment;
 import javax.validation.Valid;
 
 import net.shinc.common.AbstractBaseController;
+import net.shinc.common.ErrorMessage;
 import net.shinc.common.IRestMessage;
 import net.shinc.common.ShincUtil;
 import net.shinc.orm.mybatis.bean.xhscomment.AutoSendArticle;
@@ -32,6 +33,8 @@ public class AutoSendArticleController extends AbstractBaseController {
 	@Autowired
 	private AutoSendArticleService asService;
 	
+	private Integer days = 1;
+	
 	/**
 	 * 自动推送
 	 * @param cid
@@ -46,8 +49,17 @@ public class AutoSendArticleController extends AbstractBaseController {
 			msg.setDetail(ShincUtil.getErrorFields(bindingResult));
 			return msg;
 		}
+		
 		try {
-			asService.addAutoSendArticle(record);
+//			record.setUserId(AdminUser.getCurrentUser().getId());
+			record.setUserId(47);
+			Integer num = asService.addAutoSendArticle(record,days);
+			if(num > 0){
+				msg.setCode(ErrorMessage.SUCCESS.getCode());
+				msg.setResult(num);
+			} else {
+				msg.setCode(ErrorMessage.SUCCESS.getCode());
+			}
 		} catch (Exception e) {
 			logger.error(ExceptionUtils.getStackTrace(e));
 		}
