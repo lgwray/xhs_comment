@@ -6,6 +6,7 @@ import net.shinc.common.AbstractBaseController;
 import net.shinc.common.ErrorMessage;
 import net.shinc.common.IRestMessage;
 import net.shinc.common.ShincUtil;
+import net.shinc.orm.mybatis.bean.common.AdminUser;
 import net.shinc.orm.mybatis.bean.xhscomment.AutoSendArticle;
 import net.shinc.service.xhscomment.AutoSendArticleService;
 
@@ -51,15 +52,12 @@ public class AutoSendArticleController extends AbstractBaseController {
 		}
 		
 		try {
-//			record.setUserId(AdminUser.getCurrentUser().getId());
-			record.setUserId(47);
+			record.setUserId(AdminUser.getCurrentUser().getId());
 			Integer num = asService.addAutoSendArticle(record,days);
 			if(num > 0){
 				msg.setCode(ErrorMessage.SUCCESS.getCode());
 				msg.setResult(num);
-			} else {
-				msg.setCode(ErrorMessage.SUCCESS.getCode());
-			}
+			} 
 		} catch (Exception e) {
 			logger.error(ExceptionUtils.getStackTrace(e));
 		}
