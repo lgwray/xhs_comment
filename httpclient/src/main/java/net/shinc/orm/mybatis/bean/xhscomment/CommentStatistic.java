@@ -1,5 +1,6 @@
 package net.shinc.orm.mybatis.bean.xhscomment;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class CommentStatistic {
@@ -9,7 +10,7 @@ public class CommentStatistic {
 
     private Integer dividend;
 
-    private Integer percent;
+    private BigDecimal percent;
 
     private Date insertDate;
 
@@ -37,14 +38,6 @@ public class CommentStatistic {
         this.dividend = dividend;
     }
 
-    public Integer getPercent() {
-        return percent;
-    }
-
-    public void setPercent(Integer percent) {
-        this.percent = percent;
-    }
-
     public Date getInsertDate() {
         return insertDate;
     }
@@ -52,4 +45,12 @@ public class CommentStatistic {
     public void setInsertDate(Date insertDate) {
         this.insertDate = insertDate;
     }
+
+	public BigDecimal getPercent() {
+		return percent;
+	}
+
+	public void setPercent(BigDecimal percent) {
+		this.percent = percent;
+	}
 }

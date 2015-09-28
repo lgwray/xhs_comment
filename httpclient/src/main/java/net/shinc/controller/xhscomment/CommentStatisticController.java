@@ -1,6 +1,10 @@
 package net.shinc.controller.xhscomment;
 
+import java.util.List;
+import java.util.Map;
+
 import net.shinc.common.AbstractBaseController;
+import net.shinc.common.ErrorMessage;
 import net.shinc.common.IRestMessage;
 import net.shinc.service.xhscomment.CommentStatisticService;
 
@@ -9,7 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /** 
@@ -33,9 +39,17 @@ public class CommentStatisticController extends AbstractBaseController {
 	 */
 	@RequestMapping(value = "/getPercent")
 	@ResponseBody
-	public IRestMessage getPercent(){
+	public IRestMessage getPercent(@RequestParam(value="date",required=false) String date){
 		IRestMessage msg = getRestMessage();
 		try {
+			List<Map<String, Object>> list = csService.getPercentByDays(date);
+			if(!CollectionUtils.isEmpty(list)) {
+				msg.setCode(ErrorMessage.SUCCESS.getCode());
+				msg.setResult(list);
+				msg.setDetail(String.valueOf(list.size()));
+			} else {
+				msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());
+			}
 		} catch (Exception e) {
 			logger.error(ExceptionUtils.getStackTrace(e));
 		}

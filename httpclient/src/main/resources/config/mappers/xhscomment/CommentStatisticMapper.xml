@@ -5,7 +5,7 @@
     <result column="statistic_type" property="statisticType" jdbcType="INTEGER" />
     <result column="divisor" property="divisor" jdbcType="INTEGER" />
     <result column="dividend" property="dividend" jdbcType="INTEGER" />
-    <result column="percent" property="percent" jdbcType="INTEGER" />
+    <result column="percent" property="percent" jdbcType="DECIMAL" />
     <result column="insert_date" property="insertDate" jdbcType="TIMESTAMP" />
   </resultMap>
   
@@ -13,7 +13,7 @@
     insert into sh_comment_statistic (statistic_type, divisor, dividend, 
       percent, insert_date)
     values (#{statisticType,jdbcType=INTEGER}, #{divisor,jdbcType=INTEGER}, #{dividend,jdbcType=INTEGER}, 
-      #{percent,jdbcType=INTEGER}, #{insertDate,jdbcType=TIMESTAMP})
+      #{percent,jdbcType=DECIMAL}, #{insertDate,jdbcType=TIMESTAMP})
   </insert>
   
   <insert id="insertSelective" parameterType="CommentStatistic" >
@@ -46,7 +46,7 @@
         #{dividend,jdbcType=INTEGER},
       </if>
       <if test="percent != null" >
-        #{percent,jdbcType=INTEGER},
+        #{percent,jdbcType=DECIMAL},
       </if>
       <if test="insertDate != null" >
         #{insertDate,jdbcType=TIMESTAMP},
@@ -61,7 +61,7 @@
   		sh_comment_statistic
   	where 1 = 1
   		and DATE_FORMAT(insert_date , '%Y-%m-%d') = #{date}
-  	order by insert_date desc limit 
+  	order by insert_date desc limit 2 
   </select>
   
 </mapper>

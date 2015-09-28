@@ -18,4 +18,8 @@ public interface CommentStatisticService {
 	 */
 	public List<Map<String,Object>> getCommentStatisticByDate(List<String> date);
 	
+	public Map<String,Object> getCommentStatisticByDate(String date);
+	
+	public List<Map<String,Object>> getPercentByDays(String date);
+	
 }
