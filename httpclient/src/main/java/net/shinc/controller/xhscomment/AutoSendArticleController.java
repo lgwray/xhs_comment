@@ -34,7 +34,8 @@ public class AutoSendArticleController extends AbstractBaseController {
 	@Autowired
 	private AutoSendArticleService asService;
 	
-	private Integer days = 1;
+	//自动评论时间
+	private Integer days = 2;
 	
 	/**	
 	 * 自动推送

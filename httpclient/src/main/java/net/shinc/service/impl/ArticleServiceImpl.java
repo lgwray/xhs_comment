@@ -11,6 +11,7 @@ import net.shinc.orm.mybatis.mappers.xhscomment.ArticleHasMatchNewsMapper;
 import net.shinc.orm.mybatis.mappers.xhscomment.ArticleMapper;
 import net.shinc.orm.mybatis.mappers.xhscomment.MatchNewsMapper;
 import net.shinc.service.ArticleService;
+import net.shinc.service.xhscomment.AutoSendArticleService;
 import net.shinc.service.xhscomment.MatchNewsService;
 
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -46,6 +47,9 @@ public class ArticleServiceImpl implements ArticleService{
 	
 	@Autowired
 	private ArticleHasMatchNewsMapper articleHasMatchNewsMapper;
+	
+	@Autowired
+	private AutoSendArticleService asaService;
 	
 	public void refreshArticleList(List<Map> list){
 		if(list != null){
@@ -89,6 +93,11 @@ public class ArticleServiceImpl implements ArticleService{
 	public List<MatchNews> getMatchNewsByArticleId(Integer articleId) {
 		if(null != articleId) {
 			List<MatchNews> newsBatch = mnMapper.getMatchNewsByArticleId(articleId);
+			for (MatchNews matchNews : newsBatch) {
+				Boolean b = asaService.isEnableAutoSendArticle(articleId, matchNews.getId());
+				String isAuto = b == true ? "1":"0";
+				matchNews.setIsAuto(isAuto);
+			}
 			return newsBatch;
 		}
 		return null;

@@ -22,6 +22,8 @@ public class MatchNews {
     private String remark;
     
     private Integer matchCommentsNum;
+    
+    private String isAuto;
 
     public Integer getId() {
         return id;
@@ -85,6 +87,14 @@ public class MatchNews {
 
 	public void setMatchCommentsNum(Integer matchCommentsNum) {
 		this.matchCommentsNum = matchCommentsNum;
+	}
+
+	public String getIsAuto() {
+		return isAuto;
+	}
+
+	public void setIsAuto(String isAuto) {
+		this.isAuto = isAuto;
 	}
     
 }

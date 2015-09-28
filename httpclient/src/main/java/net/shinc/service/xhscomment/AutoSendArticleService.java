@@ -14,5 +14,11 @@ public interface AutoSendArticleService {
 	
 	public Boolean hasAutoSendArticle(Integer articleId,Integer matchNewsId);
 	
+	/**
+	 * 是否已经启用自动评论 true:是  false:否
+	 * @param articleId
+	 * @param matchnewsId
+	 * @return
+	 */
 	public Boolean isEnableAutoSendArticle(Integer articleId,Integer matchnewsId);
 }
