@@ -8,6 +8,8 @@ public class Article {
 	private String publishDate;
 	private String comment;
 	private String commentsCount;
+	private String cmtNum;   //匹配评论数
+	private String newsNum;	 //匹配新闻数
 	
 	public String getId() {
 		return id;
@@ -47,6 +49,18 @@ public class Article {
 
 	public void setCommentsCount(String commentsCount) {
 		this.commentsCount = commentsCount;
+	}
+	public String getCmtNum() {
+		return cmtNum;
+	}
+	public void setCmtNum(String cmtNum) {
+		this.cmtNum = cmtNum;
+	}
+	public String getNewsNum() {
+		return newsNum;
+	}
+	public void setNewsNum(String newsNum) {
+		this.newsNum = newsNum;
 	}
 	
 	
