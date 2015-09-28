@@ -59,6 +59,8 @@ public class AutoSendArticleController extends AbstractBaseController {
 				msg.setCode(ErrorMessage.SUCCESS.getCode());
 				msg.setResult(num);
 			} 
+			Boolean isEnable = asService.isEnableAutoSendArticle(Integer.parseInt(record.getArticleId()),Integer.parseInt(record.getMatchNewsId()));
+			msg.setState(String.valueOf(isEnable));
 		} catch (Exception e) {
 			logger.error(ExceptionUtils.getStackTrace(e));
 		}

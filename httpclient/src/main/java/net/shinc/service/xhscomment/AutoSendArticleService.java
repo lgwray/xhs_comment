@@ -12,7 +12,7 @@ public interface AutoSendArticleService {
 
 	public Integer addAutoSendArticle(AutoSendArticle record,Integer days);
 	
-	public Boolean hasAutoSendArticle(Integer articleId);
+	public Boolean hasAutoSendArticle(Integer articleId,Integer matchNewsId);
 	
-	public Boolean isEnableAutoSendArticle(Integer articleId);
+	public Boolean isEnableAutoSendArticle(Integer articleId,Integer matchnewsId);
 }

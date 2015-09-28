@@ -31,5 +31,9 @@ public interface IRestMessage {
 	public void setResult(Object o);
 	public void setPageInfo(Object o);
 	public Object getPageInfo();
+	
+	public void setState(String state);
+	
+	public String getState();
 
 }

@@ -2,6 +2,8 @@ package net.shinc.service.xhscomment.impl;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import net.shinc.orm.mybatis.bean.xhscomment.AutoSendArticle;
 import net.shinc.orm.mybatis.mappers.xhscomment.AutoSendArticleMapper;
@@ -39,7 +41,8 @@ public class AutoSendArticleServiceImpl implements AutoSendArticleService {
 				record.setEnddate(enddate);
 				
 				String articleId = record.getArticleId();
-				Boolean b = hasAutoSendArticle(Integer.parseInt(articleId));
+				String matchNewsId = record.getMatchNewsId();
+				Boolean b = hasAutoSendArticle(Integer.parseInt(articleId),Integer.parseInt(matchNewsId));
 				Integer num = 0;
 				if(b){
 					num = autoMapper.updateByPrimaryKeySelective(record);
@@ -55,8 +58,11 @@ public class AutoSendArticleServiceImpl implements AutoSendArticleService {
 	}
 
 	@Override
-	public Boolean hasAutoSendArticle(Integer articleId) {
-		AutoSendArticle record = autoMapper.selectByArticleId(articleId);
+	public Boolean hasAutoSendArticle(Integer articleId,Integer matchNewsId) {
+		Map map = new HashMap();
+		map.put("articleId", articleId);
+		map.put("matchNewsId", matchNewsId);
+		AutoSendArticle record = autoMapper.selectByArticleIdAndMatchNewsId(map);
 		if(null != record) {
 			return true;
 		}
@@ -64,8 +70,11 @@ public class AutoSendArticleServiceImpl implements AutoSendArticleService {
 	}
 	
 	@Override
-	public Boolean isEnableAutoSendArticle(Integer articleId) {
-		AutoSendArticle record = autoMapper.selectByArticleId(articleId);
+	public Boolean isEnableAutoSendArticle(Integer articleId,Integer matchNewsId) {
+		Map map = new HashMap();
+		map.put("articleId", articleId);
+		map.put("matchNewsId", matchNewsId);
+		AutoSendArticle record = autoMapper.selectByArticleIdAndMatchNewsId(map);
 		if(null != record) {
 			if(record.getEnabled().equals("1")){
 				return true;

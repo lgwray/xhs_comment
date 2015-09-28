@@ -89,14 +89,14 @@ public class MatchNewsController extends AbstractBaseController {
 			list.add(matchNewsId);
 			List<MatchComment> withPagination = mnService.getMatchNewsCommentsBatchWithPagination(list, pb);
 			
-			Boolean isEnable = asAservice.isEnableAutoSendArticle(Integer.parseInt(articleId));
+			Boolean isEnable = asAservice.isEnableAutoSendArticle(Integer.parseInt(articleId),Integer.parseInt(matchNewsId));
 			
 			if(!CollectionUtils.isEmpty(withPagination)) {
 				PageList pagelist = (PageList)withPagination;
 				msg.setCode(ErrorMessage.SUCCESS.getCode());
 				msg.setResult(pagelist);
 				msg.setDetail(articleId);
-				msg.setMessage(String.valueOf(isEnable));//是否已启用自动评论  true:已启用  false:未启用
+				msg.setState(String.valueOf(isEnable));//是否已启用自动评论  true:已启用  false:未启用
 				msg.setPageInfo(pagelist.getPaginator());
 			} else {
 				msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());

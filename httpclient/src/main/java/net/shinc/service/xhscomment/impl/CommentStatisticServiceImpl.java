@@ -25,6 +25,10 @@ public class CommentStatisticServiceImpl implements CommentStatisticService {
 	@Autowired
 	private CommentStatisticMapper csMapper;
 	
+	public List<Map<String,Object>> getCommentStatisticByDate(String date) {
+		return null;
+	}
+	
 	@Override
 	public List<Map<String,Object>> getCommentStatisticByDate(List<String> date) {
 		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();

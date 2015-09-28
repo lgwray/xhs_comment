@@ -21,7 +21,7 @@ public class AutoSendArticleServiceTest {
 	@Test
 	@Transactional
 	public void hasAutoSendArticle() {
-		Boolean b = service.hasAutoSendArticle(2697571);
+		Boolean b = service.hasAutoSendArticle(273025,9092);
 		System.out.println(b);
 	}
 	

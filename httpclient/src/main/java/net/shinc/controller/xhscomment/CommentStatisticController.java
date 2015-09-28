@@ -36,13 +36,6 @@ public class CommentStatisticController extends AbstractBaseController {
 	public IRestMessage getPercent(){
 		IRestMessage msg = getRestMessage();
 		try {
-////			Integer num = csService.addAutoSendArticle(record,days);
-//			if(num > 0){
-//				msg.setCode(ErrorMessage.SUCCESS.getCode());
-//				msg.setResult(num);
-//			} else {
-//				msg.setCode(ErrorMessage.SUCCESS.getCode());
-//			}
 		} catch (Exception e) {
 			logger.error(ExceptionUtils.getStackTrace(e));
 		}

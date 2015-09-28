@@ -28,6 +28,15 @@
     where article_id = #{articleId,jdbcType=INTEGER}
   </select>
   
+  <select id="selectByArticleIdAndMatchNewsId" resultMap="BaseResultMap" parameterType="java.util.Map">
+  	select 
+    <include refid="Base_Column_List" />
+    from sh_autosend_article
+    where 1=1 
+    and article_id = #{articleId}
+    and match_news_id = #{matchNewsId}
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sh_autosend_article
     where id = #{id,jdbcType=INTEGER}

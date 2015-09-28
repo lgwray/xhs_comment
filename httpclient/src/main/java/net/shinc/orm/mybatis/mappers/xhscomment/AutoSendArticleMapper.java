@@ -1,5 +1,7 @@
 package net.shinc.orm.mybatis.mappers.xhscomment;
 
+import java.util.Map;
+
 import net.shinc.orm.mybatis.bean.xhscomment.AutoSendArticle;
 
 public interface AutoSendArticleMapper {
@@ -12,6 +14,8 @@ public interface AutoSendArticleMapper {
     AutoSendArticle selectByPrimaryKey(Integer id);
     
     AutoSendArticle selectByArticleId(Integer articleId);
+    
+    AutoSendArticle selectByArticleIdAndMatchNewsId(Map map);
 
     int updateByPrimaryKeySelective(AutoSendArticle record);
 

@@ -24,6 +24,7 @@ public class RestMessage implements IRestMessage {
 	private Locale locale;
 	private Map<String,Object> userInfo;
 	public Object pageInfo;
+	private String state;
 	
 	public RestMessage(String code, MessageSource messageSource, Locale locale){
 		
@@ -99,6 +100,14 @@ public class RestMessage implements IRestMessage {
 	public Object getPageInfo() {
 		
 		return this.pageInfo;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
 	}
 
 
