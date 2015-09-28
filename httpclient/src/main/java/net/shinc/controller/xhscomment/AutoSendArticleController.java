@@ -36,7 +36,7 @@ public class AutoSendArticleController extends AbstractBaseController {
 	
 	private Integer days = 1;
 	
-	/**
+	/**	
 	 * 自动推送
 	 * @param cid
 	 * @param ctype
@@ -52,7 +52,8 @@ public class AutoSendArticleController extends AbstractBaseController {
 		}
 		
 		try {
-			record.setUserId(AdminUser.getCurrentUser().getId());
+			Integer id = AdminUser.getCurrentUser().getId();
+			record.setUserId(id);
 			Integer num = asService.addAutoSendArticle(record,days);
 			if(num > 0){
 				msg.setCode(ErrorMessage.SUCCESS.getCode());

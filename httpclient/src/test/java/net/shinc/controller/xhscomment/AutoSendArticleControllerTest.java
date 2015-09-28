@@ -39,7 +39,7 @@ public class AutoSendArticleControllerTest {
     public void autoSendMatchNews(){
     	try {
     		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/autoSend/autoSendMatchNews")
-    				.param("articleId", "269757").param("matchNewsId", "3813").param("enabled", "1");
+    				.param("articleId", "273025").param("matchNewsId", "9092").param("enabled", "0");
     		mockMvc.perform(reqbuild).andDo(handler);
     	} catch (Exception e) {
     		e.printStackTrace();
