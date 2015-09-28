@@ -9,6 +9,7 @@ import net.shinc.orm.mybatis.bean.xhscomment.MatchNews;
 import net.shinc.orm.mybatis.mappers.comment.CommentMapper;
 import net.shinc.orm.mybatis.mappers.xhscomment.ArticleHasMatchNewsMapper;
 import net.shinc.orm.mybatis.mappers.xhscomment.ArticleMapper;
+import net.shinc.orm.mybatis.mappers.xhscomment.MatchNewsMapper;
 import net.shinc.service.ArticleService;
 import net.shinc.service.xhscomment.MatchNewsService;
 
@@ -39,6 +40,9 @@ public class ArticleServiceImpl implements ArticleService{
 	
 	@Autowired
 	private MatchNewsService mnService;
+	
+	@Autowired
+	private MatchNewsMapper mnMapper;
 	
 	@Autowired
 	private ArticleHasMatchNewsMapper articleHasMatchNewsMapper;
@@ -84,13 +88,7 @@ public class ArticleServiceImpl implements ArticleService{
 	@Override
 	public List<MatchNews> getMatchNewsByArticleId(Integer articleId) {
 		if(null != articleId) {
-			List<String> list = getMatchNewsIdByArticleId(articleId);
-			List<MatchNews> newsBatch = mnService.getMatchNewsBatch(list);
-			for (MatchNews matchNews : newsBatch) {
-				Integer id = matchNews.getId();
-				Integer integer = mnService.getMatchNewsCommentsCount(id);
-				matchNews.setMatchCommentsNum(integer);
-			}
+			List<MatchNews> newsBatch = mnMapper.getMatchNewsByArticleId(articleId);
 			return newsBatch;
 		}
 		return null;

@@ -25,6 +25,8 @@ public interface MatchNewsMapper {
     
     List<MatchNews> getMatchNewsBatch(List<String> list);
     
+    List<MatchNews> getMatchNewsByArticleId(Integer articleId);
+    
     /**
      * 统计每条新闻匹配到的新闻数
      * @param list

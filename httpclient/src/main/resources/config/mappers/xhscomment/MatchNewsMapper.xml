@@ -9,6 +9,7 @@
     <result column="url" property="url" jdbcType="VARCHAR" />
     <result column="spider_time" property="spiderTime" jdbcType="TIMESTAMP" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="cmt_num" property="matchCommentsNum" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, news_type, news_uuid, title, url, DATE_FORMAT(parent_publish_date , '%Y-%m-%d %H:%i') spider_time, remark
@@ -24,6 +25,19 @@
     	 <foreach collection="list" item="item" index="index"  open="(" separator="," close=")" >
    			#{item,jdbcType=INTEGER}
 		</foreach>  	
+  </select>
+  
+  <select id="getMatchNewsByArticleId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  	select
+  		tb_a.id, tb_a.news_type, tb_a.news_uuid, tb_a.title, tb_a.url, DATE_FORMAT(tb_a.parent_publish_date , '%Y-%m-%d %H:%i') spider_time, tb_a.cmt_num
+  	from
+  		sp2_match_news tb_a
+  	inner join
+  		sp2_article_match_news tb_b
+  	on
+  		tb_b.match_news_id=tb_a.id
+  	where
+  		tb_b.article_id=#{articleId}
   </select>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
