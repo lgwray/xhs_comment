@@ -158,7 +158,7 @@ public class AdminUserServiceImpl implements AdminUserService {
 		if (null != nickname) {
 			AdminUser admin = adminUserMapper.getAdminUserByNickName(nickname);
 			if (null != admin) {
-				admin.setMenuMap(menuService.getMenu(admin));
+//				admin.setMenuMap(menuService.getMenu(admin));
 				admin.setAuthorities(getAuthorities(admin));
 			}
 			return admin;

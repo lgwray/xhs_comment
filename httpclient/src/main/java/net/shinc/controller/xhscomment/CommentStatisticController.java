@@ -34,7 +34,6 @@ public class CommentStatisticController extends AbstractBaseController {
 	
 	@Autowired
 	private CommentStatisticService csService;
-	private String pattern = "yyyy-MM-dd";
 	
 	/**
 	 * 获得新华社与本地的总评论数、及要闻评论数、及占比
@@ -50,7 +49,6 @@ public class CommentStatisticController extends AbstractBaseController {
 				msg.setCode(ErrorMessage.SUCCESS.getCode());
 				msg.setResult(list);
 				msg.setDetail(String.valueOf(list.size()));
-				msg.setDate(DateUtils.dateToString(new Date(), pattern));
 			} else {
 				msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());
 			}

@@ -12,6 +12,7 @@ import net.shinc.service.NewsService;
 import net.shinc.service.impl.ArticleServiceImpl;
 import net.shinc.utils.Helper;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,45 +56,37 @@ public class ArticleController extends AbstractBaseController {
 	 */
 	@RequestMapping(value = "/refreshArticleList")
 	@ResponseBody
-	public IRestMessage refreshArticleList(String cid,String ctype){
+	public IRestMessage refreshArticleList(String cid,String ctype) {
 		IRestMessage msg = getRestMessage();
 		List list = null;
 		List countsList = null;
 		try {
 			list = newsService.getNewsList(userId, listUrl,cid,ctype);
 			countsList = newsService.getLocalArticleCommentsCounts(list);
-			List newsCount = newsService.getMatchNewsCount(list);
 			for(Iterator<Map> item = list.iterator(); item.hasNext();){
 				Map map = item.next();
-				map.put("commentsCount", "0");
 				String id = (String)map.get("id");
-				for(Iterator<Map> countItem = countsList.iterator(); countItem.hasNext();){
+				if(StringUtils.isEmpty(id)) {
+					item.remove();
+					continue;
+				}
+				map.put("commentsCount", "0");
+				map.put("matchNewsCount", "0");
+				map.put("cmtNum", "0");
+				for(Iterator<Map> countItem = countsList.iterator(); countItem.hasNext();) {
 					Map countMap = countItem.next();
 					String articlId = (String)countMap.get("articlId");
 					if(id != null && id.equals(articlId)){
 						map.put("commentsCount", countMap.get("commentsCounts"));
+						map.put("matchNewsCount", countMap.get("newsNum"));
+						map.put("cmtNum", countMap.get("cmtNum"));
 						break;
 					}
 				}
 			}
-			
-			for(Iterator<Map> item = list.iterator(); item.hasNext();){
-				Map map = item.next();
-				map.put("matchNewsCount", "0");
-				String id = (String)map.get("id");
-				for(Iterator<Map> countItem = newsCount.iterator(); countItem.hasNext();){
-					Map countMap = countItem.next();
-					String articlId = (String)countMap.get("article_id");
-					if(id != null && id.equals(articlId)){
-						map.put("matchNewsCount", countMap.get("matchNewsCount"));
-					}
-				}
-			}
-			
 			if(null != list) {
 				msg.setCode(ErrorMessage.SUCCESS.getCode());
 				msg.setResult(list);
-//				articleService.refreshArticleList(list);//
 			} else {
 				msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());
 			}

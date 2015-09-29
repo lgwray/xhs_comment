@@ -8,6 +8,8 @@
 	<resultMap id="selectLocalArticleCommentsCountsMap" type="java.util.Map">
 		<result column="comments_counts" property="commentsCounts" jdbcType="VARCHAR" />
 		<result column="article_id" property="articlId" jdbcType="VARCHAR" />
+		<result column="cmt_num" property="cmtNum" jdbcType="VARCHAR" />
+		<result column="news_num" property="newsNum" jdbcType="VARCHAR" />
 	</resultMap>
 	<select id="selectNeuterComment" resultMap="selectNeuterCommentMap" parameterType="java.lang.Integer">
 		SELECT 
@@ -61,13 +63,19 @@
   	<select id="getLocalArticleCommentsCounts" resultMap="selectLocalArticleCommentsCountsMap" >
 		SELECT 
 			count(j.article_id) as comments_counts,
-			j.article_id 
+			j.article_id,
+			tb_a.cmt_num,
+			tb_a.news_num 
 		FROM 
-			sh_jnl_article_comment j 
+			sh_jnl_article_comment j
+		inner join
+			sh_article tb_a
+		on
+			j.article_id = tb_a.id 
 		<if test="list!=null and list.size!=0">
-			where 1=1
+		where 1=1
 			and send_flag='2'
-			and	article_id in
+			and	j.article_id in
 				<foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
 				  #{item.id}  
 			    </foreach>  
