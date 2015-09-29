@@ -10,6 +10,7 @@ public class Article {
 	private String commentsCount;
 	private String cmtNum;   //匹配评论数
 	private String newsNum;	 //匹配新闻数
+	private String autoNum;	 //自动评论数
 	
 	public String getId() {
 		return id;
@@ -50,17 +51,29 @@ public class Article {
 	public void setCommentsCount(String commentsCount) {
 		this.commentsCount = commentsCount;
 	}
+
 	public String getCmtNum() {
 		return cmtNum;
 	}
+
 	public void setCmtNum(String cmtNum) {
 		this.cmtNum = cmtNum;
 	}
+
 	public String getNewsNum() {
 		return newsNum;
 	}
+
 	public void setNewsNum(String newsNum) {
 		this.newsNum = newsNum;
+	}
+
+	public String getAutoNum() {
+		return autoNum;
+	}
+
+	public void setAutoNum(String autoNum) {
+		this.autoNum = autoNum;
 	}
 	
 	

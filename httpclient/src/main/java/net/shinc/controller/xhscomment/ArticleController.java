@@ -73,6 +73,7 @@ public class ArticleController extends AbstractBaseController {
 				map.put("commentsCount", "0");
 				map.put("matchNewsCount", "0");
 				map.put("cmtNum", "0");
+				map.put("autoNum", "0");
 				for(Iterator<Map> countItem = countsList.iterator(); countItem.hasNext();) {
 					Map countMap = countItem.next();
 					String articlId = (String)countMap.get("articlId");
@@ -80,6 +81,7 @@ public class ArticleController extends AbstractBaseController {
 						map.put("commentsCount", countMap.get("commentsCounts"));
 						map.put("matchNewsCount", countMap.get("newsNum"));
 						map.put("cmtNum", countMap.get("cmtNum"));
+						map.put("autoNum", countMap.get("autoNum"));
 						break;
 					}
 				}

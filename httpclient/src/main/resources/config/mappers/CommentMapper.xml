@@ -10,6 +10,7 @@
 		<result column="article_id" property="articlId" jdbcType="VARCHAR" />
 		<result column="cmt_num" property="cmtNum" jdbcType="VARCHAR" />
 		<result column="news_num" property="newsNum" jdbcType="VARCHAR" />
+		<result column="auto_sum" property="autoNum" jdbcType="VARCHAR" />
 	</resultMap>
 	<select id="selectNeuterComment" resultMap="selectNeuterCommentMap" parameterType="java.lang.Integer">
 		SELECT 
@@ -28,6 +29,7 @@
 		<result column="comment_total" property="comment" jdbcType="VARCHAR" />
 		<result column="cmt_num" property="cmtNum" jdbcType="VARCHAR" />
 		<result column="news_num" property="newsNum" jdbcType="VARCHAR" />
+		<result column="auto_sum" property="autoNum" jdbcType="VARCHAR" />
 	</resultMap>
 	<select id="selectArticleListByDate" resultMap="selectArticleListByDateMap" >
 		SELECT 
@@ -36,7 +38,8 @@
 			publish_date,
 			IFNULL(comment_total,'0') comment_total,
 			cmt_num,
-			news_num
+			news_num,
+			auto_sum
 		FROM 
 			sh_article 
 		WHERE
@@ -65,7 +68,8 @@
 			count(j.article_id) as comments_counts,
 			j.article_id,
 			tb_a.cmt_num,
-			tb_a.news_num 
+			tb_a.news_num,
+			tb_a.auto_sum
 		FROM 
 			sh_jnl_article_comment j
 		inner join
