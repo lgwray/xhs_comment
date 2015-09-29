@@ -35,5 +35,9 @@ public interface IRestMessage {
 	public void setState(String state);
 	
 	public String getState();
+	
+	public void setDate(String date);
+	
+	public String getDate();
 
 }

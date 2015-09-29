@@ -24,7 +24,8 @@ public class RestMessage implements IRestMessage {
 	private Locale locale;
 	private Map<String,Object> userInfo;
 	public Object pageInfo;
-	private String state;
+	private String state; //状态
+	private String date; //日期
 	
 	public RestMessage(String code, MessageSource messageSource, Locale locale){
 		
@@ -108,6 +109,14 @@ public class RestMessage implements IRestMessage {
 
 	public void setState(String state) {
 		this.state = state;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
 	}
 
 

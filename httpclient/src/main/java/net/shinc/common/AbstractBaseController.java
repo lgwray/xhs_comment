@@ -1,11 +1,13 @@
 package net.shinc.common;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import net.shinc.orm.mybatis.bean.common.AdminUser;
+import net.shinc.utils.DateUtils;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +25,9 @@ public abstract class AbstractBaseController implements ApplicationContextAware 
 	protected MessageSource messageSource;
 	
 	protected IRestMessage restMessage;
-
+	private String pattern = "yyyy-MM-dd";
+	
+	
 	public MessageSource getMessageSource() {
 		return messageSource;
 	}
@@ -47,6 +51,7 @@ public abstract class AbstractBaseController implements ApplicationContextAware 
 			map.put("userName", currentUser.getUsername());
 			map.put("menuMap", currentUser.getMenuMap());
 			msg.setUserInfo(map);
+			msg.setDate(DateUtils.dateToString(new Date(), pattern));
 		}
 		return msg;
 	}

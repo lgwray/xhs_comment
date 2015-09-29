@@ -22,8 +22,6 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.github.miemiedev.mybatis.paginator.domain.PageList;
-
 
 /**
  * @ClassName ArticleController 

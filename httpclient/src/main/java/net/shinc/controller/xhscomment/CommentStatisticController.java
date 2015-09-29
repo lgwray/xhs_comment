@@ -1,5 +1,6 @@
 package net.shinc.controller.xhscomment;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +8,7 @@ import net.shinc.common.AbstractBaseController;
 import net.shinc.common.ErrorMessage;
 import net.shinc.common.IRestMessage;
 import net.shinc.service.xhscomment.CommentStatisticService;
+import net.shinc.utils.DateUtils;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
@@ -32,6 +34,7 @@ public class CommentStatisticController extends AbstractBaseController {
 	
 	@Autowired
 	private CommentStatisticService csService;
+	private String pattern = "yyyy-MM-dd";
 	
 	/**
 	 * 获得新华社与本地的总评论数、及要闻评论数、及占比
@@ -47,6 +50,7 @@ public class CommentStatisticController extends AbstractBaseController {
 				msg.setCode(ErrorMessage.SUCCESS.getCode());
 				msg.setResult(list);
 				msg.setDetail(String.valueOf(list.size()));
+				msg.setDate(DateUtils.dateToString(new Date(), pattern));
 			} else {
 				msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());
 			}
