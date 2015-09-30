@@ -435,9 +435,9 @@ public class BaseCommentController extends AbstractBaseController {
 				
 				list.add(jnlComment);
 			}
-			Integer sum = jnlCommentService.putComment(list);
+			Map map = jnlCommentService.putComment(list);
 			msg.setCode(ErrorMessage.SUCCESS.getCode());
-			msg.setResult(String.valueOf(sum));
+			msg.setResult(map);
 			return msg;
 		} catch(Exception e) {
 			logger.error(ExceptionUtils.getStackTrace(e));

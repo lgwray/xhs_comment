@@ -36,28 +36,33 @@ public class JnlCommentServiceImpl implements JnlCommentService {
 	private int batchSize = 100;
 	
 	@Override
-	public Integer putComment(List<JnlComment> list) {
+	public Map putComment(List<JnlComment> list) {
+		Map map = new HashMap();
 		int sum = 0;
-			if(CollectionUtils.isEmpty(list)) {
-				return 0;
-			}
-			int size = list.size();
-			int times = size % batchSize == 0 ? size / batchSize : size / batchSize + 1;
-			for(int i=0; i<times; i++) {
-				int begin = batchSize * i;
-				int end = begin + batchSize;
-				end = Math.min(end, size);
-				List<JnlComment> subList = list.subList(begin, end);
-				for (JnlComment jnlComment : subList) {
-					try {
-						int num = jcm.insert(jnlComment);
-						sum = sum + num;
-					} catch (DuplicateKeyException e) {
-						logger.debug(ExceptionUtils.getStackTrace(e));
-					}
+		int failed = 0;
+		if(CollectionUtils.isEmpty(list)) {
+			return null;
+		}
+		int size = list.size();
+		int times = size % batchSize == 0 ? size / batchSize : size / batchSize + 1;
+		for(int i=0; i<times; i++) {
+			int begin = batchSize * i;
+			int end = begin + batchSize;
+			end = Math.min(end, size);
+			List<JnlComment> subList = list.subList(begin, end);
+			for (JnlComment jnlComment : subList) {
+				try {
+					int num = jcm.insert(jnlComment);
+					sum = sum + num;
+				} catch (DuplicateKeyException e) {
+					failed ++;
+					logger.debug(ExceptionUtils.getStackTrace(e));
 				}
 			}
-		return sum;
+		}
+		map.put("success", sum);
+		map.put("failed", failed);
+		return map;
 	}
 	
 	public int getBatchSize() {

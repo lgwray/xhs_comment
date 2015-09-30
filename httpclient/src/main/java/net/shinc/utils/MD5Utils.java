@@ -131,7 +131,7 @@ public class MD5Utils {
 		System.arraycopy(digest, 0, pwd, SALT_LENGTH, digest.length);
 		// 将字节数组格式加密后的口令转化为16进制字符串格式的口令
 		String hexString = byteToHexString(pwd);
-		logger.info(hexString);
+		logger.debug(hexString);
 		return hexString;
 	}
 	
