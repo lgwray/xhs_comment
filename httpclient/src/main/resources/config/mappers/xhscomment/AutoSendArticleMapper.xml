@@ -16,7 +16,7 @@
   
   <select id="getAutoSendList" resultType="java.util.Map" parameterType="java.util.Map">
   	select
-  		tba.article_id,tbd.auto_sum,tbd.title,tba.match_news_id,tbb.title,tbc.nickname,tba.enabled,tbe.sum
+  		tba.article_id,tbd.auto_sum,tbd.title article_title,tba.match_news_id,tbb.title match_title,tbc.nickname,tba.enabled,tbe.sum
   	from
   		sh_autosend_article tba
   	inner join
