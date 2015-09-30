@@ -13,6 +13,10 @@ public class CommentStatistic {
     private BigDecimal percent;
 
     private Date insertDate;
+    
+    private Integer autoNum;
+    
+    private Integer articleNum;
 
     public Integer getStatisticType() {
         return statisticType;
@@ -52,5 +56,21 @@ public class CommentStatistic {
 
 	public void setPercent(BigDecimal percent) {
 		this.percent = percent;
+	}
+
+	public Integer getAutoNum() {
+		return autoNum;
+	}
+
+	public void setAutoNum(Integer autoNum) {
+		this.autoNum = autoNum;
+	}
+
+	public Integer getArticleNum() {
+		return articleNum;
+	}
+
+	public void setArticleNum(Integer articleNum) {
+		this.articleNum = articleNum;
 	}
 }

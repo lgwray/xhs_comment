@@ -94,4 +94,9 @@ public class AutoSendArticleServiceImpl implements AutoSendArticleService {
 		return autoSendList;
 	}
 
+	@Override
+	public Integer getAutoCommentNumByDate(String date) {
+		return null;
+	}
+
 }

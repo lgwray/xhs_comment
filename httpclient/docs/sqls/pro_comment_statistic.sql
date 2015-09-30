@@ -10,7 +10,8 @@ declare xhs_com_count int(11);
 declare cur_content_count int(11);
 declare xhs_cur_con_count int(11);
 declare percent decimal(12,4);
-
+declare auto_count int(11);
+declare article_count int(11);
 
 -- 删除当天历史数据
 -- delete from sh_comment_statistic where insert_date > concat(date_format(now(), '%Y-%m-%d'), ' 00:00:00') and insert_date < now();
@@ -39,10 +40,16 @@ select sum(comment_total) into xhs_cur_con_count from sh_article
 where category='0' 
 and publish_date > concat(date_format(now(), '%Y-%m-%d'), ' 00:00:00');
 
+-- 当天自动评论数
+SELECT count(*) into auto_count FROM sh_jnl_article_comment where send_flag='2' and comment_way='2' and adddate > concat(date_format(now(), '%Y-%m-%d'), ' 00:00:00');
+
+-- 当天抓取的文章数
+SELECT count(*) into article_count FROM spider_news.sh_article where publish_date > concat(date_format(now(), '%Y-%m-%d'), ' 00:00:00');
+
 set percent := comment_count / xhs_com_count;
-insert into sh_comment_statistic(statistic_type, divisor, dividend, percent, insert_date) values(1, comment_count, xhs_com_count, percent, now());
+insert into sh_comment_statistic(statistic_type, divisor, dividend, percent, insert_date, auto_num, article_num) values(1, comment_count, xhs_com_count, percent, now(), auto_count, article_count);
 set percent := cur_content_count / xhs_cur_con_count;
-insert into sh_comment_statistic(statistic_type, divisor, dividend, percent, insert_date) values(2, cur_content_count, xhs_cur_con_count, percent, now());
+insert into sh_comment_statistic(statistic_type, divisor, dividend, percent, insert_date, auto_num, article_num) values(2, cur_content_count, xhs_cur_con_count, percent, now(), auto_count, article_count);
 
 end$
 

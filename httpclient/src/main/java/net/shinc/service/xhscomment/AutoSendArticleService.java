@@ -26,4 +26,11 @@ public interface AutoSendArticleService {
 	public Boolean isEnableAutoSendArticle(Integer articleId,Integer matchnewsId);
 	
 	public List<Map> getAutoSendList();
+	
+	/**
+	 * 根据日期计算当日的自动评论数
+	 * @param date
+	 * @return
+	 */
+	public Integer getAutoCommentNumByDate(String date);
 }

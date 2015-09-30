@@ -39,8 +39,8 @@ public class CommentStatisticServiceImpl implements CommentStatisticService {
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("date", date);
 		
-		Map articlesNumByDate = countService.getArticlesNumByDate(date);
-		map.put("articleNum", articlesNumByDate.get("sum"));
+//		Map articlesNumByDate = countService.getArticlesNumByDate(date);
+//		map.put("articleNum", articlesNumByDate.get("sum"));
 		
 		List<CommentStatistic> commentStatisticList = csMapper.getCommentStatisticByDate(date);
 		List<Map<String,Object>> percentList = new ArrayList<Map<String,Object>>();
@@ -49,12 +49,19 @@ public class CommentStatisticServiceImpl implements CommentStatisticService {
 				Map<String,Object> item = new HashMap<String,Object>();
 				Integer shincSum = commentStatistic.getDivisor();
 				Integer xhsSum = commentStatistic.getDividend();
+				Integer articleSum = commentStatistic.getArticleNum();
+				Integer autoSum = commentStatistic.getAutoNum();
 				BigDecimal percent = commentStatistic.getPercent();
 				Integer flag = commentStatistic.getStatisticType();
 				String desc = flag == 1 ? "总数" : "要闻";
 				
+				map.put("articleNum", articleSum);
+				map.put("autoNum", autoSum);
+				
 				item.put("shincSum", shincSum);
 				item.put("xhsSum", xhsSum);
+				item.put("articleSum", articleSum);
+				item.put("autoSum", autoSum);
 				item.put("percent", Helper.decimalToPercent(percent));
 				item.put("desc", desc);
 				percentList.add(item);
