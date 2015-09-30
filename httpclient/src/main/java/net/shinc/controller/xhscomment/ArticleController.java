@@ -78,10 +78,11 @@ public class ArticleController extends AbstractBaseController {
 					Map countMap = countItem.next();
 					String articlId = (String)countMap.get("articlId");
 					if(id != null && id.equals(articlId)){
-						map.put("commentsCount", countMap.get("commentsCounts"));
+//						map.put("commentsCount", countMap.get("commentsCounts"));
 						map.put("matchNewsCount", countMap.get("newsNum"));
 						map.put("cmtNum", countMap.get("cmtNum"));
 						map.put("autoNum", countMap.get("autoNum"));
+						map.put("commentsCount", countMap.get("shincNum"));
 						break;
 					}
 				}
@@ -147,7 +148,7 @@ public class ArticleController extends AbstractBaseController {
 					Map countMap = countItem.next();
 					String articlId = (String)countMap.get("articlId");
 					if(id != null && id.equals(articlId)){
-						article.setCommentsCount(((Long)countMap.get("commentsCounts")).toString());
+						article.setCommentsCount(((Long)countMap.get("shincNum")).toString());
 					}
 				}
 			}

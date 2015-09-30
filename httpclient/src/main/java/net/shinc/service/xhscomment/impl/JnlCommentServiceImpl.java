@@ -53,7 +53,7 @@ public class JnlCommentServiceImpl implements JnlCommentService {
 						int num = jcm.insert(jnlComment);
 						sum = sum + num;
 					} catch (DuplicateKeyException e) {
-						logger.info(ExceptionUtils.getStackTrace(e));
+						logger.debug(ExceptionUtils.getStackTrace(e));
 					}
 				}
 			}

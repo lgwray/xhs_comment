@@ -11,6 +11,7 @@ public class Article {
 	private String cmtNum;   //匹配评论数
 	private String newsNum;	 //匹配新闻数
 	private String autoNum;	 //自动评论数
+	private String shincNum; //本地评论数
 	
 	public String getId() {
 		return id;
@@ -74,6 +75,12 @@ public class Article {
 
 	public void setAutoNum(String autoNum) {
 		this.autoNum = autoNum;
+	}
+	public String getShincNum() {
+		return shincNum;
+	}
+	public void setShincNum(String shincNum) {
+		this.shincNum = shincNum;
 	}
 	
 	
