@@ -16,7 +16,7 @@
   
   <select id="getAutoSendList" resultType="java.util.Map" parameterType="java.util.Map">
   	select
-  		tba.article_id,tbd.auto_sum,tbd.title,tba.match_news_id,tbb.title,tbc.nickname,tba.enabled
+  		tba.article_id,tbd.auto_sum,tbd.title,tba.match_news_id,tbb.title,tbc.nickname,tba.enabled,tbe.sum
   	from
   		sh_autosend_article tba
   	inner join
@@ -31,11 +31,16 @@
 		sh_article tbd
 	on
 		tbd.id = tba.article_id
+	inner join
+		(select article_id,count(*) sum from sh_autosend_article group by article_id) tbe
+	on
+		tbe.article_id = tba.article_id
 	where
 		1=1
+        and tba.enabled = '1'
         and tba.begindate &lt; #{currentDate}
 		and tba.enddate &gt; #{currentDate}
-	order by tba.article_id desc
+	order by tbd.auto_sum desc
   </select>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >

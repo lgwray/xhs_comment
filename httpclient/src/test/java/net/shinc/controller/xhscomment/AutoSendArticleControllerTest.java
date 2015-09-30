@@ -46,4 +46,15 @@ public class AutoSendArticleControllerTest {
     	}
     }
     
+    @Test
+    @WithMockUser(username="admin",password="admin")
+    public void getAutoSendList(){
+    	try {
+    		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/autoSend/getAutoSendList");
+    		mockMvc.perform(reqbuild).andDo(handler);
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    }
+    
 }

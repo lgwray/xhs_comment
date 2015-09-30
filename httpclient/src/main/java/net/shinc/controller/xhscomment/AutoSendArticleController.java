@@ -1,5 +1,8 @@
 package net.shinc.controller.xhscomment;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.validation.Valid;
 
 import net.shinc.common.AbstractBaseController;
@@ -15,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -62,6 +66,24 @@ public class AutoSendArticleController extends AbstractBaseController {
 			} 
 			Boolean isEnable = asService.isEnableAutoSendArticle(Integer.parseInt(record.getArticleId()),Integer.parseInt(record.getMatchNewsId()));
 			msg.setState(String.valueOf(isEnable));
+		} catch (Exception e) {
+			logger.error(ExceptionUtils.getStackTrace(e));
+		}
+		return msg;
+	}
+	
+	@RequestMapping(value = "/getAutoSendList")
+	@ResponseBody
+	public IRestMessage getAutoSendList(){
+		IRestMessage msg = getRestMessage();
+		try {
+			List<Map> list = asService.getAutoSendList();
+			if(!CollectionUtils.isEmpty(list)){
+				msg.setCode(ErrorMessage.SUCCESS.getCode());
+				msg.setResult(list);
+			} else {
+				msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());
+			}
 		} catch (Exception e) {
 			logger.error(ExceptionUtils.getStackTrace(e));
 		}

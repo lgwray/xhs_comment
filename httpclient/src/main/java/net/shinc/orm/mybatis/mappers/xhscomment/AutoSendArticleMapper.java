@@ -22,6 +22,6 @@ public interface AutoSendArticleMapper {
 
     int updateByPrimaryKey(AutoSendArticle record);
     
-    List<Map> getAutoSendList();
+    List<Map> getAutoSendList(Map map);
     
 }
