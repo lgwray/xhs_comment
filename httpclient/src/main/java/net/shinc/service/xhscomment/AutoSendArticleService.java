@@ -1,5 +1,8 @@
 package net.shinc.service.xhscomment;
 
+import java.util.List;
+import java.util.Map;
+
 import net.shinc.orm.mybatis.bean.xhscomment.AutoSendArticle;
 
 /** 
@@ -21,4 +24,6 @@ public interface AutoSendArticleService {
 	 * @return
 	 */
 	public Boolean isEnableAutoSendArticle(Integer articleId,Integer matchnewsId);
+	
+	public List<Map> getAutoSendList();
 }

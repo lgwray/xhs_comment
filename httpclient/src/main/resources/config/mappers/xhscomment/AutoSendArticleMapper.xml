@@ -14,6 +14,30 @@
     id, article_id, match_news_id, enabled, user_id, begindate, enddate
   </sql>
   
+  <select id="getAutoSendList" resultType="java.util.Map" parameterType="java.util.Map">
+  	select
+  		tba.article_id,tbd.auto_sum,tbd.title,tba.match_news_id,tbb.title,tbc.nickname,tba.enabled
+  	from
+  		sh_autosend_article tba
+  	inner join
+  		sp2_match_news tbb
+  	on
+  		tbb.id = tba.match_news_id
+  	inner join
+  		sh_admin_user tbc
+  	on
+  		tbc.id = tba.user_id
+	inner join
+		sh_article tbd
+	on
+		tbd.id = tba.article_id
+	where
+		1=1
+        and tba.begindate &lt; #{currentDate}
+		and tba.enddate &gt; #{currentDate}
+	order by tba.article_id desc
+  </select>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />

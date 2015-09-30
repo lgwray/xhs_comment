@@ -3,6 +3,7 @@ package net.shinc.service.xhscomment.impl;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import net.shinc.orm.mybatis.bean.xhscomment.AutoSendArticle;
@@ -82,6 +83,11 @@ public class AutoSendArticleServiceImpl implements AutoSendArticleService {
 			return false;
 		}
 		return false;
+	}
+
+	@Override
+	public List<Map> getAutoSendList() {
+		return null;
 	}
 
 }
