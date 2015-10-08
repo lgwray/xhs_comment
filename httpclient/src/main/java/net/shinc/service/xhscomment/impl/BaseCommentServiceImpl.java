@@ -164,14 +164,14 @@ public class BaseCommentServiceImpl implements BaseCommentService {
 	 */
 	@Override
 	public List getLocalEverydayCommentsNums() {
-		List list = cmMapper.getLocalCommentsNums();
+		List list = cmMapper.getLocalCommentsNums2();
 		return list;
 	}
 	
 	@Override
 	public Map getTodayCommentsNums() {
 		String today = DateUtils.dateToString(new Date(), "yyyy-MM-dd");
-		Map map = cmMapper.getLocalCommentsNumsByDate(today);
+		Map map = cmMapper.getLocalCommentsNumsByDate2(today);
 		return map;
 	}
 	

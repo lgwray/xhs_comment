@@ -107,6 +107,15 @@
 		order by cal desc
 	</select>
 	
+	<select id="getLocalCommentsNums2" resultMap="getLocalCommentsNumsResMap">
+		select 
+		date_format(tba.insert_date,'%Y-%m-%d') cal,
+		tba.divisor sum
+		from (SELECT * FROM spider_news.sh_comment_statistic where statistic_type='1' order by insert_date desc) tba 
+		group by cal 
+		order by cal desc;
+	</select>
+	
 	<select id="getLocalCommentsNumsByDate" resultMap="getLocalCommentsNumsResMap">
 		select 
 			sum,cal 
@@ -121,6 +130,18 @@
 			order by cal desc) tba 
 		where 
 			date_format(cal,'%Y-%c-%d') = str_to_date(#{date},'%Y-%c-%d')
+	</select>
+	
+	<select id="getLocalCommentsNumsByDate2" resultMap="getLocalCommentsNumsResMap">
+		select 
+			divisor sum,date_format(insert_date,'%Y-%m-%d') cal 
+		from 
+			sh_comment_statistic 
+		where 
+			statistic_type='1' 
+		and date_format(insert_date,'%Y-%c-%d') = str_to_date('2015-10-08','%Y-%c-%d') 
+		order by insert_date desc 
+		limit 1;
 	</select>
 	
 	<select id="getLocalCommentsNumsByCategory" resultMap="getLocalCommentsNumsResMap">

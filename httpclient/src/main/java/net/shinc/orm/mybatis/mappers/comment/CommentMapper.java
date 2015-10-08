@@ -24,6 +24,7 @@ public interface CommentMapper {
 	 * @return
 	 */
 	public List getLocalCommentsNums();
+	public List getLocalCommentsNums2();
 	
 	/**
 	 * 根据日期查本地评论数
@@ -31,6 +32,7 @@ public interface CommentMapper {
 	 * @return
 	 */
 	public Map getLocalCommentsNumsByDate(String date);
+	public Map getLocalCommentsNumsByDate2(String date);
 	
 	/**
 	 * 根据日期date和categoryid(栏目id)查本地评论数
