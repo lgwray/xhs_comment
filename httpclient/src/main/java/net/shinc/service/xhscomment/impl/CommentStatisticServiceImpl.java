@@ -54,9 +54,11 @@ public class CommentStatisticServiceImpl implements CommentStatisticService {
 				BigDecimal percent = commentStatistic.getPercent();
 				Integer flag = commentStatistic.getStatisticType();
 				String desc = flag == 1 ? "总数" : "要闻";
+				String lastUpdateTime = commentStatistic.getInsertDate();
 				
 				map.put("articleNum", articleSum);
 				map.put("autoNum", autoSum);
+				map.put("lastUpdateTime", lastUpdateTime);
 				
 				item.put("shincSum", shincSum);
 				item.put("xhsSum", xhsSum);

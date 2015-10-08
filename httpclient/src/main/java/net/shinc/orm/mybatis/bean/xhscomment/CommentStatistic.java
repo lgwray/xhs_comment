@@ -12,7 +12,7 @@ public class CommentStatistic {
 
     private BigDecimal percent;
 
-    private Date insertDate;
+    private String insertDate;
     
     private Integer autoNum;
     
@@ -42,14 +42,6 @@ public class CommentStatistic {
         this.dividend = dividend;
     }
 
-    public Date getInsertDate() {
-        return insertDate;
-    }
-
-    public void setInsertDate(Date insertDate) {
-        this.insertDate = insertDate;
-    }
-
 	public BigDecimal getPercent() {
 		return percent;
 	}
@@ -72,5 +64,13 @@ public class CommentStatistic {
 
 	public void setArticleNum(Integer articleNum) {
 		this.articleNum = articleNum;
+	}
+
+	public String getInsertDate() {
+		return insertDate;
+	}
+
+	public void setInsertDate(String insertDate) {
+		this.insertDate = insertDate;
 	}
 }

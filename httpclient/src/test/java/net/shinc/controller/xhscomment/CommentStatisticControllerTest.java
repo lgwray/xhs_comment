@@ -38,8 +38,8 @@ public class CommentStatisticControllerTest {
     @WithMockUser(username="admin",password="admin")
     public void getPercent(){
     	try {
-    		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/calculate/getPercent");
-//    		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/calculate/getPercent").param("date", "2015-09-28");
+//    		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/calculate/getPercent");
+    		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/calculate/getPercent").param("date", "2015-09-28");
     		mockMvc.perform(reqbuild).andDo(handler);
     	} catch (Exception e) {
     		e.printStackTrace();

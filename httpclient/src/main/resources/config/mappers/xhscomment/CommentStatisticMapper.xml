@@ -6,7 +6,7 @@
     <result column="divisor" property="divisor" jdbcType="INTEGER" />
     <result column="dividend" property="dividend" jdbcType="INTEGER" />
     <result column="percent" property="percent" jdbcType="DECIMAL" />
-    <result column="insert_date" property="insertDate" jdbcType="TIMESTAMP" />
+    <result column="insert_date" property="insertDate" jdbcType="VARCHAR" />
     <result column="auto_num" property="autoNum" jdbcType="INTEGER" />
     <result column="article_num" property="articleNum" jdbcType="INTEGER" />
   </resultMap>
@@ -58,7 +58,7 @@
   
   <select id="getCommentStatisticByDate" parameterType="java.util.List" resultMap="BaseResultMap">
   	select
-  		statistic_type, divisor, dividend, percent, insert_date, auto_num, article_num
+  		statistic_type, divisor, dividend, percent, DATE_FORMAT(insert_date , '%Y-%m-%d %H:%i:%S') insert_date, auto_num, article_num
   	from
   		sh_comment_statistic
   	where 1 = 1
