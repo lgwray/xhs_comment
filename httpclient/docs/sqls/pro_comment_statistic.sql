@@ -33,7 +33,8 @@ left join sh_article b
 on a.article_id = b.id
 where a.send_flag = '2'
 and b.category= '0'
-and a.adddate > concat(date_format(now(), '%Y-%m-%d'), ' 00:00:00');
+and a.adddate > concat(date_format(now(), '%Y-%m-%d'), ' 00:00:00')
+and b.publish_date > concat(date_format(now(), '%Y-%m-%d'), ' 00:00:00');
 
 -- xhs:新华社要闻总数
 select sum(comment_total) into xhs_cur_con_count from sh_article 

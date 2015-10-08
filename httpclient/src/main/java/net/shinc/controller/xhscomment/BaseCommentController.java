@@ -20,6 +20,7 @@ import net.shinc.common.TreeNode;
 import net.shinc.formbean.common.AddCommentForm;
 import net.shinc.formbean.common.CommentItForm;
 import net.shinc.orm.mybatis.bean.common.AdminUser;
+import net.shinc.orm.mybatis.bean.common.AuthorityGroup;
 import net.shinc.orm.mybatis.bean.xhscomment.CommentCategory;
 import net.shinc.orm.mybatis.bean.xhscomment.JnlComment;
 import net.shinc.orm.mybatis.bean.xhscomment.JnlComment.SendFlag;
@@ -393,6 +394,11 @@ public class BaseCommentController extends AbstractBaseController {
 		}
 	}
 	
+	/**
+	 * 发布评论（存入队列表）
+	 * @param form
+	 * @return
+	 */
 	@RequestMapping(value = "/commentIt")
 	@ResponseBody
 	public IRestMessage sendComment(@Valid CommentItForm form) {
@@ -400,6 +406,10 @@ public class BaseCommentController extends AbstractBaseController {
 		String articleId = form.getArticleId();
 		List<Map> commentList = form.getCommentList();
 		List<JnlComment> list = new ArrayList<JnlComment>();
+		AdminUser admin = AdminUser.getCurrentUser();
+		AuthorityGroup authGroup = admin.getAuthGroup();
+		String authGroupName = authGroup.getName();
+		logger.info(authGroupName);
 		try {
 			int allNum = 0;
 			for(Iterator<Map> it = commentList.iterator(); it.hasNext();) {
@@ -427,7 +437,13 @@ public class BaseCommentController extends AbstractBaseController {
 				jnlComment.setAddDate(new Date());
 				jnlComment.setNickName(nick.trim());
 				jnlComment.setContent(comment.trim());
-				jnlComment.setSendFlag(SendFlag.nosend.getValue());
+				
+				if(!StringUtils.isEmpty(authGroupName) && authGroupName.equals("test")){
+					jnlComment.setSendFlag(SendFlag.test.getValue());
+				} else {
+					jnlComment.setSendFlag(SendFlag.nosend.getValue());
+				}
+				
 				jnlComment.setArticleId(articleId);
 				
 				String md5Encrypted = MD5Utils.getMd5Encrypted(articleId+comment);

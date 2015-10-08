@@ -27,6 +27,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
 import com.github.miemiedev.mybatis.paginator.domain.PageList;
@@ -160,6 +161,10 @@ public class AdminUserServiceImpl implements AdminUserService {
 			if (null != admin) {
 //				admin.setMenuMap(menuService.getMenu(admin));
 				admin.setAuthorities(getAuthorities(admin));
+				List<AuthorityGroup> autoList = getAuthGroup(admin);
+				if(!CollectionUtils.isEmpty(autoList)&&autoList.size() == 1) {
+					admin.setAuthGroup(autoList.get(0));
+				}
 			}
 			return admin;
 		}

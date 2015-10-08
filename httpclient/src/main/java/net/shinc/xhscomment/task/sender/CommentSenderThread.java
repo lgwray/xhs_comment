@@ -15,7 +15,14 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
+/** 
+ * @ClassName CommentSenderThread 
+ * @Description 批量发评论
+ * @author ztc 
+ * @date 2015年10月8日 上午11:43:28  
+ */
 public class CommentSenderThread implements Runnable {
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired
@@ -29,7 +36,9 @@ public class CommentSenderThread implements Runnable {
 	
 	private int batchUpdateSize = 50;
 	
-	private boolean realSend = true;
+	@Value("${xhs.realSend}")
+	private String realSend = "1";
+	
 	@Override
 	public void run() {
 		logger.info("started");
@@ -39,7 +48,8 @@ public class CommentSenderThread implements Runnable {
 				JnlComment comment = queue.poll();
 				if(comment != null) {
 					String flag = SendFlag.fail.getValue();
-					if(realSend) {
+					
+					if(realSend.equals("1")) {
 						try {
 							String re = bcs.sendComment(String.valueOf(comment.getUserId()), comment.getArticleId(), comment.getContent(), comment.getNickName());
 							Map resMap = Helper.jsonToMap(re);
@@ -53,6 +63,7 @@ public class CommentSenderThread implements Runnable {
 					} else {
 						flag = SendFlag.test.getValue();
 					}
+					
 					comment.setSendFlag(flag);
 					comment.setSendTime(new Date());
 					list.add(comment);
@@ -68,7 +79,6 @@ public class CommentSenderThread implements Runnable {
 					}
 					Thread.sleep(10000);
 				}
-				
 			} catch (Exception e) {
 				logger.error(ExceptionUtils.getStackTrace(e));
 			}
