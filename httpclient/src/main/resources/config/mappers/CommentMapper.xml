@@ -113,7 +113,7 @@
 		tba.divisor sum
 		from (SELECT * FROM spider_news.sh_comment_statistic where statistic_type='1' order by insert_date desc) tba 
 		group by cal 
-		order by cal desc;
+		order by cal desc limit 30;
 	</select>
 	
 	<select id="getLocalCommentsNumsByDate" resultMap="getLocalCommentsNumsResMap">

@@ -63,7 +63,7 @@
   		sh_comment_statistic
   	where 1 = 1
   		and DATE_FORMAT(insert_date , '%Y-%m-%d') = #{date}
-  	order by insert_date desc limit 2 
+  	order by insert_date desc,statistic_type desc limit 2 
   </select>
   
 </mapper>
