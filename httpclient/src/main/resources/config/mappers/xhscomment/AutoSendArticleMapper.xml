@@ -149,6 +149,7 @@
       </if>
     </set>
     where article_id = #{articleId,jdbcType=VARCHAR}
+    and match_news_id = #{matchNewsId}
   </update>
   
   <update id="updateByPrimaryKey" parameterType="AutoSendArticle" >
