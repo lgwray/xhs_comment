@@ -105,6 +105,7 @@ public class AdminUserController extends AbstractBaseController {
 			if(null != adminUserList && adminUserList.size() > 0) {
 				msg.setCode(ErrorMessage.SUCCESS.getCode());
 				msg.setResult(adminUserList);
+				msg.setDetail(String.valueOf(adminUserList.size()));
 			} else {
 				msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());
 			}

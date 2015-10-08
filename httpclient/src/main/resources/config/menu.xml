@@ -1,56 +1,117 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <contents>
 	<menus>
-		<!-- 新华社评论后台菜单 begin -->
+		<!-- 发布管理 begin -->
 		<menu>
 			<level>1</level>
 			<parent>ArticleManage</parent>
-			<value>ArticleManage</value>                <!--    一级菜单  文章管理 -->
-			<url>/article/article_list</url>
-		</menu>
-		
-		<menu>
-			<level>1</level>
-			<parent>CommentManage</parent>
-			<value>CommentManage</value>          <!--   一级菜单  评论管理 -->
-			<url>none</url>
-		</menu>
-		<menu>
-			<level>2</level>
-			<parent>CommentManage</parent>
-			<value>CommentPre</value>     <!--    二级菜单  评论管理 -->
-			<url>/common_comment/common_comment_list</url>
-		</menu>
-		<menu>
-			<level>1</level>
-			<parent>adminUserManage</parent>
-			<value>adminUserManage</value>          <!--   一级菜单  管理员管理 -->
-			<url>none</url>
-		</menu>
-		<menu>
-			<level>2</level>
-			<parent>adminUserManage</parent>
-			<value>adminUserList</value>            <!--   二级菜单  管理员管理 -->
-			<url>/user/userList</url>
-		</menu>
-		<menu>
-			<level>1</level>
-			<parent>publishManage</parent>
-			<value>publishManage</value>          <!--   一级菜单  发布管理 -->
-			<url>none</url>
-		</menu>
-		<menu>
-			<level>2</level>
-			<parent>publishManage</parent>
-			<value>refreshArticleList</value>            <!--   二级菜单  发布管理 -->
+			<value>ArticleManage</value>                <!--    一级菜单  发布管理 -->
 			<url>/index</url>
 		</menu>
+		<!-- 发布管理 end -->
+		
+		<!-- 自动发布评论 begin -->
 		<menu>
 			<level>1</level>
-			<parent>PerformanceManage</parent>
-			<value>PerformanceManage</value>                <!--    一级菜单  绩效管理 -->
+			<parent>AutoSendManage</parent>
+			<value>AutoSendManage</value>          <!--   一级菜单  自动发布评论 -->
+			<url>/auto_send</url>
+		</menu>
+		<!-- 自动发布评论 end -->
+		
+		
+		<!-- 昵称筛选 begin -->
+		<menu>
+			<level>1</level>
+			<parent>Nickfilter</parent>
+			<value>Nickfilter</value>             <!--   一级菜单  昵称筛选 -->
+			<url>none</url>
+		</menu>
+		<menu>
+			<level>2</level>
+			<parent>Nickfilter</parent>
+			<value>noFilterNick</value>           <!--   二级菜单  未筛选的昵称 -->
+			<url>/user/getNickName?flag=0</url>
+		</menu>
+		<menu>
+			<level>2</level>
+			<parent>Nickfilter</parent>
+			<value>passNick</value>               <!--   二级菜单  通过的昵称 -->
+			<url>/user/getNickName?flag=1</url>
+		</menu>
+		<menu>
+			<level>2</level>
+			<parent>Nickfilter</parent>
+			<value>noPassNick</value>             <!--   二级级菜单  未通过的昵称 -->
+			<url>/user/getNickName?flag=2</url>
+		</menu>
+		<!-- 昵称筛选 end -->
+		
+		
+		<!-- 通用评论管理 begin -->
+		<menu>
+			<level>1</level>
+			<parent>CommentManage</parent>
+			<value>CommentManage</value>     			<!--    一级菜单  通用评论管理 -->
+			<url>none</url>
+		</menu>
+		<menu>
+			<level>2</level>
+			<parent>CommentManage</parent>
+			<value>addCommentPre</value>     			<!--    二级菜单  添加通用评论 -->
+			<url>/common_comment/common_comment_list</url>
+		</menu>
+		<!-- 通用评论管理 end -->
+		
+		
+		<!-- 统计 begin -->
+		<menu>
+			<level>1</level>
+			<parent>tongji</parent>
+			<value>tongji</value>          				<!--   一级菜单  统计 -->
+			<url>none</url>
+		</menu>
+		<menu>
+			<level>2</level>
+			<parent>tongji</parent>
+			<value>everydayArticle</value>          	<!--   二级菜单  每天发送的文章 -->
+			<url>/article/article_list</url>
+		</menu>
+		<menu>
+			<level>2</level>
+			<parent>tongji</parent>
+			<value>alreadySend</value>          		<!--   二级菜单  已发布的评论 -->
 			<url>/article/jixiao</url>
 		</menu>
+		<menu>
+			<level>2</level>
+			<parent>tongji</parent>
+			<value>zongliang</value>          			<!--   二级菜单  总量 -->
+			<url>/tongji/zongliang</url>
+		</menu>
+		<menu>
+			<level>2</level>
+			<parent>tongji</parent>
+			<value>persent</value>          			<!--   二级菜单  占比统计 -->
+			<url>/tongji/persent</url>
+		</menu>
+		<!-- 统计 end -->
 		
+		
+		<!-- 管理员管理 begin -->
+		<menu>
+			<level>1</level>
+			<parent>adminUserManage</parent>
+			<value>adminUserManage</value>         		 <!--   一级菜单  管理员管理 -->
+			<url>none</url>
+		</menu>
+		<menu>
+			<level>2</level>
+			<parent>adminUserManage</parent>
+			<value>adminUserList</value>           		 <!--   二级菜单  用户管理 -->
+			<url>/user/userList</url>
+		</menu>
+		<!-- 管理员管理 end -->
+
 	</menus>
 </contents>
