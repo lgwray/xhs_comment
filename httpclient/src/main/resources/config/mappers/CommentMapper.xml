@@ -139,7 +139,7 @@
 			sh_comment_statistic 
 		where 
 			statistic_type='1' 
-		and date_format(insert_date,'%Y-%c-%d') = str_to_date('2015-10-08','%Y-%c-%d') 
+		and date_format(insert_date,'%Y-%c-%d') = str_to_date(#{date},'%Y-%c-%d')
 		order by insert_date desc 
 		limit 1;
 	</select>
