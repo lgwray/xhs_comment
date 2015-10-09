@@ -63,6 +63,7 @@ public class JnlServiceImpl {
 	 * @return
 	 */
 	public int selectCommentJnlCount(Map map) {
-		return jnlMapper.selectCommentJnlCount(map);
+		int count = jnlMapper.selectCommentJnlCount(map);
+		return count;
 	}
 }

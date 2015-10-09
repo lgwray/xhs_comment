@@ -210,4 +210,13 @@
 			and date_format(publish_date,'%Y-%c-%d') = str_to_date(#{date},'%Y-%c-%d');
 	</select>
 	
+	<select id="getCommentNumByUserId" resultType="java.util.HashMap">
+		select count(*) sum 
+		from sh_jnl_article_comment a 
+		where a.comment_way=#{comment_way}
+		and a.user_id=#{userId} 
+		and date_format(a.adddate,'%Y-%m-%d')=#{date}
+		and a.send_flag='2'
+	</select>
+	
 </mapper>

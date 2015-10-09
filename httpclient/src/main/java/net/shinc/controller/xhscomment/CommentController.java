@@ -14,6 +14,7 @@ import net.shinc.service.common.AdminUserService;
 import net.shinc.service.common.impl.JnlServiceImpl;
 import net.shinc.service.impl.CommentServiceImpl;
 import net.shinc.service.xhscomment.BaseCommentService;
+import net.shinc.service.xhscomment.CountService;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
@@ -51,6 +52,9 @@ public class CommentController extends AbstractBaseController {
 	@Autowired
 	private BaseCommentService baseCommentService;
 
+	@Autowired
+	private CountService countService;
+	
 	/**
 	 * 首页
 	 * @return
@@ -122,7 +126,7 @@ public class CommentController extends AbstractBaseController {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "/selectCommentJnl")
 	@ResponseBody
-	public IRestMessage selectCommentJnl(@RequestParam(value="userId",required=false) String userId, 
+	public IRestMessage selectCommentJnl(@RequestParam(value="userId",required=false,defaultValue="0") String userId, 
 			@RequestParam(value="addDate",required=true) String addDate,
 			@RequestParam(value="articleid",required=false) String articleid,
 			@RequestParam(value="content",required=false) String content,
@@ -145,16 +149,23 @@ public class CommentController extends AbstractBaseController {
 		logger.info(map.toString());
 		
 		List list = jnlServiceImpl.selectCommentJnl(map,pb);
-		int count = jnlServiceImpl.selectCommentJnlCount(map);
+		int sum = jnlServiceImpl.selectCommentJnlCount(map);
+		Integer autoSum = countService.getCommentNumByUserId(addDate, userId, "2");
+		Integer handSum = countService.getCommentNumByUserId(addDate, userId, "1");
+		
 		Map resultMap = new HashMap();
 		resultMap.put("list", list);
-		resultMap.put("count", count);
+		resultMap.put("count", sum);
+		resultMap.put("autoSum", autoSum);
+		resultMap.put("handSum", handSum);
 		logger.info("绩效列表==>" + list.toString());
+		
 		msg.setCode(ErrorMessage.SUCCESS.getCode());
 		msg.setResult(resultMap); 
 		msg.setDetail(String.valueOf(list.size()));
 		PageList pagelist = (PageList)list;
 		msg.setPageInfo(pagelist.getPaginator());
+		
 		return msg;
 	}
 	

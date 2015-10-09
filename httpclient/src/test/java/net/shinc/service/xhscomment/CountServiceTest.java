@@ -29,4 +29,13 @@ public class CountServiceTest {
 		Helper.iteratorMap(articlesNumByDate);
 	}
 	
+	@Test
+	public void getCommentNumByUserId() {
+		String date = "2015-10-09";
+		String userId = "1";
+		String comment_way = "2";
+		Integer integer = service.getCommentNumByUserId(date, userId, comment_way);
+		System.out.println(integer);
+	}
+
 }

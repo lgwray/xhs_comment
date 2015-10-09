@@ -2,7 +2,6 @@ package net.shinc.service.xhscomment.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -167,6 +166,18 @@ public class CountServiceImpl implements CountService {
 			return map;
 		}
 		return null;
+	}
+
+	@Override
+	public Integer getCommentNumByUserId(String date, String userId, String comment_way) {
+		Map map = new HashMap();
+		map.put("userId", userId);
+		map.put("date", date);
+		map.put("comment_way", comment_way);
+		Map commentNumByUserId = cmMapper.getCommentNumByUserId(map);
+		Long numstr = (Long)commentNumByUserId.get("sum");
+		int value = numstr.intValue();
+		return value;
 	}
 
 }

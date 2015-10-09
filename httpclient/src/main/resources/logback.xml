@@ -76,7 +76,11 @@
 		<appender-ref ref="STDOUT" />
 	</logger>
 	
-	<logger name="net.shinc.orm.mybatis.mappers.xhscomment.NickMapper" level="debug" additivity="false">
+	<logger name="net.shinc.orm.mybatis.mappers.comment.CommentMapper" level="debug" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
+	
+	<logger name="net.shinc.orm.mybatis.mappers.common.JnlMapper" level="debug" additivity="false">
 		<appender-ref ref="STDOUT" />
 	</logger>
 	

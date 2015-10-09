@@ -53,4 +53,13 @@ public interface CountService {
 	 * @return
 	 */
 	public Map getXhsCommentSumByCategory(String date, String categoryid);
+	
+	/**
+	 * 统计某用户某日期自动或手动评论数量
+	 * @param date
+	 * @param userId
+	 * @param comment_way 0:系统自动评论，1:人工手动评论，2:人工触发系统自动评论',
+	 * @return
+	 */
+	public Integer getCommentNumByUserId(String date,String userId,String comment_way);
 }

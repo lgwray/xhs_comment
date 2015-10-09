@@ -78,5 +78,6 @@
 			<if test="content != null and content != ''">
 				and j.content like '%${content}%'
 			</if>
+			and j.send_flag='2'
 	</select>
 </mapper>

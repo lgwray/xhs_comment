@@ -448,7 +448,7 @@ public class BaseCommentController extends AbstractBaseController {
 				
 				String md5Encrypted = MD5Utils.getMd5Encrypted(articleId+comment);
 				jnlComment.setMd5(md5Encrypted);
-				
+				jnlComment.setCommentWay("1");
 				list.add(jnlComment);
 			}
 			Map map = jnlCommentService.putComment(list);

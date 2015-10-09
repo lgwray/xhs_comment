@@ -73,5 +73,12 @@ public interface CommentMapper {
 	 * @return
 	 */
 	public Map getXhsCommentSumByCategory(Map map);
+	
+	/**
+	 * 统计某用户某日期自动或手动评论数量
+	 * @param map
+	 * @return
+	 */
+	public Map getCommentNumByUserId(Map map);
 
 }
