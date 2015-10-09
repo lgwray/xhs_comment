@@ -31,6 +31,7 @@
 				WHEN 2 THEN '发送成功'
 				WHEN 3 THEN '发送失败'
 				WHEN 4 THEN '状态未明'
+				WHEN 5 THEN '测试不发送'
 				ELSE '其他' END send_flag 
 		from 
 			sh_jnl_article_comment j,

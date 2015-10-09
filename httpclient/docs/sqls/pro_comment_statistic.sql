@@ -12,7 +12,9 @@ declare xhs_cur_con_count int(11);
 declare percent decimal(12,4);
 declare auto_count int(11);
 declare article_count int(11);
-declare xhs_count int(11);
+declare xhs_now_sum int(11);
+declare xhs_yesterday_sum int(11);
+declare xhs_today_sum int(11);
 
 -- 删除当天历史数据
 -- delete from sh_comment_statistic where insert_date > concat(date_format(now(), '%Y-%m-%d'), ' 00:00:00') and insert_date < now();
@@ -48,12 +50,19 @@ SELECT count(*) into auto_count FROM sh_jnl_article_comment where send_flag='2' 
 -- 当天抓取的文章数
 SELECT count(*) into article_count FROM spider_news.sh_article where publish_date > concat(date_format(now(), '%Y-%m-%d'), ' 00:00:00');
 
--- 截至到当前时间新华社的总评论数
-select sum(comment_total) into xhs_count from sh_article;
+-- 截止到当前时间新华社的总评论数
+select sum(comment_total) into xhs_now_sum from sh_article;
 
-set percent := comment_count / xhs_com_count;
-insert into sh_comment_statistic(statistic_type, divisor, dividend, percent, insert_date, auto_num, article_num, xhs_sum) values(1, comment_count, xhs_com_count, percent, now(), auto_count, article_count, xhs_count);
+-- 截止到昨天新华社的总评论数
+select cast(xhs_sum as SIGNED INTEGER) into xhs_yesterday_sum from sh_comment_statistic where statistic_type='1' and insert_date < concat(date_format(now(), '%Y-%m-%d'), ' 00:00:00') order by insert_date desc limit 1;
+
+set xhs_today_sum := xhs_now_sum - xhs_yesterday_sum;
+set percent := comment_count / xhs_today_sum;
+-- 插入总数
+insert into sh_comment_statistic(statistic_type, divisor, dividend, percent, insert_date, auto_num, article_num, xhs_sum) values(1, comment_count, xhs_today_sum, percent, now(), auto_count, article_count, xhs_now_sum);
+
 set percent := cur_content_count / xhs_cur_con_count;
+-- 插入要闻
 insert into sh_comment_statistic(statistic_type, divisor, dividend, percent, insert_date, auto_num, article_num) values(2, cur_content_count, xhs_cur_con_count, percent, now(), auto_count, article_count);
 
 end$
