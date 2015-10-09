@@ -76,6 +76,10 @@
 		<appender-ref ref="STDOUT" />
 	</logger>
 	
+	<logger name="net.shinc.orm.mybatis.mappers.xhscomment.NickMapper" level="debug" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
+	
 	<logger name="org.apache.http" level="info" additivity="false">
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="FILE" />
