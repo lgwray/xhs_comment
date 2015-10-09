@@ -131,6 +131,10 @@ public class CommentController extends AbstractBaseController {
 			) {
 		
 		IRestMessage msg = getRestMessage();
+		if(ErrorMessage.NEED_LOGIN.getCode().equals(msg.getCode())) {
+			return msg;
+		}
+		
 		PageBounds pb = new PageBounds(page,num);
 		
 		Map map = new HashMap();

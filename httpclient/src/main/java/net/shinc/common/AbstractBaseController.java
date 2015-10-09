@@ -52,6 +52,8 @@ public abstract class AbstractBaseController implements ApplicationContextAware 
 			map.put("menuMap", currentUser.getMenuMap());
 			msg.setUserInfo(map);
 			msg.setDate(DateUtils.dateToString(new Date(), pattern));
+		} else {
+			msg.setCode(ErrorMessage.NEED_LOGIN.getCode());
 		}
 		return msg;
 	}
