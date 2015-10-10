@@ -62,4 +62,18 @@ public interface CountService {
 	 * @return
 	 */
 	public Integer getCommentNumByUserId(String date,String userId,String comment_way);
+	
+	/**
+	 * 统计某天各小时段内抓取的文章数
+	 * @param date
+	 * @return
+	 */
+	public List getArticleSumByHour(String date);
+	
+	/**
+	 * 统计指定天数内的各小时段抓取的文章数
+	 * @param days
+	 * @return
+	 */
+	public List<Map> getSumByDays(Integer days);
 }

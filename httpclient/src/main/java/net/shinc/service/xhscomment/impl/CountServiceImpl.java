@@ -180,4 +180,45 @@ public class CountServiceImpl implements CountService {
 		return value;
 	}
 
+	@Override
+	public List getArticleSumByHour(String date) {
+		List list = cmMapper.getArticleSumByHour(date);
+		return list;
+	}
+
+	@Override
+	public List<Map> getSumByDays(Integer days) {
+		List<Map> res = new ArrayList<Map>();
+		String pattern = "yyyy-MM-dd";
+		List<String> list = DateUtils.getBeforeFewsDate(days, pattern);
+		for (String date : list) {
+			List detail = getArticleSumByHour(date);
+			List<Map> temp = new ArrayList<Map>();
+			for(int i=0;i<24;i++) {
+				boolean flag = false;
+				Map map = new HashMap();
+				map.put("hour", i+1);
+				
+				for (Object obj : detail) {
+					Map m = (Map)obj;
+					if(m.get("hour").equals(String.valueOf(i))){
+						Long num = (Long)m.get("num");
+						map.put("num", num);
+						flag=true;
+					}
+				}
+				if(!flag) {
+					map.put("num", 0);
+				}
+				temp.add(map);
+			}
+			
+			Map sub = new HashMap();
+			sub.put("date", date);
+			sub.put("detail", temp);
+			res.add(sub);
+		}
+		return res;
+	}
+
 }

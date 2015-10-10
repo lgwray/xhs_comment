@@ -80,5 +80,7 @@ public interface CommentMapper {
 	 * @return
 	 */
 	public Map getCommentNumByUserId(Map map);
+	
+	public List getArticleSumByHour(String date);
 
 }

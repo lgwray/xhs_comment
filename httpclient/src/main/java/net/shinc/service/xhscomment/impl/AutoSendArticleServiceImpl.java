@@ -35,19 +35,23 @@ public class AutoSendArticleServiceImpl implements AutoSendArticleService {
 	public Integer addAutoSendArticle(AutoSendArticle record,Integer days) {
 		try {
 			if (null != record) {
-				Date beginDate = new Date();
-				record.setBegindate(beginDate);
-				
-				Date enddate = DateUtils.getAfterDays(Calendar.getInstance(), days);
-				record.setEnddate(enddate);
-				
 				String articleId = record.getArticleId();
 				String matchNewsId = record.getMatchNewsId();
 				Boolean b = hasAutoSendArticle(Integer.parseInt(articleId),Integer.parseInt(matchNewsId));
 				Integer num = 0;
 				if(b){
+					if(record.getEnabled().equals("1")) {
+						Date beginDate = new Date();
+						record.setBegindate(beginDate);
+						Date enddate = DateUtils.getAfterDays(Calendar.getInstance(), days);
+						record.setEnddate(enddate);
+					}
 					num = autoMapper.updateByPrimaryKeySelective(record);
 				} else {
+					Date beginDate = new Date();
+					record.setBegindate(beginDate);
+					Date enddate = DateUtils.getAfterDays(Calendar.getInstance(), days);
+					record.setEnddate(enddate);
 					num = autoMapper.insertSelective(record);
 				}
 				return num;

@@ -46,4 +46,15 @@ public class CountControllerTest {
     	}
     }
     
+    @Test
+    @WithMockUser(username="admin",password="admin")
+    public void getSumByDays(){
+    	try {
+    		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/count/getSumByDays");
+    		mockMvc.perform(reqbuild).andDo(handler);
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    }
+    
 }

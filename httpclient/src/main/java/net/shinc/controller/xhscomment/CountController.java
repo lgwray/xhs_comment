@@ -56,4 +56,22 @@ public class CountController extends AbstractBaseController {
 		return msg;
 	}
 	
+	@RequestMapping(value = "/getSumByDays")
+	@ResponseBody
+	public IRestMessage getSumByDays() {
+		IRestMessage msg = getRestMessageWithoutUser();
+		try {
+			List<Map> list = countService.getSumByDays(30);
+			if(!CollectionUtils.isEmpty(list)) {
+				msg.setCode(ErrorMessage.SUCCESS.getCode());
+				msg.setResult(list);
+			} else {
+				msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());
+			}
+		} catch (Exception e) {
+			logger.error(ExceptionUtils.getStackTrace(e));
+		}
+		return msg;
+	}
+	
 }

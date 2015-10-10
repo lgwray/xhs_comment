@@ -13,6 +13,18 @@
 		<result column="auto_sum" property="autoNum" jdbcType="VARCHAR" />
 		<result column="shinc_sum" property="shincNum" jdbcType="VARCHAR" />
 	</resultMap>
+	
+	<select id="getArticleSumByHour" resultType="java.util.Map">
+		select 
+			date_format(publish_date,'%k') hour,
+		    count(*) num 
+		from sh_article
+		where
+			date_format(publish_date, '%Y-%m-%d') = #{date}
+		group by hour 
+		order by hour asc;
+	</select>
+	
 	<select id="selectNeuterComment" resultMap="selectNeuterCommentMap" parameterType="java.lang.Integer">
 		SELECT 
 			ID,
