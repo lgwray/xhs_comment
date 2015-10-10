@@ -95,6 +95,12 @@
 			<value>persent</value>          			<!--   二级菜单  占比统计 -->
 			<url>/tongji/persent</url>
 		</menu>
+		<menu>
+			<level>2</level>
+			<parent>tongji</parent>
+			<value>commentReport</value>          			<!--   二级菜单  每日绩效 -->
+			<url>/tongji/report</url>
+		</menu>
 		<!-- 统计 end -->
 		
 		

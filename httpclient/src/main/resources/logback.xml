@@ -76,14 +76,6 @@
 		<appender-ref ref="STDOUT" />
 	</logger>
 	
-	<logger name="net.shinc.orm.mybatis.mappers.comment.CommentMapper" level="debug" additivity="false">
-		<appender-ref ref="STDOUT" />
-	</logger>
-	
-	<logger name="net.shinc.orm.mybatis.mappers.common.JnlMapper" level="debug" additivity="false">
-		<appender-ref ref="STDOUT" />
-	</logger>
-	
 	<logger name="org.apache.http" level="info" additivity="false">
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="FILE" />

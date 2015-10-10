@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.shinc.orm.mybatis.mappers.xhscomment.CommentReportMapper" >
+  <resultMap id="BaseResultMap" type="CommentReport" >
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="sh_admin_user_id" property="adminUserId" jdbcType="INTEGER" />
+    <result column="total" property="total" jdbcType="INTEGER" />
+    <result column="auto_sum" property="autoSum" jdbcType="INTEGER" />
+    <result column="hand_sum" property="handSum" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <select id="getReportByDate" resultType="java.util.Map">
+  	select 
+  		b.nickname,a.auto_sum autoSum,a.hand_sum handSum,a.total
+  	from
+  		sh_comment_report a
+	inner join
+		sh_admin_user b
+	on
+		a.sh_admin_user_id = b.id
+	where
+		date_format(a.create_time,'%Y-%m-%d')=str_to_date(#{date},'%Y-%c-%d')
+	order by a.total desc,b.nickname asc;
+  </select>
+  
+  <delete id="deleteReportByDate">
+  	delete from sh_comment_report where date_format(create_time,'%Y-%c-%d') = str_to_date(#{date},'%Y-%c-%d')
+  </delete>
+  
+  <insert id="insert" parameterType="CommentReport" >
+    insert into sh_comment_report (create_time, sh_admin_user_id, total, 
+      auto_sum, hand_sum)
+    values (#{createTime,jdbcType=TIMESTAMP}, #{adminUserId,jdbcType=INTEGER}, #{total,jdbcType=INTEGER}, 
+      #{autoSum,jdbcType=INTEGER}, #{handSum,jdbcType=INTEGER})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="CommentReport" >
+    insert into sh_comment_report
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="adminUserId != null" >
+        sh_admin_user_id,
+      </if>
+      <if test="total != null" >
+        total,
+      </if>
+      <if test="autoSum != null" >
+        auto_sum,
+      </if>
+      <if test="handSum != null" >
+        hand_sum,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adminUserId != null" >
+        #{adminUserId,jdbcType=INTEGER},
+      </if>
+      <if test="total != null" >
+        #{total,jdbcType=INTEGER},
+      </if>
+      <if test="autoSum != null" >
+        #{autoSum,jdbcType=INTEGER},
+      </if>
+      <if test="handSum != null" >
+        #{handSum,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  
+</mapper>

@@ -5,6 +5,7 @@ import net.shinc.quartz.task.xhscomment.FetchArticleListJob;
 import net.shinc.quartz.task.xhscomment.FetchArticleListJob.FetchArticleListThread;
 import net.shinc.quartz.task.xhscomment.FetchCommentListJob;
 import net.shinc.quartz.task.xhscomment.FetchCommentListJob.FetchCommentListThread;
+import net.shinc.quartz.task.xhscomment.GenerateCommentReportJob;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -28,6 +29,7 @@ public class QuartzConfig  {
 		fb.setTriggers(fetchArticleDetailTrigger().getObject()
 				,fetchArticleListJobTrigger().getObject()
 				,fetchCommentListJobTrigger().getObject()
+				,generateCommentReportTrigger().getObject()
 				);
 		
 		return fb;
@@ -120,4 +122,31 @@ public class QuartzConfig  {
 		return fb;
 	}
 	/** FetchCommentListJob end */
+	
+	
+	/** generateCommentReportJob begin */
+	@Bean
+	public GenerateCommentReportJob generateCommentReportJob() {
+		return new GenerateCommentReportJob();
+	}
+	
+	@Bean
+	public MethodInvokingJobDetailFactoryBean generateCommentReportJobDetail() {
+		MethodInvokingJobDetailFactoryBean fb = new MethodInvokingJobDetailFactoryBean();
+		fb.setTargetBeanName("generateCommentReportJob");
+		fb.setTargetMethod("work");
+		fb.setConcurrent(false);
+		return fb;
+	}
+	
+	@Bean
+	public SimpleTriggerFactoryBean generateCommentReportTrigger() {
+		SimpleTriggerFactoryBean fb = new SimpleTriggerFactoryBean();
+		fb.setGroup("generateCommentReportJobGroup");
+		fb.setName("generateCommentReportTrigger");
+		fb.setJobDetail(generateCommentReportJobDetail().getObject());
+		fb.setRepeatInterval(1000 * env.getProperty("GenerateCommentReportTask.intevalSeconds", Integer.class));
+		return fb;
+	}
+	/** generateCommentReportJob end */
 }
