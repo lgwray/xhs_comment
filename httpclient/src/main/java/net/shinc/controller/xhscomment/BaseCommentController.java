@@ -1,6 +1,7 @@
 package net.shinc.controller.xhscomment;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -31,6 +32,7 @@ import net.shinc.service.impl.CommentServiceImpl;
 import net.shinc.service.xhscomment.BaseCommentService;
 import net.shinc.service.xhscomment.JnlCommentService;
 import net.shinc.service.xhscomment.NickService;
+import net.shinc.service.xhscomment.SinaWeiboService;
 import net.shinc.utils.Helper;
 import net.shinc.utils.MD5Utils;
 
@@ -81,6 +83,10 @@ public class BaseCommentController extends AbstractBaseController {
 	
 	@Autowired
 	private JnlCommentService jnlCommentService;
+	
+	@Autowired
+	private SinaWeiboService sinaWbService;
+	
 	private static Logger logger = LoggerFactory.getLogger(BaseCommentController.class);
 
 	private int perGroup = 5;
@@ -241,9 +247,7 @@ public class BaseCommentController extends AbstractBaseController {
 		}
 		Date date = new Date();
 		try {
-			
 			for(Iterator<Map> it = commentList.iterator();it.hasNext();) {
-				
 				baseCommentService.addComment(Integer.parseInt(categoryId), (String)it.next().get("content"), date);
 			}
 			msg.setCode(ErrorMessage.SUCCESS.getCode());
@@ -288,60 +292,43 @@ public class BaseCommentController extends AbstractBaseController {
 		}
 	 * </P
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@ResponseBody
 	@RequestMapping(value = "/queryRemoteComment")
-	public IRestMessage queryRemoteComment(@RequestParam("queryType") String queryType,
-			@RequestParam("type") String type,
-			@RequestParam("content") String content,
-			@RequestParam(value="page",defaultValue="1") String page,
-			@RequestParam(value = "num",defaultValue="10") String num) {
-		
+	public IRestMessage queryRemoteComment(@RequestParam("queryType") String queryType, @RequestParam("type") String type, @RequestParam("content") String content,
+			@RequestParam(value = "page", defaultValue = "1") String page, @RequestParam(value = "num", defaultValue = "50") String num) {
 		IRestMessage msg = getRestMessage();
-		
-		List list = new ArrayList();
-		if("1".equals(queryType)) {
-			try {
-				List re = commentService.getCommentsByCategory(content,Integer.parseInt(num),Integer.parseInt(page));
-				if(re != null){
-					list.addAll(re);
-					msg.setCode(ErrorMessage.SUCCESS.getCode());
-				} else {
-					msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());
-				}
-			} catch(Exception e) {
-				logger.error(ExceptionUtils.getStackTrace(e));
+		try {
+			List list = new ArrayList();
+			List list2 = new ArrayList();
+			if ("1".equals(queryType)) {
+				list2 = commentService.getCommentsByCategory(content, Integer.parseInt(num), Integer.parseInt(page));
+			} else if ("2".equals(queryType)) {// zhihu
+				list2 = commentService.getCommentsByTitle(type, content, Integer.parseInt(num), Integer.parseInt(page));
+			} else if ("3".equals(queryType)) {// weibo 根据mid查询
+				list2 = weiboService.getWeiboCommentsList(type, content, page, num);
+			} else if ("4".equals(queryType)) {// weibo 根据xhs articleId查询sina_weibo表
+				list2 = sinaWbService.getSinaWbCommentByArticleId(content, page, num);
+				msg.setPageInfo(((PageList)list2).getPaginator());
+			} else {
+				msg.setCode(ErrorMessage.ERROR_PARAM_CHECK.getCode());
+				return msg;
 			}
 			
-		} else if("2".equals(queryType)) {//zhihu
-			try {
-				List re = commentService.getCommentsByTitle(type,content,Integer.parseInt(num),Integer.parseInt(page));
-				if(re != null){
-					list.addAll(re);
-					msg.setCode(ErrorMessage.SUCCESS.getCode());
-				} else {
-					msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());
-				}
-			} catch(Exception e) {
-				logger.error(ExceptionUtils.getStackTrace(e));
+			if (!CollectionUtils.isEmpty(list2)) {
+				list.addAll(list2);
 			}
-		} else if("3".equals(queryType)){//weibo
-			try {
-				List list2 = weiboService.getWeiboCommentsList(type, content, page, num);
-				if(!CollectionUtils.isEmpty(list2)){
-					list.addAll(list2);
-					msg.setCode(ErrorMessage.SUCCESS.getCode());
-				} else {
-					msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());
-				}
-			} catch(Exception e) {
-				logger.error(ExceptionUtils.getStackTrace(e));
+			if (!CollectionUtils.isEmpty(list)) {
+				msg.setResult(list);
+				msg.setDetail(String.valueOf(list.size()));
+				msg.setCode(ErrorMessage.SUCCESS.getCode());
+			} else {
+				msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());
 			}
-		} else {
-			msg.setCode(ErrorMessage.ERROR_PARAM_CHECK.getCode());
+		} catch (Exception e) {
+			logger.error(ExceptionUtils.getStackTrace(e));
 		}
-		msg.setResult(list);
-		return msg ;
-		
+		return msg;
 	}
 
 	/**
