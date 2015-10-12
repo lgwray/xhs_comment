@@ -1,6 +1,9 @@
 package net.shinc.service.xhscomment;
 
+import java.util.List;
+
 import net.shinc.InfoMgmtApplication;
+import net.shinc.utils.DateUtils;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,9 +27,20 @@ public class CommentReportServiceTest {
 	}
 	
 	@Test
+//	@Transactional
+	public void generateReportByDate() {
+		List<String> date = DateUtils.getBeforeFewsDate(30, "yyyy-MM-dd");
+		for (String string : date) {
+			service.generateReportByDate(string);
+		}
+	}
+	
+	@Test
 	public void deleteReportByDate() {
 		Integer num = service.deleteReportByDate("2015-10-10");
 		System.out.println(num);
 	}
+	
+	
 	
 }

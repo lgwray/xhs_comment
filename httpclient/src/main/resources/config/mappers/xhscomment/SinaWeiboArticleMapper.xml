@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.shinc.orm.mybatis.mappers.xhscomment.SinaWeiboArticleMapper" >
+  <resultMap id="BaseResultMap" type="SinaWeiboArticleKey" >
+    <id column="mid" property="mid" jdbcType="BIGINT" />
+    <id column="article_id" property="articleId" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="SinaWeiboArticleKey" >
+    delete from sina_weibo_article
+    where mid = #{mid,jdbcType=BIGINT}
+      and article_id = #{articleId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="SinaWeiboArticleKey" >
+    insert into sina_weibo_article (mid, article_id)
+    values (#{mid,jdbcType=BIGINT}, #{articleId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="SinaWeiboArticleKey" >
+    insert into sina_weibo_article
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="mid != null" >
+        mid,
+      </if>
+      <if test="articleId != null" >
+        article_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="mid != null" >
+        #{mid,jdbcType=BIGINT},
+      </if>
+      <if test="articleId != null" >
+        #{articleId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

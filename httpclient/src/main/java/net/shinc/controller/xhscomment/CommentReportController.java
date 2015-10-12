@@ -45,11 +45,16 @@ public class CommentReportController extends AbstractBaseController {
 		try {
 			List list = crService.getReportByDate(date);
 			if(!CollectionUtils.isEmpty(list)) {
-				Map today = baseCommentService.getTodayCommentsNums();
+				Map today = baseCommentService.getTotalCommentsNumsByDate(date);
 				
 				Map map = new HashMap();
 				map.put("list", list);
-				map.put("total", today.get("sum"));
+				
+				if(!CollectionUtils.isEmpty(today)) {
+					map.put("total", today.get("sum"));
+				}else{
+					map.put("total", "未知");
+				}
 				
 				msg.setCode(ErrorMessage.SUCCESS.getCode());
 				msg.setResult(map);

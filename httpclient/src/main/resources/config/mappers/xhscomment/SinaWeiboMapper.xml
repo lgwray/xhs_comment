@@ -22,12 +22,17 @@
   
   <select id="getSinaWbCommentByArticleId" resultType="java.util.Map">
   	select 
-  		id,content comment,
+  		a.id,a.content comment,
   		(select nickname from nick where flag='1' and id >= (select floor(rand()*(select max(id) as nick_id from nick where flag='1'))) order by id limit 1) nick,
   		'weibo' news_type
-  	from sina_weibo
+  	from 
+		sina_weibo a
+    inner join
+		sina_weibo_article b
+	on
+		b.mid = a.mid
   	where 1 = 1
-  		and article_id = #{articleId}
+  		and b.article_id = #{articleId}
   </select>
   
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >

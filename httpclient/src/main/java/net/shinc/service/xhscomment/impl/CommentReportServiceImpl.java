@@ -1,5 +1,6 @@
 package net.shinc.service.xhscomment.impl;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -44,8 +45,14 @@ public class CommentReportServiceImpl implements CommentReportService {
 	@Override
 	@Transactional
 	public void generateTodayReport() {
-		Integer sum = 0;
 		String today = DateUtils.dateToString(new Date(), "yyyy-MM-dd");
+		generateReportByDate(today);
+	}
+	
+	@Override
+	@Transactional
+	public void generateReportByDate(String today) {
+		Integer sum = 0;
 		deleteReportByDate(today);
 		List<AdminUser> userList = adminService.getAdminUserList(new Company(1));
 		if(!CollectionUtils.isEmpty(userList)){
@@ -61,7 +68,9 @@ public class CommentReportServiceImpl implements CommentReportService {
 				
 				CommentReport cr = new CommentReport();
 				cr.setAdminUserId(userId);
-				cr.setCreateTime(ShincUtil.formatDate(new Date(), pattern));
+				
+//				cr.setCreateTime(ShincUtil.formatDate(new Date(), pattern));
+				cr.setCreateTime(today);
 				cr.setAutoSum(autoSum);
 				cr.setHandSum(handSum);
 				cr.setTotal(total);
@@ -69,7 +78,7 @@ public class CommentReportServiceImpl implements CommentReportService {
 				sum += i;
 			}
 		}
-		logger.info("本次更新报表条数==>"+sum+"条");
+		logger.info("日期:"+today+"\t更新报表条数==>"+sum+"条");
 	}
 
 	@Override

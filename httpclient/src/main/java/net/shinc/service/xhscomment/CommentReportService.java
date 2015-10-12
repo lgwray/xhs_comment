@@ -16,6 +16,7 @@ public interface CommentReportService {
 	 * 生成今天评论报表
 	 */
 	public void generateTodayReport();
+	public void generateReportByDate(String today);
 	
 	public Integer deleteReportByDate(String date);
 	
@@ -25,5 +26,6 @@ public interface CommentReportService {
 	 * @return
 	 */
 	public List<Map> getReportByDate(String date);
+	
 	
 }

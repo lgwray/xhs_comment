@@ -194,6 +194,12 @@ public class BaseCommentServiceImpl implements BaseCommentService {
 		System.out.println(dateToString);
 	}
 
+	@Override
+	public Map getTotalCommentsNumsByDate(String date) {
+		Map map = cmMapper.getLocalCommentsNumsByDate2(date);
+		return map;
+	}
+
 
 	
 }

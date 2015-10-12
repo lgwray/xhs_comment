@@ -1,5 +1,6 @@
 package net.shinc.utils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,6 +32,17 @@ public class DateUtils {
 			logger.error(ExceptionUtils.getStackTrace(e));
 		}
 		return null;
+	}
+	
+	public static Date stringToDate(String date, String pattern) {
+		Date parsedate = null;
+		try {
+			SimpleDateFormat sdf=new SimpleDateFormat(pattern);//小写的mm表示的是分钟  
+			parsedate = sdf.parse(date);
+		} catch (ParseException e) {
+			logger.error(ExceptionUtils.getStackTrace(e));
+		}
+		return parsedate;
 	}
 	
     /** 

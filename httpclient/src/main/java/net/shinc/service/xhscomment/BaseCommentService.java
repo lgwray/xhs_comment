@@ -55,6 +55,7 @@ public interface BaseCommentService {
 	 * @return
 	 */
 	public Map getTodayCommentsNums();
+	public Map getTotalCommentsNumsByDate(String date);
 	
 	/**
 	 * 获得新华社当天的总评论数
