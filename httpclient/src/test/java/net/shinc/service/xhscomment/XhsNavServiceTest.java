@@ -19,6 +19,11 @@ public class XhsNavServiceTest {
 	private XhsNavService service;
 	
 	@Test
+	public void fetchLocalArticleList() {
+		service.fetchLocalArticleList();
+	}
+	
+	@Test
 	@Transactional
 	public void getXhsNavList() {
 		service.getXhsNavList();

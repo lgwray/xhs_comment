@@ -20,5 +20,11 @@ public interface XhsNavService {
 	public List<XhsNav> getXhsNavList();
 	
 	public Integer addXhsNavBatch();
+	
+	/**
+	 * 抓取各地的新闻并存入sh_article表中
+	 * @return
+	 */
+	public Integer fetchLocalArticleList();
 
 }

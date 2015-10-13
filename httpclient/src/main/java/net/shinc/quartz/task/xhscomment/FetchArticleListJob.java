@@ -117,18 +117,22 @@ public class FetchArticleListJob {
 		@Qualifier("sqlSession")
 		private SqlSessionTemplate sqlSession;
 		
+		@SuppressWarnings("unchecked")
 		@Override
 		public void run() {
+			Integer sum = 0;
 			List articleList = newsService.getNewsList(getUserId(), category.getCid(),category.getCtype());
 			if(!CollectionUtils.isEmpty(articleList)) {
 				for(Object o : articleList) {
 					try {
 						Map tmp = (Map)o;
 						tmp.put("category", category.getValue());
+						tmp.put("xhsChannel", category.getRemark());
 						if(StringUtils.isEmpty(tmp.get("releaseDate"))) {
 							tmp.put("releaseDate", new Date());
 						}
-						this.sqlSession.insert("net.shinc.orm.mybatis.mappers.xhscomment.ArticleMapper.insertArticle",o);
+						int num = this.sqlSession.insert("net.shinc.orm.mybatis.mappers.xhscomment.ArticleMapper.insertArticle",tmp);
+						sum += num;
 					} catch(DuplicateKeyException e) {
 						if("0".equals(category.getValue())) {//要闻才去更新category,优先为要闻
 							this.sqlSession.update("net.shinc.orm.mybatis.mappers.xhscomment.ArticleMapper.updateArticleCategory",o);
@@ -138,6 +142,7 @@ public class FetchArticleListJob {
 					}
 				}
 			}
+			logger.info(category.getRemark()+"==>抓取新闻数:"+sum+"条");
 		}
 
 		public String getUserId() {

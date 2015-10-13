@@ -1,15 +1,19 @@
 package net.shinc.service.xhscomment.impl;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import net.shinc.orm.mybatis.bean.xhscomment.XhsNav;
+import net.shinc.orm.mybatis.mappers.xhscomment.ArticleMapper;
 import net.shinc.orm.mybatis.mappers.xhscomment.XhsNavMapper;
+import net.shinc.service.NewsService;
 import net.shinc.service.xhscomment.XhsNavService;
 import net.shinc.utils.Helper;
 import net.shinc.utils.HttpClient;
 import net.shinc.utils.ParamUtils;
+import net.shinc.utils.UnicodeUtils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -19,6 +23,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.jdbc.UncategorizedSQLException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -35,6 +42,12 @@ public class XhsNavServiceImpl implements XhsNavService {
 	
 	@Autowired
 	private XhsNavMapper xhsNavMapper;
+	
+	@Autowired
+	private NewsService newsService;
+	
+	@Autowired
+	private ArticleMapper articleMapper;
 	
 	@Value("${xhs.nav.url}")
 	private String xhsNavUrl;
@@ -93,13 +106,13 @@ public class XhsNavServiceImpl implements XhsNavService {
 								list.addAll(parseNav5);
 							}
 						}
-						logger.info(itemres);
+						logger.info(UnicodeUtils.decodeUnicode(itemres));
 					}
 				}
 			}
 			logger.info(data.toString());
 		}
-		logger.info(res);
+		logger.info(UnicodeUtils.decodeUnicode(res));
 		return list;
 	}
 	
@@ -189,6 +202,42 @@ public class XhsNavServiceImpl implements XhsNavService {
 			}
 		}
 		return sum;
+	}
+
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public Integer fetchLocalArticleList() {
+		Integer sum = 0;
+		List<XhsNav> xhsNavList = getXhsNavList();
+		int channelSum = xhsNavList.size();
+		for (int i = 0; i < channelSum;i++) {//各频道
+			XhsNav xhsNav = xhsNavList.get(i);
+			Integer sub = 0;
+			Integer exist = 0;
+			List articleList = newsService.getNewsList("0", String.valueOf(xhsNav.getId()), xhsNav.getColumntype());
+			if(!CollectionUtils.isEmpty(articleList)) {
+				for (Object object : articleList) {
+					Map map = (Map)object;
+					map.put("xhsChannel", xhsNav.getName());
+					map.put("category", xhsNav.getId());
+					try {
+						Integer num = articleMapper.insertLocalArticle(map);
+						sub += num;
+						sum += num;
+					} catch (DuplicateKeyException e) {
+						exist++;
+					} catch (DataIntegrityViolationException e){
+					} catch (UncategorizedSQLException e) {
+					} catch(Exception e) {
+						logger.info(ExceptionUtils.getStackTrace(e));
+					}
+				}
+				logger.info((i + 1) + "/" + channelSum + "==>当前频道:" + xhsNav.getName() + "==>抓取新闻数:" + sub + "条"+"==>已存在条数:"+exist);
+			}
+		}
+		logger.info("各地共抓取新闻数:"+sum+"条");
+		return null;
 	}
 
 }

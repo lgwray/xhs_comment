@@ -1,6 +1,5 @@
 package net.shinc.config;
 
-import net.shinc.quartz.task.xhscomment.FetchArticleDetailJob;
 import net.shinc.quartz.task.xhscomment.FetchArticleListJob;
 import net.shinc.quartz.task.xhscomment.FetchArticleListJob.FetchArticleListThread;
 import net.shinc.quartz.task.xhscomment.FetchCommentListJob;
@@ -26,40 +25,13 @@ public class QuartzConfig  {
 	public SchedulerFactoryBean startQuartz() {
 		SchedulerFactoryBean fb = new SchedulerFactoryBean();
 		
-		fb.setTriggers(fetchArticleDetailTrigger().getObject()
-				,fetchArticleListJobTrigger().getObject()
+		fb.setTriggers(fetchArticleListJobTrigger().getObject()
 				,fetchCommentListJobTrigger().getObject()
 				,generateCommentReportTrigger().getObject()
 				);
 		
 		return fb;
 	}
-	
-	/** fetchArticleDetailJob begin */
-	@Bean
-	public FetchArticleDetailJob fetchArticleDetailJob() {
-		return new FetchArticleDetailJob();
-	}
-	
-	@Bean
-	public MethodInvokingJobDetailFactoryBean fetchArticleDetailJobDetail() {
-		MethodInvokingJobDetailFactoryBean fb = new MethodInvokingJobDetailFactoryBean();
-		fb.setTargetBeanName("fetchArticleDetailJob");
-		fb.setTargetMethod("work");
-		fb.setConcurrent(false);
-		return fb;
-	}
-	
-	@Bean
-	public SimpleTriggerFactoryBean fetchArticleDetailTrigger() {
-		SimpleTriggerFactoryBean fb = new SimpleTriggerFactoryBean();
-		fb.setGroup("fetchArticleDetailGroup");
-		fb.setName("fetchArticleDetailTrigger");
-		fb.setJobDetail(fetchArticleDetailJobDetail().getObject());
-		fb.setRepeatInterval(1000 * env.getProperty("ArticleDetailTask.intevalSeconds", Integer.class));
-		return fb;
-	}
-	/** fetchArticleDetailJob end */
 	
 	/**  FetchArticleListJob begin */
 	@Bean

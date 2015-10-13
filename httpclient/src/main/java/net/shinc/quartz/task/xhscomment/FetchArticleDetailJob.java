@@ -19,7 +19,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationContext;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -41,9 +40,6 @@ public class FetchArticleDetailJob {
 	
 	@Autowired
 	private CloseableHttpClient httpClient;
-	
-	@Autowired
-	private ApplicationContext context;
 	
 	public void work() {
 		logger.info("begin");
@@ -84,7 +80,7 @@ public class FetchArticleDetailJob {
 								if(i > 0) {
 									index ++;
 								}
-								logger.debug("index:"+index+"\tarticleId:"+tmp.get("id")+"\tcomment:"+numStr+"\t评论数更新成功");
+								logger.info("index:"+index+"\tarticleId:"+tmp.get("id")+"\tcomment:"+numStr+"\t评论数更新成功");
 							}
 						} catch (Exception e) {
 							logger.error(ExceptionUtils.getStackTrace(e));

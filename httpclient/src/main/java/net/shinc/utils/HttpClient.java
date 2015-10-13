@@ -55,11 +55,11 @@ public class HttpClient {
 			HttpResponse res = httpClient.execute(post);
 			Header[] headers = res.getAllHeaders();
 			for(int i = 0; i < headers.length; i++) {
-				logger.info("responseHeaders["+i+"]: "+headers[i]);
+				logger.debug("responseHeaders["+i+"]: "+headers[i]);
 			}
 			
 			String result = EntityUtils.toString(res.getEntity());
-			logger.info("responseBody: " + UnicodeUtils.decodeUnicode(result));
+			logger.debug("responseBody: " + UnicodeUtils.decodeUnicode(result));
 			return result;
 		} catch (Exception e) {
 			logger.info(ExceptionUtils.getStackTrace(e));
@@ -79,11 +79,11 @@ public class HttpClient {
 			HttpResponse res = httpClient.execute(get);
 			Header[] headers = res.getAllHeaders();
 			for(int i = 0; i < headers.length; i++) {
-				logger.info("responseHeaders["+i+"]: "+headers[i]);
+				logger.debug("responseHeaders["+i+"]: "+headers[i]);
 			}
 			
 			String result = EntityUtils.toString(res.getEntity());
-			logger.info("responseBody: " + UnicodeUtils.decodeUnicode(result));
+			logger.debug("responseBody: " + UnicodeUtils.decodeUnicode(result));
 			return result;
 		} catch (Exception e) {
 			logger.info(ExceptionUtils.getStackTrace(e));
