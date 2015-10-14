@@ -53,6 +53,7 @@ public interface CommentMapper {
 	 * @return
 	 */
 	public Map getTodayRemoteNums();
+	public Map getTodayRemoteNums2();
 	
 	/**
 	 * 获取新华社当日指定栏目总评论数

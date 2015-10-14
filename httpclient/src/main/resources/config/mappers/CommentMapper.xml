@@ -180,6 +180,17 @@
 	<select id="getTodayRemoteNums" resultType="java.util.HashMap">
 		select sum(cast(comment_total as unsigned integer) ) sum,curdate() cal from sh_article where publish_date > curdate()
 	</select>
+	<select id="getTodayRemoteNums2" resultType="java.util.HashMap">
+		select 
+			dividend sum,date_format(insert_date,'%Y-%m-%d') cal 
+		from 
+			sh_comment_statistic 
+		where 
+			statistic_type='1' 
+		and date_format(insert_date,'%Y-%c-%d') = str_to_date(now(),'%Y-%c-%d')
+		order by insert_date desc 
+		limit 1;
+	</select>
 	
 	<select id="getXhsCommentSum" resultType="java.util.HashMap">
 		select 

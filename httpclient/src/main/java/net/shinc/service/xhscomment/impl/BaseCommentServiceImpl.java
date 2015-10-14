@@ -177,7 +177,7 @@ public class BaseCommentServiceImpl implements BaseCommentService {
 	
 	@Override
 	public Map getTodayRemoteNums() {
-		return cmMapper.getTodayRemoteNums();
+		return cmMapper.getTodayRemoteNums2();
 	}
 	
 	@Override
