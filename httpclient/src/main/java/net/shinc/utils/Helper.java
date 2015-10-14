@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
@@ -32,6 +33,26 @@ import com.google.gson.JsonSyntaxException;
 public class Helper {
 
 	private static Logger logger = LoggerFactory.getLogger(Helper.class);
+	
+	/**
+	 * Base64解密
+	 * @param key
+	 * @return
+	 * @throws Exception
+	 */
+	public static byte[] decoderBase64(String key) throws Exception {
+	    return Base64.decodeBase64(key);
+	}
+	 
+	/**
+	 * Base64加密
+	 * @param key
+	 * @return
+	 * @throws Exception
+	 */
+	public static String encoderBase64(byte[] key) throws Exception {
+	    return Base64.encodeBase64String(key);
+	}
 	
 	/**
 	 * 获取当前时间戳
