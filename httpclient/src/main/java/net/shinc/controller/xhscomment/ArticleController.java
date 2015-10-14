@@ -139,19 +139,19 @@ public class ArticleController extends AbstractBaseController {
 		try {
 			List list = articleService.getArticleListByDate(publisDate);
 			
-			List countsList = newsService.getLocalArticleCommentsCounts(list);
-			for(Iterator<Article> item = list.iterator(); item.hasNext();){
-				Article article = item.next();
-				article.setCommentsCount("0");
-				String id = (String)article.getId();
-				for(Iterator<Map> countItem = countsList.iterator(); countItem.hasNext();){
-					Map countMap = countItem.next();
-					String articlId = (String)countMap.get("articlId");
-					if(id != null && id.equals(articlId)){
-						article.setCommentsCount(((Long)countMap.get("shincNum")).toString());
-					}
-				}
-			}
+//			List countsList = newsService.getLocalArticleCommentsCounts(list);
+//			for(Iterator<Article> item = list.iterator(); item.hasNext();){
+//				Article article = item.next();
+//				article.setCommentsCount("0");
+//				String id = (String)article.getId();
+//				for(Iterator<Map> countItem = countsList.iterator(); countItem.hasNext();){
+//					Map countMap = countItem.next();
+//					String articlId = (String)countMap.get("articlId");
+//					if(id != null && id.equals(articlId)){
+//						article.setCommentsCount(((Long)countMap.get("shincNum")).toString());
+//					}
+//				}
+//			}
 			
 			if(null != list) {
 				msg.setCode(ErrorMessage.SUCCESS.getCode());

@@ -44,6 +44,7 @@
 		<result column="news_num" property="newsNum" jdbcType="VARCHAR" />
 		<result column="auto_sum" property="autoNum" jdbcType="VARCHAR" />
 		<result column="shinc_sum" property="shincNum" jdbcType="VARCHAR" />
+		<result column="xhs_channel" property="channel" jdbcType="VARCHAR" />
 	</resultMap>
 	<select id="selectArticleListByDate" resultMap="selectArticleListByDateMap" >
 		SELECT 
@@ -54,7 +55,8 @@
 			cmt_num,
 			news_num,
 			auto_sum,
-			shinc_sum
+			shinc_sum,
+			xhs_channel
 		FROM 
 			sh_article 
 		WHERE
