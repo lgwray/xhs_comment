@@ -45,7 +45,7 @@ public class MailController extends AbstractBaseController {
 			String fromAddr = "guoshijie@shinc.net";
 			String pwd = "@WSXvfr4";
 			
-			Address[] toAddr = new Address[0];
+			Address[] toAddr = new Address[1];
 			toAddr[0] = new InternetAddress("guoshijie@shinc.net","郭世杰",charset);
 //			toAddr[1] = new InternetAddress("steve_hi@163.com", "郭世杰2",charset);
 //			toAddr[2] = new InternetAddress("gsj_java@163.com", "郭世杰3",charset);

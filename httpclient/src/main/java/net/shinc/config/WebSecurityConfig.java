@@ -43,6 +43,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/manage/**").permitAll()
 				.antMatchers("/videoPastpaper/**").permitAll()
 				.antMatchers("/article/autoRefreshArticleList").permitAll()
+				
+				.antMatchers("/mail/sendEMail").permitAll()
 //				.anyRequest().authenticated()
 				.anyRequest().permitAll()
 				.and()

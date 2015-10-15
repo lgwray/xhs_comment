@@ -35,7 +35,6 @@ public class MailControllerTest {
     } 
     
     @Test
-    @WithMockUser(username="admin",password="admin")
     public void sendEMail(){
     	try {
     		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/mail/sendEMail");
