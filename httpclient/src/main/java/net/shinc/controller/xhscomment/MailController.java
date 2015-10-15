@@ -45,7 +45,7 @@ public class MailController extends AbstractBaseController {
 	public IRestMessage sendEMail() {
 		IRestMessage msg = getRestMessageWithoutUser();
 		try {
-			String fromAddr = "gsj_java@163.com";
+			String fromAddr = "guoshijie@shinc.net";
 			String pwd = "@WSXvfr4";
 			
 			Address[] toAddr = new Address[2];

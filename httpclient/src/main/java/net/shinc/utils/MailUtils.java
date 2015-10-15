@@ -86,8 +86,12 @@ public class MailUtils {
 		 */
 		// 表示SMTP发送邮件，需要进行身份验证
 		props.put("mail.smtp.auth", "true");
-//		props.put("mail.smtp.host", "smtp.163.com");
-		props.put("mail.smtp.host", "smtp.exmail.qq.com");
+		
+		if(fromAddr.endsWith("163.com")){
+			props.put("mail.smtp.host", "smtp.163.com");
+		} else {
+			props.put("mail.smtp.host", "smtp.exmail.qq.com");
+		}
 		
 		// 发件人的账号
 		props.put("mail.user", fromAddr);
