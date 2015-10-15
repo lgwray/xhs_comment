@@ -1,7 +1,9 @@
 package net.shinc.utils;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
+import javax.mail.Address;
 import javax.mail.Authenticator;
 import javax.mail.Message.RecipientType;
 import javax.mail.MessagingException;
@@ -23,13 +25,21 @@ import org.apache.commons.mail.SimpleEmail;
 public class MailUtils {
 
 	public static void main(String[] args) throws MessagingException {
-		String fromAddr = "guoshijie@shinc.net";
-		String pwd = "@WSXvfr4";
-		String toAddr = "guoshijie@shinc.net";
-		String bccAddr = "guoshijie_hi@yeah.net";
-		String title = "java测试邮件";
-		String content = "<a href='http://123.56.157.137:3003/'>新华社评论后台</a>";
-		sendMail(fromAddr, pwd, toAddr, null, bccAddr, title, content);
+		try {
+			String fromAddr = "guoshijie@shinc.net";
+			String pwd = "@WSXvfr4";
+			
+			Address[] toAddr = new Address[6];
+			toAddr[0] = new InternetAddress("guoshijie@shinc.net", "郭世杰");
+			
+			String bccAddr = "guoshijie_hi@yeah.net";
+			String title = "java测试邮件";
+			String content = "<a href='http://123.56.157.137:3003/'>新华社评论后台</a>";
+			sendMail(fromAddr, pwd, toAddr, null, bccAddr, title, content);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	/**
@@ -67,7 +77,7 @@ public class MailUtils {
 	 * @param content 	邮件内容
 	 * @throws MessagingException
 	 */
-	public static void sendMail(String fromAddr,String pwd, String toAddr, String ccAddr, String bccAddr, String title, String content) throws MessagingException {
+	public static void sendMail(String fromAddr,String pwd, Address[] toAddr, String ccAddr, String bccAddr, String title, String content) throws MessagingException {
 		// 配置发送邮件的环境属性
 		final Properties props = new Properties();
 		/*
@@ -105,8 +115,7 @@ public class MailUtils {
 		message.setFrom(form);
 
 		// 设置收件人
-		InternetAddress to = new InternetAddress(toAddr);
-		message.setRecipient(RecipientType.TO, to);
+		message.setRecipients(RecipientType.TO, toAddr);
 
 		// 设置抄送
 		if(!StringUtils.isEmpty(ccAddr)) {

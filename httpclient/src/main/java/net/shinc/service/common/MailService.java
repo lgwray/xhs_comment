@@ -1,5 +1,6 @@
 package net.shinc.service.common;
 
+import javax.mail.Address;
 import javax.mail.MessagingException;
 
 /**
@@ -21,5 +22,10 @@ public interface MailService {
 	 * @param content 	邮件内容
 	 * @throws MessagingException
 	 */
-	public void sendMail(String fromAddr,String pwd, String toAddr, String ccAddr, String bccAddr, String title, String content);
+	public void sendMail(String fromAddr,String pwd, Address[] toAddr, String ccAddr, String bccAddr, String title, String content);
+	
+	public String getMailTitle();
+	
+	public String getMailContent();
+
 }
