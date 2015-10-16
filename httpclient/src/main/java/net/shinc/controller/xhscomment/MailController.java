@@ -50,7 +50,7 @@ public class MailController extends AbstractBaseController {
 			
 			Address[] toAddr = new Address[2];
 			toAddr[0] = new InternetAddress("guoshijie@shinc.net","郭世杰",charset);
-			toAddr[1] = new InternetAddress("steve_hi@163.com", "郭世杰2",charset);
+			toAddr[1] = new InternetAddress("dingpeng@shinc.net", "丁鹏",charset);
 //			toAddr[2] = new InternetAddress("gsj_java@163.com", "郭世杰3",charset);
 			
 			String bccAddr = "steve_hi@163.com";
