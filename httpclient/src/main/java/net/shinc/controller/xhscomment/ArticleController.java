@@ -7,7 +7,6 @@ import java.util.Map;
 import net.shinc.common.AbstractBaseController;
 import net.shinc.common.ErrorMessage;
 import net.shinc.common.IRestMessage;
-import net.shinc.orm.mybatis.bean.common.Article;
 import net.shinc.service.NewsService;
 import net.shinc.service.impl.ArticleServiceImpl;
 import net.shinc.utils.Helper;
@@ -66,6 +65,11 @@ public class ArticleController extends AbstractBaseController {
 			for(Iterator<Map> item = list.iterator(); item.hasNext();){
 				Map map = item.next();
 				String id = (String)map.get("id");
+				String comment = (String)map.get("comment");
+				if(comment.contains("万")) {
+					String newcomment = Helper.formatNumWithWords(comment);
+					map.put("comment", newcomment);
+				}
 				if(StringUtils.isEmpty(id)) {
 					item.remove();
 					continue;
@@ -78,11 +82,11 @@ public class ArticleController extends AbstractBaseController {
 					Map countMap = countItem.next();
 					String articlId = (String)countMap.get("articlId");
 					if(id != null && id.equals(articlId)){
-//						map.put("commentsCount", countMap.get("commentsCounts"));
 						map.put("matchNewsCount", countMap.get("newsNum"));
 						map.put("cmtNum", countMap.get("cmtNum"));
 						map.put("autoNum", countMap.get("autoNum"));
 						map.put("commentsCount", countMap.get("shincNum"));
+						map.put("xhs_channel", countMap.get("xhs_channel"));
 						break;
 					}
 				}
