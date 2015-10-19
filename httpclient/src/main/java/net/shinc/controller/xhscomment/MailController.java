@@ -35,6 +35,7 @@ public class MailController extends AbstractBaseController {
 	private MailService mailService;
 	
 	private String charset = "UTF-8";
+	String now = DateUtils.dateToString(new Date(), "yyyy-MM-dd HH:mm:ss");
 	
 	/**
 	 * 发送每日占比统计结果 
@@ -48,18 +49,22 @@ public class MailController extends AbstractBaseController {
 			String fromAddr = "guoshijie@shinc.net";
 			String pwd = "@WSXvfr4";
 			
+			//收件人列表
 			Address[] toAddr = new Address[1];
-			toAddr[0] = new InternetAddress("guoshijie@shinc.net","郭世杰",charset);
-//			toAddr[1] = new InternetAddress("dingpeng@shinc.net", "丁鹏",charset);
-//			toAddr[2] = new InternetAddress("gsj_java@163.com", "郭世杰3",charset);
+			toAddr[0] = new InternetAddress("dingpeng@shinc.net", "丁鹏",charset);
 			
-			String bccAddr = "steve_hi@163.com";
+			//抄送人列表
+			Address[] ccAddr = new Address[1];
+			ccAddr[0] = new InternetAddress("zhaozhonglin@shinc.net","赵忠琳",charset);
+			
+			//密送
+			String bccAddr = "guoshijie@shinc.net";
+			
 			String title = mailService.getMailTitle();
 			String content = mailService.getMailContent();
 			
 			StringBuilder res = new StringBuilder();
 			res.append("发件人: "+fromAddr);
-			
 			res.append("    收件人: ");
 			for (Address address : toAddr) {
 				InternetAddress ia = (InternetAddress)address;
@@ -67,13 +72,11 @@ public class MailController extends AbstractBaseController {
 				res.append(personal+" ");
 			}
 			
-			mailService.sendMail(fromAddr, pwd, toAddr, null, bccAddr, title, content);
+			mailService.sendMail(fromAddr, pwd, toAddr, ccAddr, bccAddr, title, content);
 			msg.setCode(ErrorMessage.SUCCESS.getCode());
 			msg.setResult(res);
-			String now = DateUtils.dateToString(new Date(), "yyyy-MM-dd HH:mm:ss");
 			logger.info("发送时间: "+now+"\t\t状态: 发送成功\t"+res);
 		} catch (Exception e) {
-			String now = DateUtils.dateToString(new Date(), "yyyy-MM-dd HH:mm:ss");
 			logger.info("发送时间: "+now+"\t\t状态: 发送失败");
 			logger.error(ExceptionUtils.getStackTrace(e));
 		}

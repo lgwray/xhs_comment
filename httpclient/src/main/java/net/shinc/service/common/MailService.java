@@ -22,7 +22,7 @@ public interface MailService {
 	 * @param content 	邮件内容
 	 * @throws MessagingException
 	 */
-	public void sendMail(String fromAddr,String pwd, Address[] toAddr, String ccAddr, String bccAddr, String title, String content);
+	public void sendMail(String fromAddr,String pwd, Address[] toAddr, Address[] ccAddr, String bccAddr, String title, String content);
 	
 	public String getMailTitle();
 	

@@ -34,7 +34,7 @@ public class MailServiceImpl implements MailService {
 	private CommentStatisticService csService;
 
 	@Override
-	public void sendMail(String fromAddr, String pwd, Address[] toAddr, String ccAddr, String bccAddr, String title, String content) {
+	public void sendMail(String fromAddr, String pwd, Address[] toAddr, Address[] ccAddr, String bccAddr, String title, String content) {
 		try {
 			MailUtils.sendMail(fromAddr, pwd, toAddr, ccAddr, bccAddr, title, content);
 		} catch (MessagingException e) {

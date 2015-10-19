@@ -77,7 +77,7 @@ public class MailUtils {
 	 * @param content 	邮件内容
 	 * @throws MessagingException
 	 */
-	public static void sendMail(String fromAddr,String pwd, Address[] toAddr, String ccAddr, String bccAddr, String title, String content) throws MessagingException {
+	public static void sendMail(String fromAddr,String pwd, Address[] toAddr, Address[] ccAddr, String bccAddr, String title, String content) throws MessagingException {
 		// 配置发送邮件的环境属性
 		final Properties props = new Properties();
 		/*
@@ -122,15 +122,14 @@ public class MailUtils {
 		message.setRecipients(RecipientType.TO, toAddr);
 
 		// 设置抄送
-		if(!StringUtils.isEmpty(ccAddr)) {
-			InternetAddress cc = new InternetAddress(ccAddr);
-			message.setRecipient(RecipientType.CC, cc);
+		if (null != ccAddr && ccAddr.length > 0) {
+			message.setRecipients(RecipientType.CC, ccAddr);
 		}
 
 		// 设置密送，其他的收件人不能看到密送的邮件地址
 		if(!StringUtils.isEmpty(bccAddr)) {
 			InternetAddress bcc = new InternetAddress(bccAddr);
-			message.setRecipient(RecipientType.CC, bcc);
+			message.setRecipient(RecipientType.BCC, bcc);
 		}
 
 		// 设置邮件标题
