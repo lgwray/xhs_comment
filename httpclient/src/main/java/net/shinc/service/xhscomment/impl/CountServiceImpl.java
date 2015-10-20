@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 /** 
  * @ClassName CountServiceImpl 
@@ -219,6 +220,33 @@ public class CountServiceImpl implements CountService {
 			res.add(sub);
 		}
 		return res;
+	}
+
+	@Override
+	public Map getZeroNumByRange(List list) {
+		Map map = new HashMap();
+		int a = 0, b = 0, c = 0;
+		if(!CollectionUtils.isEmpty(list)) {
+			for(int i=0; i<list.size(); i++) {
+				Map item = (Map)list.get(i);
+				String comment = (String)item.get("comment");
+				boolean boo = comment.equals("0");
+				if(i < 10 && boo) {
+					a++;
+				}
+				if(i >= 10 && i < 20 && boo) {
+					b++;
+				}
+				if(i >= 20 && i < 30 && boo) {
+					c++;
+				}
+			}
+			map.put("1_10", a);
+			map.put("11_20", b);
+			map.put("21_30", c);
+			return map;
+		}
+		return null;
 	}
 
 }

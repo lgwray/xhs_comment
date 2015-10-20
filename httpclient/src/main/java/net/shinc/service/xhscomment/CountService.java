@@ -76,4 +76,6 @@ public interface CountService {
 	 * @return
 	 */
 	public List<Map> getSumByDays(Integer days);
+	
+	public Map getZeroNumByRange(List list);
 }

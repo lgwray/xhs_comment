@@ -57,4 +57,15 @@ public class CountControllerTest {
     	}
     }
     
+    @Test
+    @WithMockUser(username="admin",password="admin")
+    public void getZeroNumByRange(){
+    	try {
+    		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/count/getZeroNumByRange");
+    		mockMvc.perform(reqbuild).andDo(handler);
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    }
+    
 }
