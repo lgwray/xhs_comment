@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.CollectionUtils;
 
 /** 
  * @ClassName CommentSenderThread 
@@ -53,9 +54,11 @@ public class CommentSenderThread implements Runnable {
 						try {
 							String re = bcs.sendComment(String.valueOf(comment.getUserId()), comment.getArticleId(), comment.getContent(), comment.getNickName());
 							Map resMap = Helper.jsonToMap(re);
-							if("success".equals(resMap.get("state"))){
-								flag = SendFlag.sent.getValue();
-							} 
+							if(!CollectionUtils.isEmpty(resMap)) {
+								if("success".equals(resMap.get("state"))){
+									flag = SendFlag.sent.getValue();
+								} 
+							}
 						} catch(Exception e) {
 							flag = SendFlag.unknown.getValue();
 							logger.error("send error:" + ExceptionUtils.getStackTrace(e));
