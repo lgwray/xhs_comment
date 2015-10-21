@@ -71,8 +71,9 @@ public class JnlCommentServiceImpl implements JnlCommentService {
 	public void setBatchSize(int batchSize) {
 		this.batchSize = batchSize;
 	}
+	
 	@Override
-	public List<JnlComment> getCommentBySendFlag(SendFlag sendflag, Integer pageSize) {
+	public List<JnlComment> getCommentBySendFlag(SendFlag sendflag, Integer pageSize, String comment_way) {
 		if(pageSize == null || pageSize <= 0) {
 			return null;
 		}

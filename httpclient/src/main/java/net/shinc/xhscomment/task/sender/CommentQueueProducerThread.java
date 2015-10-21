@@ -11,8 +11,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.util.CollectionUtils;
 
 public class CommentQueueProducerThread implements Runnable{
 	
@@ -29,9 +28,19 @@ public class CommentQueueProducerThread implements Runnable{
 		commentService.resetCommentSendFlag();
 		while(true) {
 			try {
-				
 				int loadSize = queue.getFree();
-				List<JnlComment> list = commentService.getCommentBySendFlag(SendFlag.nosend, loadSize);
+				List<JnlComment> list = new ArrayList<JnlComment>();
+				
+				List<JnlComment> handlist = commentService.getCommentBySendFlag(SendFlag.nosend, loadSize,"1");
+				if(!CollectionUtils.isEmpty(handlist)) {
+					list.addAll(handlist);
+				} else {
+					List<JnlComment> autolist = commentService.getCommentBySendFlag(SendFlag.nosend, loadSize,"2");
+					if(!CollectionUtils.isEmpty(autolist)) {
+						list.addAll(autolist);
+					}
+				}
+				
 				if(list == null || list.size() == 0) {
 					Thread.sleep(10000);
 					continue;

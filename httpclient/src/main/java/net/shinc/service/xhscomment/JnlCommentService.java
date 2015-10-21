@@ -17,7 +17,7 @@ public interface JnlCommentService {
 
 	public Map putComment(List<JnlComment> list);
 	
-	public List<JnlComment> getCommentBySendFlag(JnlComment.SendFlag sendflag,Integer pageSize);
+	public List<JnlComment> getCommentBySendFlag(JnlComment.SendFlag sendflag,Integer pageSize, String comment_way);
 	
 	public List<BatchResult> updateCommentSendFlag(List<JnlComment> paramList);
 	

@@ -47,7 +47,7 @@ public class JnlCommentServiceTest {
 	
 	@Test
 	public void getCommentBySendFlag() {
-		System.out.println(jcs.getCommentBySendFlag(SendFlag.nosend, 10));
+		System.out.println(jcs.getCommentBySendFlag(SendFlag.nosend, 10, "1"));
 	}
 	
 	@Test

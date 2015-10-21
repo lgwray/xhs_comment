@@ -65,6 +65,7 @@
 		<result column="send_flag" property="sendFlag" />
 		<result column="sendtime" property="sendTime" />
 	</resultMap>
+	
   	<select id="queryBySendFlag" resultMap="JnlCommentResult" parameterType="java.util.Map">
 		SELECT 
 		    id,
