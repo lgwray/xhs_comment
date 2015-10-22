@@ -51,10 +51,10 @@ public class MailServiceImpl implements MailService {
 
 	@Override
 	public String getMailContent() {
-//		String today = DateUtils.dateToString(new Date(), "yyyy-MM-dd");
 		Calendar c = Calendar.getInstance();
 		Calendar beforeDay = DateUtils.getBeforeDay(c);
-		String today = DateUtils.dateToString(beforeDay.getTime(), "yyyy-MM-dd");
+		String today = DateUtils.dateToString(new Date(), "yyyy-MM-dd");
+//		String today = DateUtils.dateToString(beforeDay.getTime(), "yyyy-MM-dd");
 		
 		StringBuilder sb = new StringBuilder();
 		sb.append("<html>");
@@ -65,7 +65,7 @@ public class MailServiceImpl implements MailService {
 		sb.append("<body>");
 		
 		sb.append("您好：</br>");
-		sb.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;以下是昨天("+today+")的评论占比统计结果，见下表:</br></br>");
+		sb.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;以下是今天("+today+")的评论占比统计结果，见下表:</br></br>");
 		
 		sb.append("<table border=0 width='95%'");
 		sb.append("<thead>");
