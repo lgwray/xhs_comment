@@ -20,6 +20,8 @@ public interface CommentStatisticService {
 	
 	public Map<String,Object> getCommentStatisticByDate(String date);
 	
+	public Map<String,Object> getCommentStatisticByTime(String date);
+	
 	public List<Map<String,Object>> getPercentByDays(String date);
 	
 }

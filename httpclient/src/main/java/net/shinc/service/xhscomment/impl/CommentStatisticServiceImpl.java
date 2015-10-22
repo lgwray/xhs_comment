@@ -36,16 +36,22 @@ public class CommentStatisticServiceImpl implements CommentStatisticService {
 	
 	@Override
 	public Map<String,Object> getCommentStatisticByDate(String date) {
+		List<CommentStatistic> commentStatisticList = csMapper.getCommentStatisticByDate(date);
+		return dealRes(commentStatisticList, date);
+	}
+	
+	@Override
+	public Map<String,Object> getCommentStatisticByTime(String date) {
+		List<CommentStatistic> commentStatisticList = csMapper.getCommentStatisticByTime(date);
+		return dealRes(commentStatisticList, date);
+	}
+	
+	public Map<String,Object> dealRes(List<CommentStatistic> list,String date) {
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("date", date);
-		
-//		Map articlesNumByDate = countService.getArticlesNumByDate(date);
-//		map.put("articleNum", articlesNumByDate.get("sum"));
-		
-		List<CommentStatistic> commentStatisticList = csMapper.getCommentStatisticByDate(date);
 		List<Map<String,Object>> percentList = new ArrayList<Map<String,Object>>();
-		if(!CollectionUtils.isEmpty(commentStatisticList)) {
-			for (CommentStatistic commentStatistic : commentStatisticList) {
+		if(!CollectionUtils.isEmpty(list)) {
+			for (CommentStatistic commentStatistic : list) {
 				Map<String,Object> item = new HashMap<String,Object>();
 				Integer shincSum = commentStatistic.getDivisor();
 				Integer xhsSum = commentStatistic.getDividend();

@@ -54,8 +54,9 @@ public class MailController extends AbstractBaseController {
 			toAddr[0] = new InternetAddress("dingpeng@shinc.net", "丁鹏",charset);
 			
 			//抄送人列表
-			Address[] ccAddr = new Address[1];
+			Address[] ccAddr = new Address[2];
 			ccAddr[0] = new InternetAddress("zhaozhonglin@shinc.net","赵忠琳",charset);
+			ccAddr[1] = new InternetAddress("zss@shinc.net","张双双",charset);
 			
 			//密送
 			String bccAddr = "guoshijie@shinc.net";
@@ -73,6 +74,42 @@ public class MailController extends AbstractBaseController {
 			}
 			
 			mailService.sendMail(fromAddr, pwd, toAddr, ccAddr, bccAddr, title, content);
+			msg.setCode(ErrorMessage.SUCCESS.getCode());
+			msg.setResult(res);
+			logger.info("发送时间: "+now+"\t\t状态: 发送成功\t"+res);
+		} catch (Exception e) {
+			logger.info("发送时间: "+now+"\t\t状态: 发送失败");
+			logger.error(ExceptionUtils.getStackTrace(e));
+		}
+		return msg;
+	}
+	
+	
+	@RequestMapping(value = "/sendEMailTest")
+	@ResponseBody
+	public IRestMessage sendEMailTest() {
+		IRestMessage msg = getRestMessageWithoutUser();
+		try {
+			String fromAddr = "guoshijie@shinc.net";
+			String pwd = "@WSXvfr4";
+			
+			//收件人列表
+			Address[] toAddr = new Address[1];
+			toAddr[0] = new InternetAddress("guoshijie@shinc.net", "郭世杰",charset);
+			
+			String title = mailService.getMailTitle();
+			String content = mailService.getMailContent();
+			
+			StringBuilder res = new StringBuilder();
+			res.append("发件人: "+fromAddr);
+			res.append("    收件人: ");
+			for (Address address : toAddr) {
+				InternetAddress ia = (InternetAddress)address;
+				String personal = ia.getPersonal();
+				res.append(personal+" ");
+			}
+			
+			mailService.sendMail(fromAddr, pwd, toAddr, null, null, title, content);
 			msg.setCode(ErrorMessage.SUCCESS.getCode());
 			msg.setResult(res);
 			logger.info("发送时间: "+now+"\t\t状态: 发送成功\t"+res);

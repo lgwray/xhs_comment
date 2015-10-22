@@ -66,4 +66,14 @@
   	order by insert_date desc,statistic_type desc limit 2 
   </select>
   
+  <select id="getCommentStatisticByTime" parameterType="java.util.List" resultMap="BaseResultMap">
+  	select
+  		statistic_type, divisor, dividend, percent, DATE_FORMAT(insert_date , '%Y-%m-%d %H:%i:%S') insert_date, auto_num, article_num
+  	from
+  		sh_comment_statistic
+  	where 1 = 1
+  		and insert_date &lt; concat(date_format(#{date}, '%Y-%m-%d'), ' 21:05:00')
+  	order by insert_date desc,statistic_type desc limit 2 
+  </select>
+  
 </mapper>

@@ -12,4 +12,6 @@ public interface CommentStatisticMapper {
     
     List<CommentStatistic> getCommentStatisticByDate(String date);
     
+    List<CommentStatistic> getCommentStatisticByTime(String date);
+    
 }

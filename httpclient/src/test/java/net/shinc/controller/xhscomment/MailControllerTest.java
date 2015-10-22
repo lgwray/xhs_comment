@@ -35,9 +35,9 @@ public class MailControllerTest {
     } 
     
     @Test
-    public void sendEMail(){
+    public void sendEMailTest(){
     	try {
-    		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/mail/sendEMail");
+    		RequestBuilder reqbuild = MockMvcRequestBuilders.post("/mail/sendEMailTest");
     		mockMvc.perform(reqbuild).andDo(handler);
     	} catch (Exception e) {
     		e.printStackTrace();

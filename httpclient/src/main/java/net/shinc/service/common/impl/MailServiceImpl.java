@@ -1,5 +1,6 @@
 package net.shinc.service.common.impl;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +51,11 @@ public class MailServiceImpl implements MailService {
 
 	@Override
 	public String getMailContent() {
-		String today = DateUtils.dateToString(new Date(), "yyyy-MM-dd");
+//		String today = DateUtils.dateToString(new Date(), "yyyy-MM-dd");
+		Calendar c = Calendar.getInstance();
+		Calendar beforeDay = DateUtils.getBeforeDay(c);
+		String today = DateUtils.dateToString(beforeDay.getTime(), "yyyy-MM-dd");
+		
 		StringBuilder sb = new StringBuilder();
 		sb.append("<html>");
 		sb.append("<head>");
@@ -60,12 +65,12 @@ public class MailServiceImpl implements MailService {
 		sb.append("<body>");
 		
 		sb.append("您好：</br>");
-		sb.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;以下是今天("+today+")的评论占比统计结果，见下表:</br></br>");
+		sb.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;以下是昨天("+today+")的评论占比统计结果，见下表:</br></br>");
 		
 		sb.append("<table border=0 width='95%'");
 		sb.append("<thead>");
 		sb.append("<tr>");
-		sb.append("<th style='text-align:center;'><i class='icon-bullhorn'></i>日期</th>");
+		sb.append("<th style='text-align:center;'><i class='icon-bullhorn'></i>统计时间</th>");
 		sb.append("<th style='text-align:center;'><i class='icon-bullhorn'></i>新闻总数</th>");
 		sb.append("<th style='text-align:center;'><i class='icon-bullhorn'></i>自动评论数</th>");
 		sb.append("<th style='text-align:center;'><i class='icon-bullhorn'></i>描述</th>");
@@ -78,6 +83,10 @@ public class MailServiceImpl implements MailService {
 		sb.append("<tbody id='persent'>");
 		
 		List<Map<String, Object>> list = csService.getPercentByDays(today);
+		Map<String, Object> map2 = csService.getCommentStatisticByTime(today);
+		if(!CollectionUtils.isEmpty(map2)) {
+			list.add(map2);
+		}
 		if(!CollectionUtils.isEmpty(list)) {
 			for (Map<String, Object> map : list) {
 				List percentList = (List)map.get("percentList");
@@ -85,7 +94,7 @@ public class MailServiceImpl implements MailService {
 					sb.append("<tr>");
 					Map sub = (Map)percentList.get(m);
 					if(m==0){
-						sb.append("<td align='center' rowspan='2' width='15%'><a href='#'>"+map.get("date")+"</a></td>");
+						sb.append("<td align='center' rowspan='2' width='15%'><a href='#'>"+map.get("lastUpdateTime")+"</a></td>");
 						sb.append("<td align='center' rowspan='2' width='15%'><a href='#'>"+map.get("articleNum")+"</a></td>");
 						sb.append("<td align='center' rowspan='2' width='15%'><a href='#'>"+map.get("autoNum")+"</a></td>");
 					}
