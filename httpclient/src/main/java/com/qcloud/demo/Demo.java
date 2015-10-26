@@ -21,8 +21,8 @@ public class Demo {
 //		System.out.println(module.generateUrl("DescribeInstances", params));
 //		System.out.println(module.call("DescribeInstances", params));
 		
-		config.put("SecretId", "你的secretId");
-		config.put("SecretKey", "你的secretKey");
+		config.put("SecretId", "AKIDCcU7DB3HdvnYqspxLosnLF9HnJkI8gn3");
+		config.put("SecretKey", "y2YmUlKVPbWmm0fQbxmEGz0Nj3wgWysM");
 		config.put("RequestMethod", "POST");
 		config.put("DefaultRegion", "gz");
 		QcloudApiModuleCenter module = new QcloudApiModuleCenter(new Cdn(), config);
