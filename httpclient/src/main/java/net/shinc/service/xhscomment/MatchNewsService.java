@@ -45,5 +45,7 @@ public interface MatchNewsService {
 	 */
 	public List<MatchComment> getMatchNewsCommentsBatchWithPagination(List<String> list, PageBounds pb);
 	
+	public List<MatchComment> getMatchNewsCommentsBatchWithPagination2(String matchNewsId,PageBounds pb);
+	
 	
 }

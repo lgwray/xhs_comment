@@ -85,9 +85,12 @@ public class MatchNewsController extends AbstractBaseController {
 		IRestMessage msg = getRestMessageWithoutUser();
 		try {
 			PageBounds pb = new PageBounds(page,num);
+			
 			List<String> list = new ArrayList<String>();
 			list.add(matchNewsId);
 			List<MatchComment> withPagination = mnService.getMatchNewsCommentsBatchWithPagination(list, pb);
+			
+//			List<MatchComment> withPagination = mnService.getMatchNewsCommentsBatchWithPagination2(matchNewsId, pb);
 			
 			Boolean isEnable = asAservice.isEnableAutoSendArticle(Integer.parseInt(articleId),Integer.parseInt(matchNewsId));
 			

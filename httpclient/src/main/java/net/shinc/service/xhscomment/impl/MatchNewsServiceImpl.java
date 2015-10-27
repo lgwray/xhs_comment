@@ -1,13 +1,18 @@
 package net.shinc.service.xhscomment.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.shinc.orm.mybatis.bean.xhscomment.MatchComment;
 import net.shinc.orm.mybatis.bean.xhscomment.MatchNews;
+import net.shinc.orm.mybatis.bean.xhscomment.Nick;
 import net.shinc.orm.mybatis.mappers.xhscomment.MatchCommentMapper;
 import net.shinc.orm.mybatis.mappers.xhscomment.MatchNewsMapper;
 import net.shinc.service.xhscomment.MatchNewsService;
+import net.shinc.service.xhscomment.NickService;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -28,6 +33,9 @@ public class MatchNewsServiceImpl implements MatchNewsService {
 	
 	@Autowired
 	private MatchNewsMapper mnMapper;
+	
+	@Autowired
+	private NickService nickService;
 	
 	@Override
 	public MatchNews getMatchNewsById(Integer id) {
@@ -51,6 +59,26 @@ public class MatchNewsServiceImpl implements MatchNewsService {
 	public List<MatchComment> getMatchNewsCommentsBatchWithPagination(List<String> list, PageBounds pb) {
 		if(!CollectionUtils.isEmpty(list)) {
 			List<MatchComment> comments = mcMapper.getMatchNewsCommentsBatch(list,pb);
+			if(!CollectionUtils.isEmpty(comments)) {
+				int num = comments.size();
+				List<Nick> nicklist = nickService.getNicksRandom(num);
+				for (int i = 0; i < num; i++) {
+					MatchComment matchComment = comments.get(i);
+					matchComment.setNick(nicklist.get(i).getNickname());
+				}
+			}
+			return comments;
+		}
+		return null;
+	}
+	
+	@Override
+	public List<MatchComment> getMatchNewsCommentsBatchWithPagination2(String matchNewsId,PageBounds pb) {
+		if(!StringUtils.isEmpty(matchNewsId)) {
+			Map map = new HashMap();
+			map.put("matchNewsId", matchNewsId);
+			map.put("limit", pb.getLimit());
+			List<MatchComment> comments = mcMapper.getMatchNewsCommentsBatch2(map,pb);
 			return comments;
 		}
 		return null;

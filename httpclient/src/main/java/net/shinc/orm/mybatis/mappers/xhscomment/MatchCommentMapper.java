@@ -1,10 +1,11 @@
 package net.shinc.orm.mybatis.mappers.xhscomment;
 
 import java.util.List;
-
-import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import java.util.Map;
 
 import net.shinc.orm.mybatis.bean.xhscomment.MatchComment;
+
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
 
 /** 
  * @ClassName MatchCommentMapper 
@@ -32,4 +33,6 @@ public interface MatchCommentMapper {
     int getMatchNewsCommentsCount(Integer matchNewsId);
     
     List<MatchComment> getMatchNewsCommentsBatch(List<String> list, PageBounds pb);
+    
+    List<MatchComment> getMatchNewsCommentsBatch2(Map map, PageBounds pb);
 }

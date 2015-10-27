@@ -137,16 +137,53 @@
 	    comment,
 	    match_news_id,
 	    cmt_uuid,
-	    (select nickname from nick where flag='1' and id >= (select floor(rand()*(select max(id) as nick_id from nick where flag='1'))) order by id limit 1) nick,
+	    nick,
 	    publish_time,
 	    is_hot
 	from 
 		sp2_match_comment
 	where 1 = 1
 	   and match_news_id in
-    	 <foreach collection="list" item="item" index="index"  open="(" separator="," close=")" >
+    	<foreach collection="list" item="item" index="index"  open="(" separator="," close=")" >
    			#{item,jdbcType=INTEGER}
-		</foreach>  
+		</foreach>
+  </select>
+  
+  <select id="getMatchNewsCommentsBatch2" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	(select
+		tba.id,
+        tba.comment,
+        tba.match_news_id,
+	    tba.cmt_uuid,
+        (select nickname from nick where flag='1' and id >= (select floor(rand()*(select max(id) as nick_id from nick where flag='1'))) order by id limit 1) nick,
+	    tba.publish_time,
+	    tba.is_hot
+	from
+		(select
+		a.id,
+	    a.comment,
+	    a.match_news_id,
+	    a.cmt_uuid,
+	    a.publish_time,
+	    a.is_hot
+	from 
+		sp2_match_comment a
+	where
+	   a.match_news_id = #{matchNewsId} 
+	   limit #{limit}) tba)
+	union all
+    (select 
+		tbb.id,
+        tbb.comment,
+        tbb.match_news_id,
+	    tbb.cmt_uuid,
+        tbb.nick,
+	    tbb.publish_time,
+	    tbb.is_hot
+	from
+		sp2_match_comment tbb
+	where
+	   tbb.match_news_id = #{matchNewsId})
   </select>
   
   <select id="getMatchNewsCommentsCount" resultType="java.lang.Integer">
