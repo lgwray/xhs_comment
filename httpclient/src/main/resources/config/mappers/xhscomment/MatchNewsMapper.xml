@@ -38,6 +38,7 @@
   		tb_b.match_news_id=tb_a.id
   	where
   		tb_b.article_id=#{articleId}
+  	order by tb_a.cmt_num desc
   </select>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
