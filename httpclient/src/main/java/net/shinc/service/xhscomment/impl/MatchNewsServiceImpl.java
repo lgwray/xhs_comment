@@ -62,6 +62,7 @@ public class MatchNewsServiceImpl implements MatchNewsService {
 			if(!CollectionUtils.isEmpty(comments)) {
 				int num = comments.size();
 				List<Nick> nicklist = nickService.getNicksRandom(num);
+		        int nicksize = nicklist.size();
 				for (int i = 0; i < num; i++) {
 					MatchComment matchComment = comments.get(i);
 					matchComment.setNick(nicklist.get(i).getNickname());
