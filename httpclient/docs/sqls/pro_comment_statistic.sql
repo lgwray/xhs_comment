@@ -8,7 +8,11 @@ begin
 declare comment_count int(11);
 declare xhs_com_count int(11);
 declare cur_content_count int(11);
+declare cur_yesterday_count int(11);
+declare cur_today_count int(11);
 declare xhs_cur_con_count int(11);
+declare xhs_cur_yesterday_count int(11);
+declare xhs_cur_today_count int(11);
 declare percent decimal(12,4);
 declare auto_count int(11);
 declare article_count int(11);
@@ -28,21 +32,38 @@ and adddate > concat(date_format(now(), '%Y-%m-%d'), ' 00:00:00');
 select sum(comment_total) into xhs_com_count from sh_article
 where publish_date > concat(date_format(now(), '%Y-%m-%d'), ' 00:00:00');
 
-
--- 当前要闻总数
+-- 截止到昨天本地要闻总数
 -- shinc:
-SELECT count(a.content) into cur_content_count FROM sh_jnl_article_comment a 
+SELECT count(a.content) into cur_yesterday_count FROM sh_jnl_article_comment a 
 left join sh_article b
 on a.article_id = b.id
 where a.send_flag = '2'
 and b.category= '0'
-and a.adddate > concat(date_format(now(), '%Y-%m-%d'), ' 00:00:00')
-and b.publish_date > concat(date_format(now(), '%Y-%m-%d'), ' 00:00:00');
+and a.adddate < concat(date_format(now(), '%Y-%m-%d'), ' 00:00:00')
+and b.publish_date < concat(date_format(now(), '%Y-%m-%d'), ' 00:00:00');
 
--- xhs:新华社要闻总数
-select sum(comment_total) into xhs_cur_con_count from sh_article 
+-- 截止到当前时间本地要闻总数
+-- shinc:
+SELECT count(a.content) into cur_today_count FROM sh_jnl_article_comment a 
+left join sh_article b
+on a.article_id = b.id
+where a.send_flag = '2'
+and b.category= '0';
+
+-- 今天本地要闻总数
+-- shinc:
+set cur_content_count := cur_today_count - cur_yesterday_count;
+
+-- xhs:截止到昨天新华社要闻总数
+select sum(comment_total) into xhs_cur_yesterday_count from sh_article 
 where category='0' 
-and publish_date > concat(date_format(now(), '%Y-%m-%d'), ' 00:00:00');
+and publish_date < concat(date_format(now(), '%Y-%m-%d'), ' 00:00:00');
+
+-- xhs:截止到当前时间新华社要闻总数
+select sum(comment_total) into xhs_cur_today_count from sh_article where category='0';
+
+-- xhs:今天新华社要闻总数
+set xhs_cur_con_count := xhs_cur_today_count - xhs_cur_yesterday_count;
 
 -- 当天自动评论数
 SELECT count(*) into auto_count FROM sh_jnl_article_comment where send_flag='2' and comment_way='2' and adddate > concat(date_format(now(), '%Y-%m-%d'), ' 00:00:00');
