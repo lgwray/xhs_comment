@@ -56,11 +56,11 @@ set cur_content_count := cur_today_count - cur_yesterday_count;
 
 -- xhs:截止到昨天新华社要闻总数
 select sum(comment_total) into xhs_cur_yesterday_count from sh_article 
-where category='0' 
+where category in ('0','470')
 and publish_date < concat(date_format(now(), '%Y-%m-%d'), ' 00:00:00');
 
 -- xhs:截止到当前时间新华社要闻总数
-select sum(comment_total) into xhs_cur_today_count from sh_article where category='0';
+select sum(comment_total) into xhs_cur_today_count from sh_article where category in ('0','470');
 
 -- xhs:今天新华社要闻总数
 set xhs_cur_con_count := xhs_cur_today_count - xhs_cur_yesterday_count;

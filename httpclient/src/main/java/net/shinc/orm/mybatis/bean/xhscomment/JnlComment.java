@@ -39,6 +39,7 @@ public class JnlComment implements ResultBean {
 	private String content;
 	private String contentType;
 	private Integer userId;
+	private String userName;
 	private String commentWay;
 	private String sendFlag;   //0=待发送，1=发送中，2=发送成功，3=发送失败，4=状态未明
 	private Date sendTime;
@@ -108,6 +109,12 @@ public class JnlComment implements ResultBean {
 	}
 	public void setMd5(String md5) {
 		this.md5 = md5;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	
 }

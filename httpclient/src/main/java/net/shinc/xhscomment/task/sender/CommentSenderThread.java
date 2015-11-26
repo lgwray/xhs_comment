@@ -71,7 +71,7 @@ public class CommentSenderThread implements Runnable {
 					comment.setSendTime(new Date());
 					list.add(comment);
 					String comment_way = comment.getCommentWay().equals("1")?"手动":"自动";
-					logger.info("sent a comment:" + "articleid:" + comment.getArticleId() +" userId:" + comment.getUserId() + " comment_way:"+comment_way + " nickname:" + comment.getNickName() + " content:" + comment.getContent() + " flag:" + flag );
+					logger.info("sent a comment:" + "articleid:" + comment.getArticleId() +" user:" + comment.getUserName() + " comment_way:"+comment_way + " nickname:" + comment.getNickName() + " content:" + comment.getContent() + " flag:" + flag );
 					if(list.size() > batchUpdateSize) {
 						jcs.updateCommentSendFlag(list);
 						list.clear();

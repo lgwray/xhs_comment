@@ -61,6 +61,7 @@
 		<result column="content" property="content" />
 		<result column="content_type" property="contentType" />
 		<result column="user_id" property="userId" />
+		<result column="userName" property="userName" />
 		<result column="comment_way" property="commentWay" />
 		<result column="send_flag" property="sendFlag" />
 		<result column="sendtime" property="sendTime" />
@@ -68,18 +69,23 @@
 	
   	<select id="queryBySendFlag" resultMap="JnlCommentResult" parameterType="java.util.Map">
 		SELECT 
-		    id,
-		    article_id,
-		    adddate,
-		    nickname,
-		    content,
-		    content_type,
-		    user_id,
-		    comment_way,
-		    send_flag,
-		    sendtime
+		    a.id,
+		    a.article_id,
+		    a.adddate,
+		    a.nickname,
+		    a.content,
+		    a.content_type,
+		    a.user_id,
+		    b.nickname userName,
+		    a.comment_way,
+		    a.send_flag,
+		    a.sendtime
 		FROM
-		    sh_jnl_article_comment
+		    sh_jnl_article_comment a
+		join
+			sh_admin_user b
+		on
+			a.user_id = b.id
 		WHERE 
 		    send_flag = #{SendFlag}
 		    LIMIT ${limit}
