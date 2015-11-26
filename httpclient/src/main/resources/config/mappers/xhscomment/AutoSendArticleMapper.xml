@@ -16,7 +16,18 @@
   
   <select id="getAutoSendList" resultType="java.util.Map" parameterType="java.util.Map">
   	select
-  		tba.article_id,tbd.auto_sum,tbd.title article_title,tba.match_news_id,tbb.title match_title,tbc.nickname,tba.enabled,tbe.sum,date_format(tba.begindate,'%Y-%m-%d %H:%i:%S') begindate,date_format(tba.enddate,'%Y-%m-%d %H:%i:%S') enddate
+  		tba.article_id,
+  		tbd.cmt_num,
+  		tbd.shinc_sum,
+  		tbd.auto_sum,
+  		tbd.title article_title,
+  		tba.match_news_id,
+  		tbb.title match_title,
+  		tbc.nickname,
+  		tba.enabled,
+  		tbe.sum,
+  		date_format(tba.begindate,'%Y-%m-%d %H:%i:%S') begindate,
+  		date_format(tba.enddate,'%Y-%m-%d %H:%i:%S') enddate
   	from
   		sh_autosend_article tba
   	inner join

@@ -94,7 +94,6 @@ public class AutoSendArticleServiceImpl implements AutoSendArticleService {
 		Map<String,Object> param = new HashMap<String,Object>();
 		param.put("currentDate", new Date());
 		List<Map> autoSendList = autoMapper.getAutoSendList(param);
-		
 		return autoSendList;
 	}
 

@@ -62,6 +62,7 @@
 			sh_article 
 		WHERE
 			date_format(publish_date,'%Y-%c-%d') = str_to_date(#{publishDate},'%Y-%c-%d')
+			and category in(0,1,2,3,4,5,6,7,8,9,10,11,235,461,462,463,464,471,477,479,480,3172,3173,3174)
 		ORDER BY 
 			publish_date desc
 	</select>
