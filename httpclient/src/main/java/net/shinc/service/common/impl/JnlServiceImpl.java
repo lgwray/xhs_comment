@@ -55,6 +55,16 @@ public class JnlServiceImpl {
 	}
 	
 	/**
+	 * 取消发送
+	 * @param sendId
+	 * @return
+	 */
+	public int cancelSend(String sendId) {
+		int i = jnlMapper.cancelSend(sendId);
+		return i;
+	}
+	
+	/**
 	 * 查询评论日志总数
 	 * @param userId
 	 * @param addDate

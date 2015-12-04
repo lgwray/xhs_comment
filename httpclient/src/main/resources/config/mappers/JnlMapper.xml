@@ -3,6 +3,7 @@
 <mapper namespace="net.shinc.orm.mybatis.mappers.common.JnlMapper">
 	<resultMap id="selectCommentJnlMap" type="java.util.Map">
 		<result column="adddate" property="addDate" jdbcType="VARCHAR" />
+		<result column="jnl_article_comment_id" property="sendId" jdbcType="VARCHAR" />
 		<result column="article_id" property="articleId" jdbcType="VARCHAR" />
 		<result column="title" property="title" jdbcType="VARCHAR" />
 		<result column="id" property="userId" jdbcType="VARCHAR" />
@@ -20,6 +21,7 @@
 	<select id="selectCommentJnl" resultMap="selectCommentJnlMap" parameterType="java.util.Map">
 		SELECT 
 			DATE_FORMAT(j.sendtime , '%Y-%m-%d %H:%i')  adddate,
+			j.id jnl_article_comment_id,
 			j.article_id,
 		    a.title,
 		    j.content,
@@ -32,6 +34,7 @@
 				WHEN 3 THEN '发送失败'
 				WHEN 4 THEN '状态未明'
 				WHEN 5 THEN '测试不发送'
+				WHEN 6 THEN '已取消'
 				ELSE '其他' END send_flag 
 		from 
 			sh_jnl_article_comment j,
@@ -80,4 +83,13 @@
 			</if>
 			and j.send_flag='2'
 	</select>
+	
+	<update id="cancelSend" parameterType="java.lang.String">
+		update
+			sh_jnl_article_comment
+		set
+			send_flag = 6
+		where
+			id = #{sendId}
+	</update>
 </mapper>

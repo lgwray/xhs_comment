@@ -11,6 +11,9 @@ public interface JnlMapper {
     public int insertJnlArticleComment(Map map);
     
     public List<Map> selectCommentJnl(Map map,PageBounds pb);
+    
     public int selectCommentJnlCount(Map map);
+    
+    public int cancelSend(String sendId);
 
 }

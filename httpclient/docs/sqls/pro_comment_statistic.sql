@@ -6,7 +6,6 @@ create procedure pro_comment_statistic()
 begin
 
 declare comment_count int(11);
-declare xhs_com_count int(11);
 declare cur_content_count int(11);
 declare cur_yesterday_count int(11);
 declare cur_today_count int(11);
@@ -20,6 +19,10 @@ declare xhs_now_sum int(11);
 declare xhs_yesterday_sum int(11);
 declare xhs_today_sum int(11);
 
+-- 减小误差
+update sh_article set shinc_sum = comment_total where shinc_sum > comment_total and publish_date < date_add(curdate(),interval -7 day);
+update sh_article set comment_total = shinc_sum where shinc_sum > comment_total and comment_total > 10000;			
+
 -- 删除当天历史数据
 -- delete from sh_comment_statistic where insert_date > concat(date_format(now(), '%Y-%m-%d'), ' 00:00:00') and insert_date < now();
 -- shinc:
@@ -28,17 +31,13 @@ SELECT count(*) into comment_count FROM sh_jnl_article_comment
 where send_flag = '2'  
 and adddate > concat(date_format(now(), '%Y-%m-%d'), ' 00:00:00');
 
--- xhs:新华社当前评论总数
-select sum(comment_total) into xhs_com_count from sh_article
-where publish_date > concat(date_format(now(), '%Y-%m-%d'), ' 00:00:00');
-
 -- 截止到昨天本地要闻总数
 -- shinc:
 SELECT count(a.content) into cur_yesterday_count FROM sh_jnl_article_comment a 
 left join sh_article b
 on a.article_id = b.id
 where a.send_flag = '2'
-and b.category= '0'
+and b.category in ('0','470')
 and a.adddate < concat(date_format(now(), '%Y-%m-%d'), ' 00:00:00')
 and b.publish_date < concat(date_format(now(), '%Y-%m-%d'), ' 00:00:00');
 
@@ -48,7 +47,7 @@ SELECT count(a.content) into cur_today_count FROM sh_jnl_article_comment a
 left join sh_article b
 on a.article_id = b.id
 where a.send_flag = '2'
-and b.category= '0';
+and b.category in ('0','470');
 
 -- 今天本地要闻总数
 -- shinc:

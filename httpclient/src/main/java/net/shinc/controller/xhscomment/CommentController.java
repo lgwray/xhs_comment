@@ -170,6 +170,20 @@ public class CommentController extends AbstractBaseController {
 	}
 	
 	/**
+	 * 取消发送评论
+	 * @return
+	 */
+	@RequestMapping(value = "/cancelSend")
+	@ResponseBody
+	public IRestMessage cancelSend(@RequestParam(value="sendId") String sendId) {
+		IRestMessage msg = getRestMessageWithoutUser();
+		Integer cancelSend = jnlServiceImpl.cancelSend(sendId);
+		msg.setCode(ErrorMessage.SUCCESS.getCode());
+		msg.setResult(String.valueOf(cancelSend)); 
+		return msg;
+	}
+	
+	/**
 	 * 获取管理员列表
 	 * @return
 	 */
