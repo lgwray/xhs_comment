@@ -18,7 +18,7 @@ public class CommentItForm {
 	
 	@NotNull
 	List<Map> commentList;
-
+	
 	public String getArticleId() {
 		return articleId;
 	}
@@ -34,7 +34,5 @@ public class CommentItForm {
 	public void setCommentList(List<Map> commentList) {
 		this.commentList = commentList;
 	}
-	
-	
-	
+
 }

@@ -388,7 +388,7 @@ public class BaseCommentController extends AbstractBaseController {
 	 */
 	@RequestMapping(value = "/commentIt")
 	@ResponseBody
-	public IRestMessage sendComment(@Valid CommentItForm form) {
+	public IRestMessage sendComment(@Valid CommentItForm form,@RequestParam(value="commentWay",required=false,defaultValue="1") String commentWay) {
 		IRestMessage msg = getRestMessage();
 		String articleId = form.getArticleId();
 		List<Map> commentList = form.getCommentList();
@@ -435,7 +435,7 @@ public class BaseCommentController extends AbstractBaseController {
 				
 				String md5Encrypted = MD5Utils.getMd5Encrypted(articleId+comment);
 				jnlComment.setMd5(md5Encrypted);
-				jnlComment.setCommentWay("1");
+				jnlComment.setCommentWay(commentWay);
 				list.add(jnlComment);
 			}
 			Map map = jnlCommentService.putComment(list);
