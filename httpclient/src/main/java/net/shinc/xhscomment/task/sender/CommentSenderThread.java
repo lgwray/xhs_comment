@@ -52,7 +52,10 @@ public class CommentSenderThread implements Runnable {
 					
 					if(realSend.equals("1")) {
 						try {
-							String re = bcs.sendComment(String.valueOf(comment.getUserId()), comment.getArticleId(), comment.getContent(), comment.getNickName());
+							String words = comment.getContent();
+							String newWords = words.replace("习", "");
+							comment.setContent(newWords);
+							String re = bcs.sendComment(String.valueOf(comment.getUserId()), comment.getArticleId(), newWords, comment.getNickName());
 							Map resMap = Helper.jsonToMap(re);
 							if(!CollectionUtils.isEmpty(resMap)) {
 								if("success".equals(resMap.get("state"))){
