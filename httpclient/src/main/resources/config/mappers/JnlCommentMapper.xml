@@ -93,8 +93,10 @@
   	
   	<update id="updateCommentSendFlagBatch">
   			update sh_jnl_article_comment 
-				set send_flag = #{sendFlag},
-				content=#{content}
+				set send_flag = #{sendFlag}
+				<if test="content != null">  
+	                ,content = #{content}  
+	            </if>
 				<if test="sendTime != null">  
 	                ,sendtime=#{sendTime}  
 	            </if>
