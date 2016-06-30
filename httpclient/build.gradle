@@ -21,7 +21,7 @@ apply plugin: 'eclipse-wtp'
 apply plugin: 'application'
 apply plugin: 'idea'
 apply plugin: 'spring-boot' 
-apply plugin: 'io.spring.dependency-management' 
+//apply plugin: 'io.spring.dependency-management' 
 apply plugin: 'war'
 mainClassName = "net.shinc.InfoMgmtApplication"
 
