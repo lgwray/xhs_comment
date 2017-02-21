@@ -87,6 +87,24 @@ public class ParamUtils {
 	}
 	
 	/**
+	 * 获取新闻内容_请求参数
+	 * @param docid
+	 * @param showpic
+	 * @param userId
+	 * @return
+	 */
+	public static List<NameValuePair> getXhsArticleContentParamList(String docid, String showpic, String userId) {
+		List<NameValuePair> list = new ArrayList<NameValuePair>();
+		list.add(new BasicNameValuePair("docid",docid));
+		list.add(new BasicNameValuePair("showpic",showpic));
+		list.add(new BasicNameValuePair("channel", "shihe"));
+		list.add(new BasicNameValuePair("ip", "182.92.189.173"));
+		List<NameValuePair> commonParamList = getCommonParamList(userId);
+		list.addAll(commonParamList);
+		return list;
+	}
+	
+	/**
 	 * 新华社通用请求参数
 	 * @param userId
 	 * @return

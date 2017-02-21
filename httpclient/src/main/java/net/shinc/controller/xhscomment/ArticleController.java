@@ -9,10 +9,12 @@ import net.shinc.common.ErrorMessage;
 import net.shinc.common.IRestMessage;
 import net.shinc.service.NewsService;
 import net.shinc.service.impl.ArticleServiceImpl;
+import net.shinc.service.xhscomment.XhsArticleSpiderService;
 import net.shinc.utils.Helper;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.hsqldb.lib.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 
 /**
  * @ClassName ArticleController 
@@ -130,6 +131,34 @@ public class ArticleController extends AbstractBaseController {
 		return msg;
 	}
 	
+	@Autowired
+	private XhsArticleSpiderService xacs;
+	
+	/**
+	 * 抓取新闻内容
+	 * @param articleId
+	 * @return
+	 */
+	@RequestMapping(value = "/getArticleContent")
+	@ResponseBody
+	public IRestMessage getArticleContent(String articleId){
+		IRestMessage msg = getRestMessageWithoutUser();
+		try {
+			Map newsMap = xacs.getArticleContentById(articleId, "0", "0");
+			if(!CollectionUtils.isEmpty(newsMap)) {
+				String content = (String)newsMap.get("Content");
+				String comment = (String)newsMap.get("comment");
+				msg.setCode(ErrorMessage.SUCCESS.getCode());
+				msg.setResult(content);
+				msg.setDetail(comment);
+			} else {
+				msg.setCode(ErrorMessage.RESULT_EMPTY.getCode());
+			}
+		} catch (Exception e) {
+			logger.error("查询失败==>" + ExceptionUtils.getStackTrace(e));
+		}
+		return msg;
+	}
 	
 	/**
 	 * 通过发布日期查询文章列表
