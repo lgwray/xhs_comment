@@ -72,6 +72,7 @@ public class NewsServiceImpl implements NewsService {
 	 */
 	public List getNewsList(String userId, String listUrl,String cid,String ctype) {
 		String res = HttpClient.post(listUrl, ParamUtils.getNewsListParamMap(userId,cid,ctype));
+//		String res = HttpClient.post(listUrl, null);
 		logger.info(res);
 		Map map = Helper.jsonToMap(res);
 		List list = (List) map.get("data_scroll");

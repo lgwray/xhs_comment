@@ -65,11 +65,12 @@ public class AdminUser implements UserDetails {
     private List<Menu> menuMap;
     
     public static AdminUser getCurrentUser() {
-		Object o = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if(o instanceof AdminUser) {
-			return (AdminUser)o;
-		}
-		return null;
+    	return new AdminUser();
+//		Object o = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//		if(o instanceof AdminUser) {
+//			return (AdminUser)o;
+//		}
+//		return null;
 	}
 	
 	public static String getCurrentUsername() {

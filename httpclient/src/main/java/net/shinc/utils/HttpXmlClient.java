@@ -26,6 +26,11 @@ import org.apache.log4j.Logger;
 @Deprecated
 public class HttpXmlClient {
 	private static Logger log = Logger.getLogger(HttpXmlClient.class);
+	
+	public static void main(String[] args) {
+		String str = get("http://xhpfm.api.zhongguowangshi.com/v300/indexlist");
+		System.out.println(str);
+	}
 
 	public static String post(String url, Map<String, String> params) {
 		DefaultHttpClient httpclient = new DefaultHttpClient();

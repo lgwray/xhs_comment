@@ -51,6 +51,7 @@ public class HttpClient {
 			HttpEntity entity = new UrlEncodedFormEntity(params, charset);
 			post.setEntity(entity);
 			post.setHeader("X-Forwarded-For", RandomUtils.generateIp());
+			post.setHeader("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36");
 			
 			HttpResponse res = httpClient.execute(post);
 			Header[] headers = res.getAllHeaders();
@@ -59,6 +60,10 @@ public class HttpClient {
 			}
 			
 			String result = EntityUtils.toString(res.getEntity());
+			int i = result.indexOf("{");
+			if(i>0){
+				result = result.substring(i);
+			}
 			logger.debug("responseBody: " + UnicodeUtils.decodeUnicode(result));
 			return result;
 		} catch (Exception e) {
@@ -75,6 +80,7 @@ public class HttpClient {
 			CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 			get.setURI(URI.create(url));
 			get.setHeader("X-Forwarded-For", RandomUtils.generateIp());
+			get.setHeader("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36");
 			
 			HttpResponse res = httpClient.execute(get);
 			Header[] headers = res.getAllHeaders();
@@ -83,6 +89,10 @@ public class HttpClient {
 			}
 			
 			String result = EntityUtils.toString(res.getEntity());
+			int i = result.indexOf("{");
+			if(i>0){
+				result = result.substring(i);
+			}
 			logger.debug("responseBody: " + UnicodeUtils.decodeUnicode(result));
 			return result;
 		} catch (Exception e) {
@@ -108,8 +118,11 @@ public class HttpClient {
 	public static void main(String[] args) {
 //		post("http://192.168.1.222:8085/httpclient/login", getAddParams());
 //		post("http://192.168.1.222:8085/httpclient/article/refreshArticleList", ParamUtils.getNewsListParamMap("0", "463", "4002"));
-//		get("http://xhpfm.mobile.zhongguowangshi.com:8091/v200/detail?docid=255243");
+//		String post = get("http://xhpfm.api.zhongguowangshi.com/v300/indexlist");
+//		String post = get("http://xhpfm.mobile.zhongguowangshi.com:8091/v200/indexlist");
 		
-		post("http://xhpfm.mobile.zhongguowangshi.com:8091/v200/nav", ParamUtils.getCommonParamList("0"));
+//		String post = post("http://xhpfm.api.zhongguowangshi.com/v300/indexlist", new ArrayList<NameValuePair>());
+		String post = post("http://xhpfm.mobile.zhongguowangshi.com:8091/v200/indexlist", new ArrayList<NameValuePair>());
+		System.out.println(post);
 	}
 }
