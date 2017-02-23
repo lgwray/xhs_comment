@@ -42,7 +42,7 @@ public class ParamUtils {
 		list.add(new BasicNameValuePair("cid", cid));
 		list.add(new BasicNameValuePair("pn", "1"));
 		list.add(new BasicNameValuePair("ctype", ctype));
-		list.add(new BasicNameValuePair("selids", "461,462,463,464,502"));
+		list.add(new BasicNameValuePair("selids", ""));
 		List<NameValuePair> commonParamList = getCommonParamList(userId);
 		list.addAll(commonParamList);
 		return list;
@@ -114,25 +114,26 @@ public class ParamUtils {
 		list.add(new BasicNameValuePair("userID", userId));
 		list.add(new BasicNameValuePair("udid", "0"));
 		list.add(new BasicNameValuePair("clientApp", "104"));
-		list.add(new BasicNameValuePair("clientBundleID", "net.xinhuamm.mainclient"));
-		list.add(new BasicNameValuePair("clientType", "2"));
-		list.add(new BasicNameValuePair("clientVer", "2.0.2"));
+		list.add(new BasicNameValuePair("clientBundleID", "com.xinhuamm.d0001"));
+		list.add(new BasicNameValuePair("clientType", "1"));
+		list.add(new BasicNameValuePair("clientVer", "3.1.0"));
 		list.add(new BasicNameValuePair("clientMarket", "337"));
-		list.add(new BasicNameValuePair("clientOS", "4.4.4"));
-		list.add(new BasicNameValuePair("clientModel", "HM NOTE 1LTE"));
+		list.add(new BasicNameValuePair("clientOS", "10.2.1"));
+		list.add(new BasicNameValuePair("clientModel", "iPhone6s"));
 		list.add(new BasicNameValuePair("clientNet", "wifi"));
-		list.add(new BasicNameValuePair("clientToken", "1b1c92d10ac72c611ab9b5de96febb13"));
-		list.add(new BasicNameValuePair("clientId", "1b1c92d10ac72c611ab9b5de96febb13"));
-		list.add(new BasicNameValuePair("clientLable", "866401023331302"));
-		list.add(new BasicNameValuePair("clientDev", "0"));
+		list.add(new BasicNameValuePair("clientToken", ""));
+		list.add(new BasicNameValuePair("clientId", "14fb4cd6b9e165926399a25f40418c27"));
+		list.add(new BasicNameValuePair("clientLable", "E7C40419-636A-43A5-B01E-D0C9B19883BC"));
+		list.add(new BasicNameValuePair("clientDev", "1"));
 		list.add(new BasicNameValuePair("clientPrison", "0"));
-		list.add(new BasicNameValuePair("clientWidth", "720"));
-		list.add(new BasicNameValuePair("clientHeight", "1280"));
-		list.add(new BasicNameValuePair("clientLongitude", "116.482487"));
-		list.add(new BasicNameValuePair("clientLatitude", "39.997927"));
+		list.add(new BasicNameValuePair("clientWidth", "750"));
+		list.add(new BasicNameValuePair("clientHeight", "1334"));
+		list.add(new BasicNameValuePair("clientLongitude", "0.000000"));
+		list.add(new BasicNameValuePair("clientLatitude", "0.000000"));
 		list.add(new BasicNameValuePair("clientDate", Helper.getCurrentTimeMillis()));
 		list.add(new BasicNameValuePair("province", "北京市"));
 		list.add(new BasicNameValuePair("address", "北京市 朝阳区 阜通西大街 靠近保利院线电影(卜蜂莲花望京宝星店)"));
+		list.add(new BasicNameValuePair("showpic", "1"));
 		return list;
 	}
 }

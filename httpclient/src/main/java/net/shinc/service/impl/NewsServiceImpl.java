@@ -72,7 +72,6 @@ public class NewsServiceImpl implements NewsService {
 	 */
 	public List getNewsList(String userId, String listUrl,String cid,String ctype) {
 		String res = HttpClient.post(listUrl, ParamUtils.getNewsListParamMap(userId,cid,ctype));
-//		String res = HttpClient.post(listUrl, null);
 		logger.info(res);
 		Map map = Helper.jsonToMap(res);
 		List list = (List) map.get("data_scroll");
@@ -85,7 +84,6 @@ public class NewsServiceImpl implements NewsService {
 	 * 新闻列表
 	 */
 	public List getNewsList(String userId,String cid,String ctype) {
-		
 		HttpPost post = new HttpPost(this.fetchArticleListUrl);
 		post.setHeader("X-Forwarded-For", RandomUtils.generateIp());
 		CloseableHttpResponse response = null;
