@@ -9,6 +9,7 @@ import net.shinc.utils.Helper;
 import net.shinc.utils.ParamUtils;
 import net.shinc.utils.RandomUtils;
 import net.shinc.utils.StringUtils;
+import net.shinc.utils.UnicodeUtils;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.http.HttpEntity;
@@ -142,7 +143,7 @@ public class CommentServiceImpl {
 
 	public String sendComment(String userId, String articleId, String content,String username) {
 		HttpPost post = new HttpPost(getSendCommentUrl());
-		post.setHeader("X-Forwarded-For", RandomUtils.generateIp());
+//		post.setHeader("X-Forwarded-For", RandomUtils.generateIp());
 		post.setHeader("User-Agent", RandomUtils.getUserAgentRandom());
 		CloseableHttpResponse response = null;
 		try {
@@ -150,7 +151,7 @@ public class CommentServiceImpl {
 			response = httpClient.execute(post);
 			HttpEntity entity = response.getEntity();
 			String result =  EntityUtils.toString(entity);
-			logger.info(result);
+			logger.info	(UnicodeUtils.decodeUnicode(result));
 			return StringUtils.formatString(result);
 		} catch (Exception e) {
 			logger.error(ExceptionUtils.getStackTrace(e));
