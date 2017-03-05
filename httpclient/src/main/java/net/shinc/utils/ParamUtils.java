@@ -7,6 +7,8 @@ import net.shinc.orm.mybatis.bean.common.News;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @ClassName ParamUtils 
@@ -16,6 +18,7 @@ import org.apache.http.message.BasicNameValuePair;
  */
 public class ParamUtils {
 
+	private static Logger logger = LoggerFactory.getLogger(ParamUtils.class);
 	/**
 	 * 准备获取新闻列表_请求参数map
 	 * @param currentTime
@@ -63,6 +66,7 @@ public class ParamUtils {
 		list.add(new BasicNameValuePair("content", news.getContent()));
 		List<NameValuePair> commonParamList = getCommonParamList(userId);
 		list.addAll(commonParamList);
+		printList(list);
 		return list;
 	}
 	
@@ -83,7 +87,14 @@ public class ParamUtils {
 		list.add(new BasicNameValuePair("content", content));
 		List<NameValuePair> commonParamList = getCommonParamList(userId);
 		list.addAll(commonParamList);
+		printList(list);
 		return list;
+	}
+	
+	public static void printList(List<NameValuePair> list){
+		for(NameValuePair obj : list){
+			logger.info("name="+obj.getName(),"value="+obj.getValue());
+		}
 	}
 	
 	/**

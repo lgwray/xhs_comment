@@ -172,7 +172,7 @@ public class CommentServiceImpl {
 	
 	public static void main(String[] args) {
 		CommentServiceImpl service = new CommentServiceImpl();
-		service.sendComment("0", "1632457", "加油吧少年", "我是谁");
+		service.sendComment("0", "1632457", "加油吧少年！", "我是谁");
 	}
 	
 	public String getRemoteApiUrl() {
