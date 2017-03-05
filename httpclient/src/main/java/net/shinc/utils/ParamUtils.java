@@ -93,7 +93,7 @@ public class ParamUtils {
 	
 	public static void printList(List<NameValuePair> list){
 		for(NameValuePair obj : list){
-			logger.info("name="+obj.getName(),"value="+obj.getValue());
+			logger.info("name="+obj.getName()+",value="+obj.getValue());
 		}
 	}
 	
