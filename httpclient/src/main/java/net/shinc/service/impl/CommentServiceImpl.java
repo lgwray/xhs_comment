@@ -141,22 +141,38 @@ public class CommentServiceImpl {
 		return null;
 	}
 
+	/**
+	 * 发送评论
+	 * @param userId
+	 * @param articleId
+	 * @param content
+	 * @param username
+	 * @return
+	 */
 	public String sendComment(String userId, String articleId, String content,String username) {
 		HttpPost post = new HttpPost(getSendCommentUrl());
-//		post.setHeader("X-Forwarded-For", RandomUtils.generateIp());
+		post.setHeader("X-Forwarded-For", RandomUtils.generateIp());
 		post.setHeader("User-Agent", RandomUtils.getUserAgentRandom());
 		CloseableHttpResponse response = null;
 		try {
 			post.setEntity(new UrlEncodedFormEntity(ParamUtils.getDiscussParamList(articleId, content, userId,username),HTTP.UTF_8));
+//			response = httpClient.execute(post);
+			CloseableHttpClient httpClient = new org.apache.http.impl.client.DefaultHttpClient();
 			response = httpClient.execute(post);
 			HttpEntity entity = response.getEntity();
 			String result =  EntityUtils.toString(entity);
-			logger.info	(UnicodeUtils.decodeUnicode(result));
-			return StringUtils.formatString(result);
+			String after = StringUtils.formatString(result);
+			logger.info	(UnicodeUtils.decodeUnicode(after));
+			return after;
 		} catch (Exception e) {
 			logger.error(ExceptionUtils.getStackTrace(e));
 			return null;
 		}
+	}
+	
+	public static void main(String[] args) {
+		CommentServiceImpl service = new CommentServiceImpl();
+		service.sendComment("0", "1632457", "加油吧少年", "我是谁");
 	}
 	
 	public String getRemoteApiUrl() {
