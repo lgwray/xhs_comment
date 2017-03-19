@@ -156,7 +156,6 @@ public class CommentServiceImpl {
 		CloseableHttpResponse response = null;
 		try {
 			post.setEntity(new UrlEncodedFormEntity(ParamUtils.getDiscussParamList(articleId, content, userId,username),HTTP.UTF_8));
-//			response = httpClient.execute(post);
 			CloseableHttpClient httpClient = new org.apache.http.impl.client.DefaultHttpClient();
 			response = httpClient.execute(post);
 			HttpEntity entity = response.getEntity();
@@ -172,7 +171,7 @@ public class CommentServiceImpl {
 	
 	public static void main(String[] args) {
 		CommentServiceImpl service = new CommentServiceImpl();
-		service.sendComment("0", "1632457", "加油吧少年！", "我是谁");
+		service.sendComment("0", "1670441", "加油吧少年！", "我是谁");
 	}
 	
 	public String getRemoteApiUrl() {
