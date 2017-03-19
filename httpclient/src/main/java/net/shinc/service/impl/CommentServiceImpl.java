@@ -46,6 +46,7 @@ public class CommentServiceImpl {
 	
 	@Value("${sendCommentUrl}")
 	private String sendCommentUrl = "http://xhpfm.mobile.zhongguowangshi.com:8091/v200/user/comment";
+
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	
@@ -155,6 +156,7 @@ public class CommentServiceImpl {
 		post.setHeader("User-Agent", RandomUtils.getUserAgentRandom());
 		CloseableHttpResponse response = null;
 		try {
+			logger.info("userId="+userId+",articlId="+articleId+",content="+content+",username="+username);
 			post.setEntity(new UrlEncodedFormEntity(ParamUtils.getDiscussParamList(articleId, content, userId,username),HTTP.UTF_8));
 			CloseableHttpClient httpClient = new org.apache.http.impl.client.DefaultHttpClient();
 			response = httpClient.execute(post);
@@ -171,7 +173,7 @@ public class CommentServiceImpl {
 	
 	public static void main(String[] args) {
 		CommentServiceImpl service = new CommentServiceImpl();
-		service.sendComment("0", "1670441", "加油吧少年！", "我是谁");
+		service.sendComment("1", "1670441", "喜欢", "可口可乐加冰");
 	}
 	
 	public String getRemoteApiUrl() {

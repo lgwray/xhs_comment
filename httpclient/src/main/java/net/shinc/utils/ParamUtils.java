@@ -82,7 +82,7 @@ public class ParamUtils {
 		List<NameValuePair> list = new ArrayList<NameValuePair>();
 		list.add(new BasicNameValuePair("id",articleId));
 		list.add(new BasicNameValuePair("channel", "shihe"));
-		list.add(new BasicNameValuePair("ip", "182.92.189.173"));
+		list.add(new BasicNameValuePair("ip", ""));
 		list.add(new BasicNameValuePair("username", username));
 		list.add(new BasicNameValuePair("content", content));
 		List<NameValuePair> commonParamList = getCommonParamList(userId);

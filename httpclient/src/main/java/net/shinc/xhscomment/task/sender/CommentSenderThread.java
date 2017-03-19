@@ -10,6 +10,7 @@ import net.shinc.orm.mybatis.bean.xhscomment.JnlComment.SendFlag;
 import net.shinc.service.impl.CommentServiceImpl;
 import net.shinc.service.xhscomment.JnlCommentService;
 import net.shinc.utils.Helper;
+import net.shinc.utils.UnicodeUtils;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
@@ -56,7 +57,7 @@ public class CommentSenderThread implements Runnable {
 							String newWords = words.replace("习", "");
 							comment.setContent(newWords);
 							String re = bcs.sendComment(String.valueOf(comment.getUserId()), comment.getArticleId(), newWords, comment.getNickName());
-							logger.info("commentRes="+re);
+							logger.info("commentRes="+UnicodeUtils.decodeUnicode(re));
 							Map resMap = Helper.jsonToMap(re);
 							if(!CollectionUtils.isEmpty(resMap)) {
 								if("success".equals(resMap.get("state"))){
@@ -75,7 +76,8 @@ public class CommentSenderThread implements Runnable {
 					comment.setSendTime(new Date());
 					list.add(comment);
 					String comment_way = comment.getCommentWay().equals("1")?"手动":"自动";
-					logger.info("sent a comment:" + "articleid:" + comment.getArticleId() +" user:" + comment.getUserName() + " comment_way:"+comment_way + " nickname:" + comment.getNickName() + " content:" + comment.getContent() + " flag:" + flag );
+					logger.info("sent a comment:" + "articleid:" + comment.getArticleId() +" user:" + comment.getUserName() + 
+							" comment_way:"+comment_way + " nickname:" + comment.getNickName() + " content:" + comment.getContent() + " flag:" + flag );
 					if(list.size() > batchUpdateSize) {
 						jcs.updateCommentSendFlag(list);
 						list.clear();
